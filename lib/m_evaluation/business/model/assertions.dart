@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+<<<<<<< HEAD
 Assertions assertionsFromJson(String str) => Assertions.fromJson(json.decode(str));
 
 String assertionsToJson(Assertions data) => json.encode(data.toJson());
@@ -38,4 +39,5 @@ class Assertions {
     "created_at": createdAt.toIso8601String(),
     "updated_at": updatedAt.toIso8601String(),
   };
+
 }
