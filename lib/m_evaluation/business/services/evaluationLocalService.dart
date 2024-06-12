@@ -1,5 +1,3 @@
-import 'package:odc_mobile_project/m_evaluation/business/model/Evenement.dart';
-import 'package:odc_mobile_project/m_evaluation/business/model/phases.dart';
 
 import '../model/Evenement.dart';
 import '../model/Vote/createVoteRequest.dart';
@@ -9,6 +7,7 @@ import '../model/Vote/jurys.dart';
 import '../model/Vote/phaseCriteres.dart';
 import '../model/Vote/phaseIntervenant.dart';
 import '../model/evaluation/reponse.dart';
+import '../model/phases.dart';
 
 abstract class EvaluationLocalService {
   //eventLocalSave
@@ -22,9 +21,11 @@ abstract class EvaluationLocalService {
   //fin eventLocalService*
 
   //evaluationLocalService
-  Future<Intervenants> getIntervenant(int id);
+  Future<Intervenants> getIntervenant();
   Future<bool> saveIntervenant(Intervenants intervenant);
   Future<Reponse?> saveReponses(Reponse data);
+
+  Future<bool> resetReponses();
   Future<List<Reponse>> getReponsesList();
   //fin evaluationLocalService*
 
