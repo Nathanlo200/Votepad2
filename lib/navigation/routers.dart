@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:odc_mobile_project/m_evaluation/ui/pages/HomePage/IntroPage.dart';
 import 'package:odc_mobile_project/m_user/business/interactor/UserInteractor.dart';
 import 'package:odc_mobile_project/m_user/ui/pages/TestPage.dart';
 import 'package:odc_mobile_project/m_user/ui/pages/login/LoginPage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:go_router/go_router.dart';
 
+import '../m_evaluation/ui/pages/LoginPage/AuthPage.dart';
+import '../m_evaluation/ui/pages/ScanCouponPage/ScanCouponPage.dart';
+
 part "routers.g.dart";
 
-enum Urls { home, detailArticle, auth, login, test }
+enum Urls { home, detailArticle, auth, login, test, Intro, scanner, evaluationAuth }
 
 @Riverpod(keepAlive: true)
 GoRouter router(RouterRef ref) {
   final userInteractor = ref.watch(userInteractorProvider);
   return GoRouter(
       debugLogDiagnostics: true,
-      initialLocation: "/auth/login",
+      initialLocation: "/auth/intro",
       /* redirect: (context, state) async {
         return null;
       },*/
@@ -41,13 +45,22 @@ GoRouter router(RouterRef ref) {
         GoRoute(
             path: "/auth",
             name: Urls.auth.name,
-            builder: (ctx, state) => LoginPage(),
+            builder: (ctx, state) => IntroPage(),
             routes: <RouteBase>[
+
               GoRoute(
-                path: "login",
-                name: Urls.login.name,
-                builder: (ctx, state) => LoginPage(),
-              )
+                  path: 'intro',
+                  name: Urls.Intro.name,
+                  builder: (ctx, state) => IntroPage()),
+              GoRoute(
+                path: "evaluation-auth",
+                name: Urls.evaluationAuth.name,
+                builder: (ctx, state) => AuthPage(),
+              ),
+              GoRoute(
+                  path: 'scanner',
+                  name: Urls.scanner.name,
+                  builder: (ctx, state) => ScanCouponPage()),
             ]),
       ],
       errorBuilder: (ctx, state) => LoginPage());
