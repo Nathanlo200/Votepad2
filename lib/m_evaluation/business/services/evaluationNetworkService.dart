@@ -31,7 +31,7 @@ abstract class EvaluationNetworkService
   //Fin evalutaionNetworkService*
 
   //voteNetworkservice
-  Future<Jury> getJury(String email, String token);
+  Future<Jury> getJury(String coupon);
   Future<List<Groupes>> getGroupeList(int phaseId);
   Future<PhaseIntervenant> getGroupById(int id);
   Future<List<Intervenants>> getIntervenantList(int phaseId);
