@@ -3,7 +3,6 @@ import 'dart:convert';
 
 class Jury {
     int id;
-    String email;
     String name;
     String fonction;
     String token;
@@ -12,7 +11,6 @@ class Jury {
 
     Jury({
         required this.id,
-        this.email ="",
         this.name ="",
         this.fonction ="",
         this.token ="",
@@ -26,7 +24,6 @@ class Jury {
 
     factory Jury.fromJson(Map<String, dynamic> json) => Jury(
         id: json["id"] ?? 1,
-        email: json["email"] ?? "",
         name: json["name"] ?? "",
         fonction: json["fonction"] ?? "",
         token: json["token"] ?? "",
@@ -37,7 +34,6 @@ class Jury {
 
     Map<String, dynamic> toJson() => {
         "id": id,
-        "email": email,
         "name": name,
         "fonction": fonction,
         "token": token,
