@@ -1,13 +1,11 @@
 import '../../model/evaluation/assertions.dart';
-import '../../services/evaluationLocalService.dart';
 import '../../services/evaluationNetworkService.dart';
 
 
-class GetAssertionListUsecase{
+class GetAssertionListNetworkUsecase{
   EvaluationNetworkService network;
-  EvaluationLocalService local;
 
-  GetAssertionListUsecase(this.network, this.local);
+  GetAssertionListNetworkUsecase(this.network);
 
   Future<List<Assertions>> run(int questionId) async {
     var res = await network.getAssertionList(questionId);

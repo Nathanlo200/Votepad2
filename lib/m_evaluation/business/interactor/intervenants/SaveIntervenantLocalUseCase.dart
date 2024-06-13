@@ -1,14 +1,12 @@
 import '../../model/Vote/intervenants.dart';
 import '../../services/evaluationLocalService.dart';
-import '../../services/evaluationNetworkService.dart';
 
 
-class SaveIntervenantUseCase{
+class SaveIntervenantLocalUseCase{
 
-  EvaluationNetworkService network;
   EvaluationLocalService local;
 
-  SaveIntervenantUseCase(this.network, this.local);
+  SaveIntervenantLocalUseCase(this.local);
 
   Future<bool> run(Intervenants data) async{
     var res = await local.saveIntervenant(data);

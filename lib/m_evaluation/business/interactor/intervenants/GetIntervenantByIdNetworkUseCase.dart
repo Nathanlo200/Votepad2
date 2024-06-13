@@ -1,16 +1,14 @@
 import '../../model/Vote/phaseIntervenant.dart';
-import '../../services/evaluationLocalService.dart';
 import '../../services/evaluationNetworkService.dart';
 
-class GetGroupByIdUseCase{
+class GetIntervenantByIdNetworkUseCase{
 
   EvaluationNetworkService network;
-  EvaluationLocalService local;
 
-  GetGroupByIdUseCase(this.network, this.local);
+  GetIntervenantByIdNetworkUseCase(this.network);
 
   Future<PhaseIntervenant> run(int id) async {
-    var res = await network.getGroupById(id);
+    var res = await network.getIntervenantById(id);
     return res;
   }
 }

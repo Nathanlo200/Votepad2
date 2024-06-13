@@ -1,12 +1,10 @@
 import 'package:odc_mobile_project/m_evaluation/business/model/Evenement.dart';
 import '../../services/evaluationLocalService.dart';
-import '../../services/evaluationNetworkService.dart';
 
-class SaveEvenementByIdUseCase {
-  EvaluationNetworkService network;
+class SaveEvenementByIdLocalUseCase {
   EvaluationLocalService local;
 
-  SaveEvenementByIdUseCase(this.network, this.local);
+  SaveEvenementByIdLocalUseCase(this.local);
 
   Future<Evenement> run(Evenement data) async {
     var res = await local.saveEvenementById(data);

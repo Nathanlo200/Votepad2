@@ -1,14 +1,11 @@
 import '../../model/evaluation/questions.dart';
-import '../../services/evaluationLocalService.dart';
 import '../../services/evaluationNetworkService.dart';
 
-
-class GetQuestionListByPhaseUseCase{
+class GetQuestionListByPhaseNetworkUseCase{
 
   EvaluationNetworkService network;
-  EvaluationLocalService local;
 
-  GetQuestionListByPhaseUseCase(this.network, this.local);
+  GetQuestionListByPhaseNetworkUseCase(this.network);
   Future<List<Question>> run(int phaseId) async{
     var res = await network.getQuestionListByPhase(phaseId);
     return res;
