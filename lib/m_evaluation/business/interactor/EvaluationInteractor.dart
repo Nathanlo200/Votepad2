@@ -1,30 +1,30 @@
-import 'package:odc_mobile_project/m_evaluation/business/interactor/phases/GetPhaseByIntervenantUseCase.dart';
-import 'package:odc_mobile_project/m_evaluation/business/interactor/questions/GetQuestionListByPhaseUseCase.dart';
-import 'package:odc_mobile_project/m_evaluation/business/interactor/reponses/GetReponseListUseCase.dart';
-import 'package:odc_mobile_project/m_evaluation/business/interactor/reponses/PostReponseUseCase.dart';
-import 'package:odc_mobile_project/m_evaluation/business/interactor/reponses/SaveReponseUseCase.dart';
+import 'package:odc_mobile_project/m_evaluation/business/interactor/phases/GetPhaseByIntervenantNetworkUseCase.dart';
+import 'package:odc_mobile_project/m_evaluation/business/interactor/questions/GetQuestionListByPhaseNetworkUseCase.dart';
+import 'package:odc_mobile_project/m_evaluation/business/interactor/reponses/GetReponseListLocalUseCase.dart';
+import 'package:odc_mobile_project/m_evaluation/business/interactor/reponses/PostReponseNetworkUseCase.dart';
+import 'package:odc_mobile_project/m_evaluation/business/interactor/reponses/SaveReponseLocalUseCase.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../services/evaluationLocalService.dart';
 import '../services/evaluationNetworkService.dart';
-import 'assertions/GetAssertionListUsecase.dart';
+import 'assertions/GetAssertionListNetworkUsecase.dart';
 import 'intervenants/GetIntervenantLocalUseCase.dart';
 import 'intervenants/GetIntervenantNetworkUseCase.dart';
-import 'intervenants/SaveIntervenantUseCase.dart';
+import 'intervenants/SaveIntervenantLocalUseCase.dart';
 part 'EvaluationInteractor.g.dart';
 
 
 class EvaluationInteractor{
   GetIntervenantNetworkUseCase getIntervenantNetworkUseCase;
   GetIntervenantLocalUseCase getIntervenantLocalUseCase;
-  GetAssertionListUsecase getAssertionListUsecase;
-  GetQuestionListByPhaseUseCase getQuestionListByPhaseUseCase;
-  GetPhaseByIntervenantUseCase getPhaseByIntervenantuseCase;
-  PostReponseUseCase postReponseUseCase;
-  SaveReponseUseCase saveReponseUseCase;
-  SaveIntervenantUseCase saveIntervenantUseCase;
-  GetReponseListUseCase getReponseListUseCase;
+  GetAssertionListNetworkUsecase getAssertionListUsecase;
+  GetQuestionListByPhaseNetworkUseCase getQuestionListByPhaseUseCase;
+  GetPhaseByIntervenantNetworkUseCase getPhaseByIntervenantuseCase;
+  PostReponseNetworkUseCase postReponseUseCase;
+  SaveReponseLocalUseCase saveReponseUseCase;
+  SaveIntervenantLocalUseCase saveIntervenantUseCase;
+  GetReponseListLocalUseCase getReponseListUseCase;
   
   EvaluationInteractor._(
       this.getIntervenantNetworkUseCase,
@@ -40,15 +40,15 @@ class EvaluationInteractor{
 
   static build(EvaluationNetworkService network, EvaluationLocalService local ){
     return EvaluationInteractor._(
-        GetIntervenantNetworkUseCase(network, local),
-      GetAssertionListUsecase(network, local),
-      GetPhaseByIntervenantUseCase(network, local),
-      GetQuestionListByPhaseUseCase(network, local),
-      PostReponseUseCase(network, local),
-      SaveReponseUseCase(network, local),
-      GetIntervenantLocalUseCase(network, local),
-      SaveIntervenantUseCase(network, local),
-      GetReponseListUseCase(network, local)
+        GetIntervenantNetworkUseCase(network),
+      GetAssertionListNetworkUsecase(network,),
+      GetPhaseByIntervenantNetworkUseCase(network, local),
+      GetQuestionListByPhaseNetworkUseCase(network),
+      PostReponseNetworkUseCase(network, local),
+      SaveReponseLocalUseCase(local),
+      GetIntervenantLocalUseCase( local),
+      SaveIntervenantLocalUseCase(local),
+      GetReponseListLocalUseCase(local)
     );
   }
 }
