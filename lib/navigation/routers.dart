@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:odc_mobile_project/m_evaluation/ui/pages/HomePage/IntroPage.dart';
 import 'package:odc_mobile_project/m_user/business/interactor/UserInteractor.dart';
 import 'package:odc_mobile_project/m_user/ui/pages/TestPage.dart';
 import 'package:odc_mobile_project/m_user/ui/pages/login/LoginPage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:go_router/go_router.dart';
 
-import '../m_evaluation/ui/pages/LoginPage/AuthPage.dart';
+import '../m_evaluation/ui/pages/AuthPage/AuthPage.dart';
+import '../m_evaluation/ui/pages/IntroPage/IntroPage.dart';
 import '../m_evaluation/ui/pages/ScanCouponPage/ScanCouponPage.dart';
+import '../m_evaluation/ui/pages/phasePage/PhasePage.dart';
 
 part "routers.g.dart";
 
-enum Urls { home, detailArticle, auth, login, test, Intro, scanner, evaluationAuth }
+enum Urls { home, detailArticle, auth, login, test, Intro, scanner, evaluationAuth, phases }
 
 @Riverpod(keepAlive: true)
 GoRouter router(RouterRef ref) {
@@ -40,6 +41,11 @@ GoRouter router(RouterRef ref) {
                 return MaterialPage(key: state.pageKey, child: LoginPage());
               },
             ),
+            GoRoute(
+              path: "phases",
+              name: Urls.phases.name,
+              builder: (ctx, state) => PhasePage(),
+            )
           ],
         ),
         GoRoute(
@@ -61,7 +67,9 @@ GoRouter router(RouterRef ref) {
                   path: 'scanner',
                   name: Urls.scanner.name,
                   builder: (ctx, state) => ScanCouponPage()),
+
             ]),
       ],
       errorBuilder: (ctx, state) => LoginPage());
+
 }
