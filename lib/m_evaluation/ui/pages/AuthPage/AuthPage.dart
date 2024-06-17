@@ -1,23 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:odc_mobile_project/m_evaluation/ui/pages/AuthPage/AuthCtrl.dart';
 
+import '../../../../navigation/routers.dart';
+import '../../composants/afficherMessageErreur.dart';
 import '../ScanCouponPage/ScanCouponPage.dart';
 
-
-class AuthPage extends StatefulWidget {
+class AuthPage extends ConsumerStatefulWidget {
   const AuthPage({super.key});
 
   @override
-  State<AuthPage> createState() => _AuthPageState();
+  ConsumerState<AuthPage> createState() => _AuthPageState();
 }
 
-class _AuthPageState extends State<AuthPage> {
+class _AuthPageState extends ConsumerState<AuthPage> {
   //String resultat = "";
-  var couponCtrl= TextEditingController();
+  var couponCtrl = TextEditingController();
+  var emailCtrl = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     //appBar: AppBar(title: _logo(context)),
+      //appBar: AppBar(title: _logo(context)),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -38,10 +43,11 @@ class _AuthPageState extends State<AuthPage> {
 
   _logo(BuildContext context) {
     return Center(
-        child: Image.asset(
+      child: Image.asset(
         'images/images.png',
         width: 100,
-        height: 100,),
+        height: 100,
+      ),
     );
   }
 
@@ -54,12 +60,12 @@ class _AuthPageState extends State<AuthPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           TextFormField(
+            controller: emailCtrl,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               hintText: 'Entrez Email',
             ),
           ),
-
         ]);
   }
 
@@ -70,18 +76,22 @@ class _AuthPageState extends State<AuthPage> {
         TextFormField(
           controller: couponCtrl,
           decoration: InputDecoration(
-            border: OutlineInputBorder(),
-            hintText: 'Entrez le coupon',
-            suffixIcon: IconButton(onPressed:() async{
-              var result= await Navigator.push(context, MaterialPageRoute(builder: (context) => ScanCouponPage()),);
-            if(result!=null){
-              print("result dans login $result");
-              setState(() {
-                couponCtrl.text= result;
-              }); 
-            }
-              }, icon: Icon(Icons.camera_alt))
-          ),
+              border: OutlineInputBorder(),
+              hintText: 'Entrez le coupon',
+              suffixIcon: IconButton(
+                  onPressed: () async {
+                    var result = await Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ScanCouponPage()),
+                    );
+                    if (result != null) {
+                      print("result dans login $result");
+                      setState(() {
+                        couponCtrl.text = result;
+                      });
+                    }
+                  },
+                  icon: Icon(Icons.camera_alt))),
         ),
       ],
     );
@@ -89,12 +99,23 @@ class _AuthPageState extends State<AuthPage> {
 
   _envoyer(BuildContext Context) {
     return Container(
-      width: double.infinity,
+        width: double.infinity,
         child: ElevatedButton(
           //style: style,
-          onPressed: null,
+          onPressed: () async {
+            context.goNamed(Urls.phases.name);
+            /*var ctrl = ref.read(authCtrlProvider.notifier);
+            var result = await ctrl.soumettre(emailCtrl.text, couponCtrl.text);
+
+            if (result) {
+
+            } else {
+              afficherMessageErreur(context,"Email ou Coupon incorrect");
+            }*/
+          },
           child: const Text('Envoyer'),
-        )
-    );
+        ));
   }
+
+
 }
