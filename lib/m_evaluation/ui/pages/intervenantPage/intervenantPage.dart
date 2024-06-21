@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../navigation/routers.dart';
+import '../../composants/ListeVide.dart';
 import 'intervenantCtrl.dart';
 
 class IntervenantPage extends ConsumerStatefulWidget {
@@ -32,7 +33,10 @@ class _IntervenantState extends ConsumerState<IntervenantPage> {
             children: [
               if (state.intervenants.isNotEmpty && !state.isLoading)
               _contenuPrincipale(context, ref)
-              else _listeVide(context),
+              else ListeVide(context,(){
+                var ctrl = ref.read(intervenantCtrlProvider.notifier);
+                ctrl.recupererListIntervenant();
+              }),
               _chargement(context, ref),
             ],
           ),
@@ -116,23 +120,7 @@ class _IntervenantState extends ConsumerState<IntervenantPage> {
           ),
         ]);
   }
-  _listeVide(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Center(
-          child: Image.asset("images/participants-removebg-preview.png",
-              width: 200, height: 200,fit: BoxFit.cover),
-        ),
-        TextButton(onPressed: (){}, child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Aucun Intervenant"), Icon(Icons.refresh)
-          ],
-        )),
-      ],
-    );
-  }
+
 
   _chargement(BuildContext context, WidgetRef ref) {
     var state = ref.watch(intervenantCtrlProvider);

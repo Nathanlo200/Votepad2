@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:odc_mobile_project/m_evaluation/ui/composants/ListeVide.dart';
 import 'package:odc_mobile_project/m_evaluation/ui/pages/phasePage/PhaseCtrl.dart';
 import '../../../../navigation/routers.dart';
 import 'PhaseState.dart';
@@ -33,7 +34,9 @@ class _PhaseState extends ConsumerState<PhasePage> {
             children: [
               if (state.phases.isNotEmpty && !state.isLoading)
                 _contenuPrincipale(context, ref)
-              else _phaseVide(context),
+              else  ListeVide(context,(){var ctrl = ref.read(phaseCtrlProvider.notifier);
+    ctrl.recupererListPhase();
+              }),
               _chargement(context, ref),
             ],
           ),
@@ -121,23 +124,6 @@ _contenuPrincipale(BuildContext context, WidgetRef ref) {
                 }))
       ],
     ),
-  );
-}
-_phaseVide(BuildContext context) {
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Center(
-        child: Image.asset("images/images-removebg-preview.png",
-            width: 200, height: 200,fit: BoxFit.cover),
-      ),
-      TextButton(onPressed: (){}, child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text("Aucune Phase"), Icon(Icons.refresh)
-        ],
-      )),
-    ],
   );
 }
 
