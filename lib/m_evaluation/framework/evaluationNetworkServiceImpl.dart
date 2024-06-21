@@ -1,4 +1,3 @@
-
 import 'package:odc_mobile_project/m_evaluation/business/model/Evenement.dart';
 
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/createVoteRequest.dart';
@@ -25,38 +24,42 @@ import 'package:odc_mobile_project/m_evaluation/business/model/phases.dart';
 
 import '../business/services/evaluationNetworkService.dart';
 
-class EvaluationNetworkServiceImplTest implements EvaluationNetworkService{
+class EvaluationNetworkServiceImplTest implements EvaluationNetworkService {
   @override
   Future<List<Assertions>> getAssertionList(int questionId) {
-   var resultat=[Assertions.fromJson({
-      "id": 1,
-      "questions_id": 1,
-      "name": "test",
-      "created_at":null,
-      "updated_at": null,
-   })];
+    var resultat = [
+      Assertions.fromJson({
+        "id": 1,
+        "questions_id": 1,
+        "name": "test",
+        "created_at": null,
+        "updated_at": null,
+      })
+    ];
     return Future.value(resultat);
   }
 
   @override
   Future<List<PhaseCriteres>> getCritereListByPhase(int phaseId) {
-    var resultat=[PhaseCriteres.fromJson({
-      "id": 1,
-      "phases_id": 1,
-      "name": "test",
-      "created_at":null,
-      "updated_at": null,
-    })];
+    var resultat = [
+      PhaseCriteres.fromJson({
+        "id": 1,
+        "phases_id": 1,
+        "name": "test",
+        "created_at": null,
+        "updated_at": null,
+      })
+    ];
     return Future.value(resultat);
   }
 
   @override
   Future<Evenement> getEvenementById(int id) {
-    var resultat=Evenement.fromJson({
+    var resultat = Evenement.fromJson({
       "id": 1,
       "name": "test",
       "description": "test",
-      "created_at":null,
+      "created_at": null,
       "updated_at": null,
     });
     return Future.value(resultat);
@@ -64,48 +67,50 @@ class EvaluationNetworkServiceImplTest implements EvaluationNetworkService{
 
   @override
   Future<PhaseIntervenant> getGroupById(int id) {
-   var resultat=PhaseIntervenant.fromJson({
+    var resultat = PhaseIntervenant.fromJson({
       "id": 1,
       "intervenants_id": 1,
       "phases_id": 1,
-      "created_at":null,
+      "created_at": null,
       "updated_at": null,
-   });
+    });
     return Future.value(resultat);
   }
 
   @override
   Future<List<Groupes>> getGroupeList(int phaseId) {
-   var resultat=[Groupes.fromJson({
-      "id": 1,
-      "phases_id": 1,
-      "name": "test",
-      "created_at":null,
-      "updated_at": null,
-    })];
+    var resultat = [
+      Groupes.fromJson({
+        "id": 1,
+        "phases_id": 1,
+        "name": "test",
+        "created_at": null,
+        "updated_at": null,
+      })
+    ];
     return Future.value(resultat);
   }
 
   @override
   Future<Intervenants?> getIntervenant(String email, String coupon) {
-    var resultat=Intervenants.fromJson({
+    var resultat = Intervenants.fromJson({
       "id": 1,
       "phases_intervenants_id": 1,
       "name": "test",
       "email": "test",
-      "created_at":null,
+      "created_at": null,
       "updated_at": null,
-    }) ;
+    });
     return Future.value(null);
   }
 
   @override
   Future<PhaseIntervenant> getIntervenantById(int id) {
-    var resultat=PhaseIntervenant.fromJson({
+    var resultat = PhaseIntervenant.fromJson({
       "id": 1,
       "intervenants_id": 1,
       "phases_id": 1,
-      "created_at":null,
+      "created_at": null,
       "updated_at": null,
     });
     return Future.value(resultat);
@@ -113,24 +118,116 @@ class EvaluationNetworkServiceImplTest implements EvaluationNetworkService{
 
   @override
   Future<List<Intervenants>> getIntervenantList(int phaseId) {
-   var resultat=[Intervenants.fromJson({
-      "id": 1,
-      "phases_intervenants_id": 1,
-      "name": "test",
-      "email": "test",
-      "created_at":null,
-      "updated_at": null,
-    })];
-    return Future.value(resultat);
+    var resultat = [
+      Intervenants.fromJson({
+        "id": 1,
+        "phases_intervenants_id": 1,
+        "name": "Exauce",
+        "email": "test",
+        "created_at": null,
+        "updated_at": null,
+      }),
+      Intervenants.fromJson({
+        "id": 1,
+        "phases_intervenants_id": 1,
+        "name": "joseph",
+        "email": "test",
+        "created_at": null,
+        "updated_at": null,
+      }),
+      Intervenants.fromJson({
+        "id": 1,
+        "phases_intervenants_id": 1,
+        "name": "esther",
+        "email": "test",
+        "created_at": null,
+        "updated_at": null,
+      }),
+      Intervenants.fromJson({
+        "id": 1,
+        "phases_intervenants_id": 1,
+        "name": "elie",
+        "email": "test",
+        "created_at": null,
+        "updated_at": null,
+      }),
+      Intervenants.fromJson({
+        "id": 1,
+        "phases_intervenants_id": 1,
+        "name": "david",
+        "email": "test",
+        "created_at": null,
+        "updated_at": null,
+      }),
+      Intervenants.fromJson({
+        "id": 1,
+        "phases_intervenants_id": 1,
+        "name": "grace",
+        "email": "test",
+        "created_at": null,
+        "updated_at": null,
+      }),
+      Intervenants.fromJson({
+        "id": 1,
+        "phases_intervenants_id": 1,
+        "name": "dorcas",
+        "email": "test",
+        "created_at": null,
+        "updated_at": null,
+      }),
+      Intervenants.fromJson({
+        "id": 1,
+        "phases_intervenants_id": 1,
+        "name": "candide",
+        "email": "test",
+        "created_at": null,
+        "updated_at": null,
+      }),
+      Intervenants.fromJson({
+        "id": 1,
+        "phases_intervenants_id": 1,
+        "name": "françoise",
+        "email": "test",
+        "created_at": null,
+        "updated_at": null,
+      }),
+      Intervenants.fromJson({
+        "id": 1,
+        "phases_intervenants_id": 1,
+        "name": "mael",
+        "email": "test",
+        "created_at": null,
+        "updated_at": null,
+      }),
+      Intervenants.fromJson({
+        "id": 1,
+        "phases_intervenants_id": 1,
+        "name": "levis",
+        "email": "test",
+        "created_at": null,
+        "updated_at": null,
+        "isDone": true,
+      }),
+      Intervenants.fromJson({
+        "id": 1,
+        "phases_intervenants_id": 1,
+        "name": "lyly",
+        "email": "test",
+        "created_at": null,
+        "updated_at": null,
+      })
+    ];
+
+    return Future.value([]);
   }
 
   @override
   Future<Jury?> getJury(String coupon) {
-    var resultat=Jury.fromJson({
+    var resultat = Jury.fromJson({
       "id": 1,
       "name": "test",
       "email": "test",
-      "created_at":null,
+      "created_at": null,
       "updated_at": null,
     });
     return Future.value(null);
@@ -138,16 +235,16 @@ class EvaluationNetworkServiceImplTest implements EvaluationNetworkService{
 
   @override
   Future<Phases> getPhaseListById(int id) {
-    var resultat=Phases.fromJson({
+    var resultat = Phases.fromJson({
       "id": 1,
       "evenement_id": 1,
       "nom": "test",
       "description": "test",
       "type": "test",
-      "dateDebut":null,
+      "dateDebut": null,
       "dateFin": null,
       "statut": false,
-      "created_at":null,
+      "created_at": null,
       "updated_at": null,
     });
     return Future.value(resultat);
@@ -155,25 +252,26 @@ class EvaluationNetworkServiceImplTest implements EvaluationNetworkService{
 
   @override
   Future<bool> getPhasesByIntervenant(int intervenantId, int competitionId) {
-    var resultat=true;
+    var resultat = true;
     return Future.value(resultat);
   }
 
   @override
   Future<List<Phases>> getPhasesList() {
     // TODO: implement getPhasesList
-    var res=[
+    var res = [
       Phases.fromJson({
         "id": 1,
         "evenement_id": 1,
         "nom": "test",
         "description": "test",
         "type": "test",
-        "dateDebut":null,
+        "dateDebut": null,
         "dateFin": null,
         "statut": false,
-        "created_at":null,
+        "created_at": null,
         "updated_at": null,
+        "nbreCandidats": 10
       }),
       Phases.fromJson({
         "id": 1,
@@ -181,11 +279,12 @@ class EvaluationNetworkServiceImplTest implements EvaluationNetworkService{
         "nom": "test",
         "description": "test",
         "type": "test",
-        "dateDebut":null,
+        "dateDebut": null,
         "dateFin": null,
         "statut": false,
-        "created_at":null,
+        "created_at": null,
         "updated_at": null,
+        "nbreCandidats": 8
       }),
       Phases.fromJson({
         "id": 1,
@@ -193,59 +292,38 @@ class EvaluationNetworkServiceImplTest implements EvaluationNetworkService{
         "nom": "test",
         "description": "test",
         "type": "test",
-        "dateDebut":null,
+        "dateDebut": null,
         "dateFin": null,
         "statut": false,
-        "created_at":null,
+        "created_at": null,
         "updated_at": null,
-      }),
-      Phases.fromJson({
-        "id": 1,
-        "evenement_id": 1,
-        "nom": "test",
-        "description": "test",
-        "type": "test",
-        "dateDebut":null,
-        "dateFin": null,
-        "statut": false,
-        "created_at":null,
-        "updated_at": null,
-      }),
-      Phases.fromJson({
-        "id": 1,
-        "evenement_id": 1,
-        "nom": "test",
-        "description": "test",
-        "type": "test",
-        "dateDebut":null,
-        "dateFin": null,
-        "statut": false,
-        "created_at":null,
-        "updated_at": null,
+        "nbreCandidats": 5
       }),
     ];
-    return Future.value(res);
+    return Future.value([]);
   }
 
   @override
   Future<List<Question>> getQuestionListByPhase(int phaseId) {
-    var resultat=[Question.fromJson({
-      "id": 1,
-      "phases_id": 1,
-      "name": "test",
-      "created_at":null,
-      "updated_at": null,
-    })];
+    var resultat = [
+      Question.fromJson({
+        "id": 1,
+        "phases_id": 1,
+        "name": "test",
+        "created_at": null,
+        "updated_at": null,
+      })
+    ];
     return Future.value(resultat);
   }
 
   @override
   Future<Votes> getVoteByGroupe(int groupeId) {
-    var resultat=Votes.fromJson({
+    var resultat = Votes.fromJson({
       "id": 1,
       "intervenants_id": 1,
       "phases_id": 1,
-      "created_at":null,
+      "created_at": null,
       "updated_at": null,
     });
     return Future.value(resultat);
@@ -253,11 +331,11 @@ class EvaluationNetworkServiceImplTest implements EvaluationNetworkService{
 
   @override
   Future<Votes> getVoteByIntervenant(int intervenantId) {
-   var resultat=Votes.fromJson({
+    var resultat = Votes.fromJson({
       "id": 1,
       "intervenants_id": 1,
       "phases_id": 1,
-      "created_at":null,
+      "created_at": null,
       "updated_at": null,
     });
     return Future.value(resultat);
@@ -265,13 +343,13 @@ class EvaluationNetworkServiceImplTest implements EvaluationNetworkService{
 
   @override
   Future<bool> postReponses(Reponse data) {
-    var resultat=true;
+    var resultat = true;
     return Future.value(resultat);
-}
+  }
 
   @override
   Future sendVoteByCandidat(CreateVoteRequest data) {
-    var resultat=true;
+    var resultat = true;
     return Future.value(resultat);
   }
 }
