@@ -15,6 +15,7 @@ class Phases {
     bool statut;
     DateTime createdAt;
     DateTime updatedAt;
+    int nbreCandidats;
 
     Phases({
         required this.id,
@@ -27,11 +28,13 @@ class Phases {
         this.statut = false,
         required this.createdAt,
         required this.updatedAt,
+        this.nbreCandidats = 0
     });
 
     factory Phases.fromJson(Map<String, dynamic> json) => Phases(
         id: json["id"] ?? 1,
         evenementId: json["evenementId"] ?? 0,
+        nbreCandidats: json["nbreCandidats"] ?? 0,
         nom: json["nom"] ?? "",
         description: json["description"] ?? "",
         type: json["type"] ?? "",
@@ -45,6 +48,7 @@ class Phases {
     Map<String, dynamic> toJson() => {
         "id": id,
         "evenementId": evenementId,
+        "nbreCandidats": nbreCandidats,
         "nom": nom,
         "description": description,
         "type": type,

@@ -6,6 +6,7 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:odc_mobile_project/m_evaluation/ui/pages/ScanCouponPage/scanned_barcode_label.dart';
 import 'package:odc_mobile_project/m_evaluation/ui/pages/ScanCouponPage/scanner_error_widget.dart';
 
+import '../../../../navigation/routers.dart';
 import 'mobile_scanner_overlay.dart';
 
 
@@ -108,9 +109,10 @@ class _ScancouponpageState extends ConsumerState<ScanCouponPage> {
                 print('valeur scanné');
                 print(element.rawValue);
               });
-              var result = data.barcodes.first.rawValue;
-              controller.stop();
-              Navigator.pop(context, result);
+              context.goNamed(Urls.phases.name);
+              //var result = data.barcodes.first.rawValue;
+              //controller.stop();
+              //Navigator.pop(context, result);
             },
             errorBuilder: (context, error, child) {
               return ScannerErrorWidget(error: error);

@@ -11,6 +11,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../services/evaluationLocalService.dart';
 import '../services/evaluationNetworkService.dart';
 import 'assertions/GetAssertionListNetworkUsecase.dart';
+import 'intervenants/GetIntervenantListNetworkUseCase.dart';
 import 'intervenants/GetIntervenantLocalUseCase.dart';
 import 'intervenants/GetIntervenantNetworkUseCase.dart';
 import 'intervenants/SaveIntervenantLocalUseCase.dart';
@@ -22,12 +23,14 @@ class EvaluationInteractor{
   GetJuryNetworkUseCase getJuryNetworkUseCase;
   GetPhasesListNetworkUseCase getPhasesListNetworkUseCase;
   SaveIntervenantLocalUseCase saveIntervenantLocalUseCase;
+  GetIntervenantListNetworkUseCase getIntervenantListNetworkUseCase;
 
   EvaluationInteractor._(
       this.getIntervenantNetworkUseCase,
       this.getJuryNetworkUseCase,
       this.getPhasesListNetworkUseCase,
-      this.saveIntervenantLocalUseCase
+      this.saveIntervenantLocalUseCase,
+      this.getIntervenantListNetworkUseCase,
       );
 
   static build(EvaluationNetworkService network, EvaluationLocalService local ){
@@ -35,7 +38,9 @@ class EvaluationInteractor{
         GetIntervenantNetworkUseCase(network),
       GetJuryNetworkUseCase(network,local),
       GetPhasesListNetworkUseCase(network,local),
-      SaveIntervenantLocalUseCase(local)
+      SaveIntervenantLocalUseCase(local),
+      GetIntervenantListNetworkUseCase(network,local),
+
     );
   }
 }

@@ -8,6 +8,7 @@ class Intervenants {
     String email;
     DateTime createdAt;
     DateTime updatedAt;
+    bool isDone;
 
     Intervenants({
         required this.id,
@@ -16,6 +17,7 @@ class Intervenants {
         this.email ="",
         required this.createdAt,
         required this.updatedAt,
+        this.isDone = false,
     });
 
     factory Intervenants.fromRawJson(String str) => Intervenants.fromJson(json.decode(str));
@@ -27,6 +29,7 @@ class Intervenants {
         phasesIntervenantsId: json["phases_intervenants_id"] ?? 1,
         name: json["name"] ?? "",
         email: json["email"] ?? "",
+        isDone: json["isDone"] ?? false,
         createdAt: json["created_at"]!=null? DateTime.parse(json["created_at"] ?? ""): DateTime.now(),
         updatedAt: json["updated_at"]!=null? DateTime.parse(json["updated_at"] ?? "") : DateTime.now(),
     );
@@ -36,6 +39,7 @@ class Intervenants {
         "phases_intervenants_id": phasesIntervenantsId,
         "name": name,
         "email": email,
+        "isDone": isDone,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
     };
