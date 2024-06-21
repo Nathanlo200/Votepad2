@@ -1,24 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'routers.dart';
+part of 'PhaseCtrl.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$routerHash() => r'3dd0a771c1365ca72d242c646ba37c5959acf39e';
+String _$phaseCtrlHash() => r'8fd86633386299e68465a131430f57bb65d152e2';
 
-/// See also [router].
-@ProviderFor(router)
-final routerProvider = Provider<GoRouter>.internal(
-  router,
-  name: r'routerProvider',
+/// See also [PhaseCtrl].
+@ProviderFor(PhaseCtrl)
+final phaseCtrlProvider =
+    AutoDisposeNotifierProvider<PhaseCtrl, PhaseState>.internal(
+  PhaseCtrl.new,
+  name: r'phaseCtrlProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$routerHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$phaseCtrlHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef RouterRef = ProviderRef<GoRouter>;
+typedef _$PhaseCtrl = AutoDisposeNotifier<PhaseState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

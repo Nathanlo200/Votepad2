@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:odc_mobile_project/m_evaluation/business/interactor/EvaluationInteractor.dart';
+import 'package:odc_mobile_project/m_evaluation/framework/evaluationLocalServiceImpl.dart';
+import 'package:odc_mobile_project/m_evaluation/framework/evaluationNetworkServiceImpl.dart';
 
 import 'm_user/business/interactor/UserInteractor.dart';
 import 'm_user/ui/framework/UserLocalServiceImpl.dart';
@@ -21,11 +24,15 @@ void main() async {
   var userLocalImpl = UserLocalServiceImpl(stockage);
   var userInteractor=UserInteractor.build(userNetworkImpl, userLocalImpl);
 
+  // module evaluation service implementations
+  var evaluationNetworkImpl = EvaluationNetworkServiceImplTest();
+  var evaluationLocalImpl = EvaluationLocalServiceImplTest(stockage);
+  var evaluationInteractor=EvaluationInteractor.build(evaluationNetworkImpl, evaluationLocalImpl);
 
   runApp(ProviderScope(
       overrides: [
         userInteractorProvider.overrideWithValue(userInteractor),
-      ],
+        evaluationInteractorProvider.overrideWithValue(evaluationInteractor),],
       child: MyApp()
   ));
 }
