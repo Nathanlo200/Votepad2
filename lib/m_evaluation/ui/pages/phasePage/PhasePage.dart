@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:odc_mobile_project/m_evaluation/ui/pages/phasePage/PhaseCtrl.dart';
-
 import '../../../../navigation/routers.dart';
 import 'PhaseState.dart';
 
@@ -27,31 +26,41 @@ class _PhaseState extends ConsumerState<PhasePage> {
 
   @override
   Widget build(BuildContext context) {
+    var state = ref.watch(phaseCtrlProvider);
     return Scaffold(
         body: SafeArea(
           child: Stack(
             children: [
-             _contenuPrincipale(context, ref),
-             _chargement(context, ref)
+              if (state.phases.isNotEmpty && !state.isLoading)
+                _contenuPrincipale(context, ref)
+              else _phaseVide(context),
+              _chargement(context, ref),
             ],
           ),
         ),
         backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text("Competition"),
+          leadingWidth: 0,
           leading: Container(
             child: Builder(builder: (context) {
-             // const ;
-              return  Container(
-             child: ElevatedButton(
-                    child: Icon(Icons.arrow_back),
-        onPressed: () {
-          context.goNamed(Urls.Intro.name);},
-
-                    ),
-              );
+              // const ;
+              return Container();
             }),
           ),
+
+          actions: [
+            IconButton(
+                onPressed: () {
+                  context.goNamed(Urls.info.name);
+                },
+                icon: Icon(Icons.info)),
+            IconButton(
+                onPressed: () {
+                  context.goNamed(Urls.Intro.name);
+                },
+                icon: Icon(Icons.logout_outlined)),
+          ],
         ));
   }
 }
@@ -59,22 +68,75 @@ class _PhaseState extends ConsumerState<PhasePage> {
 _contenuPrincipale(BuildContext context, WidgetRef ref) {
   var state = ref.watch(phaseCtrlProvider);
 
+  return Container(
+    padding: EdgeInsets.symmetric(horizontal: 8),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 10.0),
+          child: Text(
+            "Phases : ${state.phases.length}",
+            style: TextStyle(fontSize: 20),
+          ),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Expanded(
+            child: ListView.separated(
+                separatorBuilder: (ctx, index) {
+                  return Divider(
+                    thickness: 1,
+                  );
+                },
+                itemCount: state.phases.length,
+                itemBuilder: (ctx, index) {
+                  var phase = state.phases[index];
+                  return Card(
+                      color: Colors.transparent,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      child: ListTile(
+                        leading: Icon(Icons.ac_unit_outlined),
+                        trailing: Icon(Icons.arrow_forward_ios),
+                        onTap: () {
+                          context.goNamed(Urls.intervenants.name,
+                              extra: phase);
+                        },
+                        title: Text(phase.nom),
+                        subtitle: Container(
+                          //color: Colors.amber,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Statut : ${phase.statut}"),
+                              Text("candidats : ${phase.nbreCandidats}"),
+                            ],
+                          ),
+                        ),
+                      ));
+
+                }))
+      ],
+    ),
+  );
+}
+_phaseVide(BuildContext context) {
   return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
     children: [
-      Text("Phases", style: TextStyle(fontSize: 30),),
-      SizedBox(height: 50,),
-      Expanded(
-          child: ListView.builder(
-              itemCount: state.phases.length,
-              itemBuilder: (ctx, index) {
-                var phase = state.phases[index];
-                return Card(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    child: ListTile(
-                      title: Text(phase.nom),
-                    ));
-              }))
+      Center(
+        child: Image.asset("images/images-removebg-preview.png",
+            width: 200, height: 200,fit: BoxFit.cover),
+      ),
+      TextButton(onPressed: (){}, child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text("Aucune Phase"), Icon(Icons.refresh)
+        ],
+      )),
     ],
   );
 }
@@ -85,4 +147,3 @@ _chargement(BuildContext context, WidgetRef ref) {
       visible: state.isLoading,
       child: Center(child: CircularProgressIndicator()));
 }
-
