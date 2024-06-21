@@ -4,6 +4,11 @@ import 'package:go_router/go_router.dart';
 import 'package:odc_mobile_project/m_user/ui/pages/login/LoginCtrl.dart';
 import 'package:odc_mobile_project/navigation/routers.dart';
 
+import '../../composants/afficherMessageErreur.dart';
+import '../AuthPage/AuthCtrl.dart';
+import '../ScanCouponPage/ScanCouponPage.dart';
+import 'IntroCtrl.dart';
+
 class IntroPage extends ConsumerStatefulWidget {
   const IntroPage({super.key});
 
@@ -86,8 +91,21 @@ class _IntroPageState extends ConsumerState<IntroPage> {
       width: double.infinity,
       child: ElevatedButton(
         style: style,
-        onPressed: () {
-          context.goNamed(Urls.scanner.name);
+        onPressed: () async {
+          var result = await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ScanCouponPage()),
+          );
+          if (result != null) {
+            print("result dans login $result");
+            var ctrl = ref.read(introCtrlProvider.notifier);
+            var res = await ctrl.soumettre("coupon");
+            if (res) {
+              context.goNamed(Urls.phases.name);
+            } else {
+              afficherMessageErreur(context,"Coupon invalide");
+            }
+          }
         },
         child: const Text('voter'),
       ),
@@ -142,7 +160,7 @@ class _IntroPageState extends ConsumerState<IntroPage> {
   }
 
   _chargement(BuildContext context) {
-    var state = ref.watch(loginCtrlProvider);
+    var state = ref.watch(introCtrlProvider);
     return Visibility(
         visible: state.isLoading, child: CircularProgressIndicator());
   }
