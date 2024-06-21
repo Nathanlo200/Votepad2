@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../navigation/routers.dart';
+import '../../../../navigation/routers.dart';
 
-class Infobutton extends StatelessWidget {
-  const Infobutton({super.key});
+class InfoPage extends StatelessWidget {
+  const InfoPage({super.key});
 
   @override
   Widget build(BuildContext context) {
