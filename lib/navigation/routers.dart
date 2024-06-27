@@ -21,7 +21,7 @@ GoRouter router(RouterRef ref) {
   final userInteractor = ref.watch(userInteractorProvider);
   return GoRouter(
       debugLogDiagnostics: true,
-      initialLocation: "/home/phases",
+      initialLocation: "/auth/intro",
       /* redirect: (context, state) async {
         return null;
       },*/
@@ -49,9 +49,13 @@ GoRouter router(RouterRef ref) {
               builder: (ctx, state) => PhasePage(),
             ),
             GoRoute(
-              path: "intervenants",
+              path: "intervenants/:id",
               name: Urls.intervenants.name,
-              builder: (ctx, state) => IntervenantPage(),
+              pageBuilder: (ctx, state) {
+                var id=state.pathParameters["id"]?? '-1';
+                final phaseId = int.tryParse(id) ?? -1;
+                return MaterialPage(key: state.pageKey, child: IntervenantPage(phaseId: phaseId,));
+              },
             ),
             GoRoute(path: "info",
                 name: Urls.info.name,
