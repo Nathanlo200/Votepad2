@@ -1,20 +1,23 @@
-import '../../../business/model/phases.dart';
+
+
+
+import '../../../business/model/Vote/PhasesVote.dart';
 
 class PhaseState {
-  List<Phases> phases;
+  List<PhasesVote> phasesVote;
   bool isLoading;
 
   PhaseState({
     this.isLoading=false,
-    this.phases = const [],
+    this.phasesVote = const [],
   });
 
   PhaseState copyWith({
     bool? isLoading,
-    List<Phases>? phases,
+    List<PhasesVote>? PhasesVote,
   }) =>
     PhaseState(
         isLoading: isLoading ?? this.isLoading,
-        phases: phases ?? this.phases,
+      phasesVote: PhasesVote ?? this.phasesVote,
       );
 }
