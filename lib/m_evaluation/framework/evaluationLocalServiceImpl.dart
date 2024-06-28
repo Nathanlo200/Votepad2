@@ -15,8 +15,9 @@ import 'package:odc_mobile_project/m_evaluation/business/model/Vote/phaseInterve
 
 import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/reponse.dart';
 
-import 'package:odc_mobile_project/m_evaluation/business/model/phases.dart';
+import 'package:odc_mobile_project/m_evaluation/business/model/Vote/PhasesVote.dart';
 
+import '../business/model/Vote/EvenementVote.dart';
 import '../business/services/evaluationLocalService.dart';
 
 class EvaluationLocalServiceImplTest implements EvaluationLocalService{
@@ -66,15 +67,15 @@ class EvaluationLocalServiceImplTest implements EvaluationLocalService{
   }
 
   @override
-  Future<Phases> getPhaseListById(int id) {
+  Future<PhasesVote> getPhaseListById(int id) {
     var dataJson= stockage.read("CRITERES");
-    return Future.value(Phases.fromJson(dataJson));
+    return Future.value(PhasesVote.fromJson(dataJson));
   }
 
   @override
-  Future<List<Phases>> getPhasesList() {
+  Future<List<PhasesVote>> getPhasesList() {
     var dataJson= stockage.read("CRITERES");
-    return Future.value(List<Phases>.from(dataJson.map((x) => Phases.fromJson(x))));
+    return Future.value(List<PhasesVote>.from(dataJson.map((x) => PhasesVote.fromJson(x))));
   }
 
   @override
@@ -110,7 +111,7 @@ class EvaluationLocalServiceImplTest implements EvaluationLocalService{
   }
 
   @override
-  Future<Evenement> saveEvenementById(Evenement data) {
+  Future<EvenementVote> saveEvenementById(EvenementVote data) {
     var dataJson= data.toJson();
     stockage.write("EVENEMENT", dataJson);
     return Future.value(data);
@@ -152,7 +153,7 @@ class EvaluationLocalServiceImplTest implements EvaluationLocalService{
   }
 
   @override
-  Future<bool> savePhasesList(List<Phases> data) async {
+  Future<bool> savePhasesList(List<PhasesVote> data) async {
     var dataJson= data.map((e) => e.toJson()).toList();
     await stockage.write("PHASES", dataJson);
     return true;

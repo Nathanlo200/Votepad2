@@ -1,4 +1,4 @@
-import '../../model/phases.dart';
+import '../../model/Vote/PhasesVote.dart';
 import '../../services/evaluationLocalService.dart';
 import '../../services/evaluationNetworkService.dart';
 
@@ -8,7 +8,7 @@ class GetPhasesListNetworkUseCase{
   EvaluationLocalService local;
 
   GetPhasesListNetworkUseCase(this.network, this.local);
-  Future<List<Phases>?> run() async{
+  Future<List<PhasesVote>?> run() async{
     var res = await network.getPhasesList();
     if(res != null){
       local.savePhasesList(res);

@@ -1,5 +1,5 @@
 import 'package:odc_mobile_project/m_evaluation/business/model/Evenement.dart';
-import 'package:odc_mobile_project/m_evaluation/business/model/phases.dart';
+import 'package:odc_mobile_project/m_evaluation/business/model/Vote/PhasesVote.dart';
 
 import '../model/Vote/createVoteRequest.dart';
 import '../model/Vote/groupes.dart';
@@ -18,8 +18,8 @@ abstract class EvaluationNetworkService
 {
   //eventNetworkService
   Future<Evenement> getEvenementById(int id);
-  Future<List<Phases>?> getPhasesList();
-  Future<Phases> getPhaseListById(int id);
+  Future<List<PhasesVote>?> getPhasesList();
+  Future<PhasesVote> getPhaseListById(int id);
   //Fin eventNetworkservice*
 
   //evaluationNetworkService
