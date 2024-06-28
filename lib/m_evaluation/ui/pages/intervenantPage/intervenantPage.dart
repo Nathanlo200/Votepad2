@@ -7,7 +7,7 @@ import '../../composants/ListeVide.dart';
 import 'intervenantCtrl.dart';
 
 class IntervenantPage extends ConsumerStatefulWidget {
-  const IntervenantPage({super.key});
+  const IntervenantPage({super.key, required int phaseId});
 
   @override
   ConsumerState<IntervenantPage> createState() => _IntervenantState();
