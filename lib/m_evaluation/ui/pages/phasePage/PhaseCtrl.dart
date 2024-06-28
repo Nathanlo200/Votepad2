@@ -1,5 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../../business/model/phases.dart';
+import '../../../business/model/Vote/PhasesVote.dart';
 import 'PhaseState.dart';
 import '../../../business/interactor/EvaluationInteractor.dart';
 part 'PhaseCtrl.g.dart';
@@ -14,11 +14,11 @@ class PhaseCtrl extends _$PhaseCtrl{
 
   void recupererListPhase() async {
     var usecase = ref.watch(evaluationInteractorProvider).getPhasesListNetworkUseCase;
-    state = state.copyWith(isLoading: true);
+    state = state.copyWith(isLoading: true, phases: []);
     var res = await usecase.run();
     if (res!= null) {
       state = state.copyWith(phases: res,isLoading: false);
     }
-    state = state.copyWith(isLoading: false);
+    state = state.copyWith(isLoading: false, phases: []);
   }
   }
