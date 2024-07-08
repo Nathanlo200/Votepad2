@@ -1,4 +1,4 @@
-import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/reponse.dart';
+import '../../model/evaluation/postReponses.dart';
 import '../../services/evaluationLocalService.dart';
 import '../../services/evaluationNetworkService.dart';
 
@@ -9,7 +9,8 @@ class PostReponseNetworkUseCase{
 
 
   PostReponseNetworkUseCase(this.network, this.local);
-  Future<bool> run(Reponse data) async{
+  Future<bool> run(List<PostReponses> data) async{
+    await local.getReponsesList();
     var res = await network.postReponses(data);
     if(res){
       local.resetReponses();
