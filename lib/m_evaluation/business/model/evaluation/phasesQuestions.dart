@@ -6,16 +6,16 @@ String phasesQuestionsToJson(PhasesQuestions data) => json.encode(data.toJson())
 
 class PhasesQuestions {
     int id;
-    int phaseId;
-    int questionId;
+    int phase_id;
+    int question_id;
     double ponderation;
     DateTime createdAt;
     DateTime updatedAt;
 
     PhasesQuestions({
         required this.id,
-        this.phaseId = 1,
-        this.questionId =1,
+        this.phase_id = 1,
+        this.question_id =1,
         this.ponderation = 0.0,
         required this.createdAt,
         required this.updatedAt,
@@ -23,8 +23,8 @@ class PhasesQuestions {
 
     factory PhasesQuestions.fromJson(Map<String, dynamic> json) => PhasesQuestions(
         id: json["id"] ?? 1,
-        phaseId: json["phaseId"] ?? 0,
-        questionId: json["questionId"] ?? 0,
+        phase_id: json["phase_id"] ?? 0,
+        question_id: json["question_id"] ?? 0,
         ponderation: json["ponderation"] ?? 0.0,
         createdAt: json["created_at"]!=null? DateTime.parse(json["created_at"] ?? ""): DateTime.now(),
         updatedAt: json["updated_at"]!=null? DateTime.parse(json["updated_at"] ?? "") : DateTime.now(),
@@ -32,8 +32,8 @@ class PhasesQuestions {
 
     Map<String, dynamic> toJson() => {
         "id": id,
-        "phaseId": phaseId,
-        "questionId": questionId,
+        "phase_id": phase_id,
+        "question_id": question_id,
         "ponderation": ponderation,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
