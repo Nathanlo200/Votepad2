@@ -1,4 +1,4 @@
-import '../../model/phases.dart';
+import '../../model/Vote/PhasesVote.dart';
 import '../../services/evaluationNetworkService.dart';
 
 class GetPhaseListByIdNetworkUseCase{
@@ -6,7 +6,7 @@ class GetPhaseListByIdNetworkUseCase{
   EvaluationNetworkService network;
 
   GetPhaseListByIdNetworkUseCase(this.network);
-  Future<Phases> run(int id) async{
+  Future<PhasesVote> run(int id) async{
     var res = await network.getPhaseListById(id);
     return res;
   }
