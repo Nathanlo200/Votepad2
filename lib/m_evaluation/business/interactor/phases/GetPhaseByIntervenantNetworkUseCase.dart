@@ -1,3 +1,4 @@
+import 'package:odc_mobile_project/m_evaluation/business/model/intervenant/phaseIntervenant.dart';
 import '../../services/evaluationLocalService.dart';
 import '../../services/evaluationNetworkService.dart';
 
@@ -7,7 +8,7 @@ class GetPhaseByIntervenantNetworkUseCase{
   EvaluationLocalService local;
 
   GetPhaseByIntervenantNetworkUseCase(this.network, this.local);
-  Future<bool> run( int competitionId) async{
+  Future<PhaseIntervenant> run( int competitionId) async{
     var intervenant=await local.getIntervenant();
     var res = await network.getPhasesByIntervenant(intervenant.id, competitionId);
     return res;
