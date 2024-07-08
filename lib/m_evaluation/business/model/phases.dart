@@ -40,7 +40,7 @@ class Phases {
         type: json["type"] ?? "",
         dateDebut: json["dateDebut"] != null? DateTime.parse(json["dateDebut"] ?? ""): DateTime.now(),
         dateFin: json["dateDebut"] != null? DateTime.parse(json["dateDebut"] ?? ""): DateTime.now(),
-        statut: json["statut"] ?? "",
+        statut: json["statut"] ?? false,
         createdAt: json["created_at"]!=null? DateTime.parse(json["created_at"] ?? ""): DateTime.now(),
         updatedAt: json["updated_at"]!=null? DateTime.parse(json["updated_at"] ?? "") : DateTime.now(),
     );
