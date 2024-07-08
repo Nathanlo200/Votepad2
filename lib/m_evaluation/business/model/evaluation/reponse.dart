@@ -1,40 +1,44 @@
 import 'dart:convert';
 
-Reponse ReponseFromJson(String str) => Reponse.fromJson(json.decode(str));
+Reponse reponsesFromJson(String str) => Reponse.fromJson(json.decode(str));
 
-String ReponseToJson(Reponse data) => json.encode(data.toJson());
+String reponsesToJson(Reponse data) => json.encode(data.toJson());
 
 class Reponse {
   int id;
   int intervenantId;
-  int phaseId;
-  List<dynamic> resultat;
+  int questionsPhasesId;
+  int assertionsId;
+  double cote;
   DateTime createdAt;
   DateTime updatedAt;
 
   Reponse({
     required this.id,
-    this.intervenantId =0,
-    this.phaseId =0,
-    required this.resultat,
+    this.intervenantId =1,
+    this.questionsPhasesId=1,
+    this.assertionsId=1,
+    this.cote=10.0,
     required this.createdAt,
     required this.updatedAt,
   });
 
-  factory Reponse.fromJson(Map<String, dynamic> json) => Reponse(
-    id: json["id"] ?? 0,
-    intervenantId: json["intervenantId"] ?? 0,
-    phaseId: json["phaseId"],
-    resultat: List<dynamic>.from(json["resultat"].map((x) => x)) ?? [],
+  factory Reponse.fromJson(Map json) => Reponse(
+    id: json["id"] ?? 1,
+    intervenantId: json["intervenant_id"] ?? 1,
+    questionsPhasesId: json["questions_phases_id"] ?? 1,
+    assertionsId: json["assertions_id"] ?? 1,
+    cote: json["cote"] ?? 100.0,
     createdAt: json["created_at"]!=null? DateTime.parse(json["created_at"] ?? ""): DateTime.now(),
     updatedAt: json["updated_at"]!=null? DateTime.parse(json["updated_at"] ?? "") : DateTime.now(),
   );
 
-  Map<String, dynamic> toJson() => {
+  Map toJson() => {
     "id": id,
-    "intervenantId": intervenantId,
-    "phaseId": phaseId,
-    "resultat": List<dynamic>.from(resultat.map((x) => x)),
+    "intervenant_id": intervenantId,
+    "questions_phases_id": questionsPhasesId,
+    "assertions_id": assertionsId,
+    "cote": cote,
     "created_at": createdAt.toIso8601String(),
     "updated_at": updatedAt.toIso8601String(),
   };

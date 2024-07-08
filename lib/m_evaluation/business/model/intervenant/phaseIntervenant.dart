@@ -1,41 +1,36 @@
 import 'dart:convert';
 
-class Jury {
+class PhaseIntervenant {
     int id;
-    String name;
-    String fonction;
-    String token;
+    int idPhase;
+    int idGroupe;
     DateTime createdAt;
     DateTime updatedAt;
 
-    Jury({
+    PhaseIntervenant({
         required this.id,
-        this.name ="",
-        this.fonction ="",
-        this.token ="",
+        this.idPhase = 1,
+        this.idGroupe = 1,
         required this.createdAt,
         required this.updatedAt,
     });
 
-    factory Jury.fromRawJson(String str) => Jury.fromJson(json.decode(str));
+    factory PhaseIntervenant.fromRawJson(String str) => PhaseIntervenant.fromJson(json.decode(str));
 
     String toRawJson() => json.encode(toJson());
 
-    factory Jury.fromJson(Map<String, dynamic> json) => Jury(
+    factory PhaseIntervenant.fromJson(Map json) => PhaseIntervenant(
         id: json["id"] ?? 1,
-        name: json["name"] ?? "",
-        fonction: json["fonction"] ?? "",
-        token: json["token"] ?? "",
+        idPhase: json["id_phase"] ?? 0,
+        idGroupe: json["id_groupe"] ?? 0,
         createdAt: json["created_at"]!=null? DateTime.parse(json["created_at"] ?? ""): DateTime.now(),
         updatedAt: json["updated_at"]!=null? DateTime.parse(json["updated_at"] ?? "") : DateTime.now(),
-
     );
 
-    Map<String, dynamic> toJson() => {
+    Map toJson() => {
         "id": id,
-        "name": name,
-        "fonction": fonction,
-        "token": token,
+        "id_phase": idPhase,
+        "id_groupe": idGroupe,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
     };
