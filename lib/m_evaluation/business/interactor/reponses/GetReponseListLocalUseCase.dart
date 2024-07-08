@@ -1,4 +1,4 @@
-import '../../model/evaluation/reponse.dart';
+
 import '../../services/evaluationLocalService.dart';
 
 class GetReponseListLocalUseCase{
@@ -7,7 +7,7 @@ class GetReponseListLocalUseCase{
 
   GetReponseListLocalUseCase(this.local);
 
-  Future<List<Reponse>> run() async{
+  Future<Map<int, int>?> run() async{
     var res = await local.getReponsesList();
     return res;
   }
