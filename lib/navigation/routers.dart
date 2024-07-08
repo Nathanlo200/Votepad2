@@ -9,12 +9,18 @@ import 'package:go_router/go_router.dart';
 import '../m_evaluation/ui/pages/AuthPage/AuthPage.dart';
 import '../m_evaluation/ui/pages/IntroPage/IntroPage.dart';
 import '../m_evaluation/ui/pages/ScanCouponPage/ScanCouponPage.dart';
+import '../m_evaluation/ui/pages/evaluation/EvaluationPage.dart';
+import '../m_evaluation/ui/pages/evaluation/end/endPage.dart';
 import '../m_evaluation/ui/pages/intervenantPage/intervenantPage.dart';
 import '../m_evaluation/ui/pages/phasePage/PhasePage.dart';
 
 part "routers.g.dart";
 
-enum Urls { home, detailArticle, auth, login, test, Intro, scanner, evaluationAuth, phases, intervenants,info }
+enum Urls { home, detailArticle, auth,
+  login,  test, Intro,
+  scanner,  evaluationAuth, phases,
+  intervenants,info ,
+  evaluation, EvaluationFinalStep, introEvaluation}
 
 @Riverpod(keepAlive: true)
 GoRouter router(RouterRef ref) {
@@ -49,13 +55,30 @@ GoRouter router(RouterRef ref) {
               builder: (ctx, state) => PhasePage(),
             ),
             GoRoute(
-              path: "intervenants",
+              path: "intervenants/:id",
               name: Urls.intervenants.name,
-              builder: (ctx, state) => IntervenantPage(),
+              pageBuilder: (ctx, state) {
+                var id=state.pathParameters["id"]?? '-1';
+                final phaseId = int.tryParse(id) ?? -1;
+                return MaterialPage(key: state.pageKey,
+                    child: IntervenantPage(phaseId: phaseId,));
+              },
             ),
             GoRoute(path: "info",
                 name: Urls.info.name,
                 builder: (ctx, state) => InfoPage()),
+
+            GoRoute(
+                path: 'evaluation',
+                name: Urls.evaluation.name,
+                builder: (ctx, state) => EvaluationPage()),
+
+
+            GoRoute(
+                path: 'EvaluationFinalStep',
+                name: Urls.EvaluationFinalStep.name,
+                builder: (ctx, state) => EndPage()),
+
           ],
         ),
         GoRoute(
