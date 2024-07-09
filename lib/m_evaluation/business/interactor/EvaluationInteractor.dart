@@ -20,27 +20,51 @@ part 'EvaluationInteractor.g.dart';
 
 class EvaluationInteractor{
   GetIntervenantNetworkUseCase getIntervenantNetworkUseCase;
-  GetJuryNetworkUseCase getJuryNetworkUseCase;
+  GetIntervenantLocalUseCase getIntervenantLocalUseCase;
+  GetAssertionListNetworkUsecase getAssertionListUsecase;
+  GetQuestionListByPhaseNetworkUseCase getQuestionListByPhaseUseCase;
+  GetPhaseByIntervenantNetworkUseCase getPhaseByIntervenantuseCase;
+  PostReponseNetworkUseCase postReponseUseCase;
+  SaveReponseLocalUseCase saveReponseUseCase;
+  SaveIntervenantLocalUseCase saveIntervenantUseCase;
+  GetReponseListLocalUseCase getReponseListUseCase;
   GetPhasesListNetworkUseCase getPhasesListNetworkUseCase;
   SaveIntervenantLocalUseCase saveIntervenantLocalUseCase;
+  GetJuryNetworkUseCase getJuryNetworkUseCase;
   GetIntervenantListNetworkUseCase getIntervenantListNetworkUseCase;
+
 
   EvaluationInteractor._(
       this.getIntervenantNetworkUseCase,
-      this.getJuryNetworkUseCase,
       this.getPhasesListNetworkUseCase,
       this.saveIntervenantLocalUseCase,
-      this.getIntervenantListNetworkUseCase,
+      this.getAssertionListUsecase,
+      this.getPhaseByIntervenantuseCase,
+      this.getQuestionListByPhaseUseCase,
+      this.postReponseUseCase,
+      this.saveReponseUseCase,
+      this.getIntervenantLocalUseCase,
+      this.saveIntervenantUseCase,
+      this.getReponseListUseCase,
+      this.getJuryNetworkUseCase,
+      this.getIntervenantListNetworkUseCase
       );
 
-  static build(EvaluationNetworkService network, EvaluationLocalService local ){
+  static build(EvaluationNetworkService network, EvaluationLocalService local){
     return EvaluationInteractor._(
         GetIntervenantNetworkUseCase(network),
-      GetJuryNetworkUseCase(network,local),
-      GetPhasesListNetworkUseCase(network,local),
+      GetPhasesListNetworkUseCase(network, local),
       SaveIntervenantLocalUseCase(local),
-      GetIntervenantListNetworkUseCase(network,local),
-
+        GetAssertionListNetworkUsecase(network,),
+        GetPhaseByIntervenantNetworkUseCase(network, local),
+        GetQuestionListByPhaseNetworkUseCase(network),
+        PostReponseNetworkUseCase(network, local),
+        SaveReponseLocalUseCase(local),
+        GetIntervenantLocalUseCase( local),
+        SaveIntervenantLocalUseCase(local),
+        GetReponseListLocalUseCase(local),
+      GetJuryNetworkUseCase(network, local),
+      GetIntervenantListNetworkUseCase(network, local)
     );
   }
 }

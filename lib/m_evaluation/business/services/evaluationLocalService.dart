@@ -1,32 +1,33 @@
 
 import '../model/Evenement.dart';
+import '../model/Vote/EvenementVote.dart';
 import '../model/Vote/createVoteRequest.dart';
 import '../model/Vote/groupes.dart';
 import '../model/Vote/intervenants.dart';
 import '../model/Vote/jurys.dart';
 import '../model/Vote/phaseCriteres.dart';
-import '../model/Vote/phaseIntervenant.dart';
-import '../model/evaluation/reponse.dart';
+import '../model/Vote/PhasesVote.dart';
+import '../model/intervenant/phaseIntervenant.dart';
 import '../model/phases.dart';
 
 abstract class EvaluationLocalService {
   //eventLocalSave
-  Future<Evenement> saveEvenementById(Evenement data);
+  Future<EvenementVote> saveEvenementById(EvenementVote data);
   Future<bool> savePhasesList(List<Phases> data);
 
   //eventLocalGet
   Future<Evenement> getEvenementById(int id);
   Future<List<Phases>> getPhasesList();
-  Future<Phases> getPhaseListById(int id);
+  Future<PhasesVote> getPhaseListById(int id);
   //fin eventLocalService*
 
   //evaluationLocalService
   Future<Intervenants> getIntervenant();
   Future<bool> saveIntervenant(Intervenants intervenant);
-  Future<Reponse?> saveReponses(Reponse data);
+  Future<bool> saveReponses(Map<int, int>? data);
 
   Future<bool> resetReponses();
-  Future<List<Reponse>> getReponsesList();
+  Future <Map<int, int>?> getReponsesList();
   //fin evaluationLocalService*
 
 
