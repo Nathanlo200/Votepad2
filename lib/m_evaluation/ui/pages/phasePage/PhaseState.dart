@@ -1,7 +1,7 @@
-import '../../../business/model/phases.dart';
+import 'package:odc_mobile_project/m_evaluation/business/model/Vote/PhasesVote.dart';
 
 class PhaseState {
-  List<Phases> phases;
+  List<PhasesVote> phases;
   bool isLoading;
 
   PhaseState({
@@ -11,9 +11,9 @@ class PhaseState {
 
   PhaseState copyWith({
     bool? isLoading,
-    List<Phases>? phases,
+    List<PhasesVote>? phases,
   }) =>
-    PhaseState(
+      PhaseState(
         isLoading: isLoading ?? this.isLoading,
         phases: phases ?? this.phases,
       );
