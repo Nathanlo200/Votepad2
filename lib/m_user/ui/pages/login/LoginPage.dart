@@ -40,7 +40,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         children: [
           ElevatedButton(
               onPressed: () {
-                context.pushNamed(Urls.test.name);
+                context.pushNamed(Urls.phases.name);
               },
               child: Text("Naviguer"))
         ],

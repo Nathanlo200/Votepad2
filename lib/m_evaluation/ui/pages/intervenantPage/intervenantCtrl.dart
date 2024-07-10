@@ -1,5 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../business/interactor/EvaluationInteractor.dart';
+import '../../../business/model/Vote/PhasesVote.dart';
 import 'intervenantState.dart';
 
 part "intervenantCtrl.g.dart";
@@ -11,15 +12,15 @@ class IntervenantCtrl extends _$IntervenantCtrl {
     return IntervenantState();
   }
 
-  void recupererListIntervenant() async {
+  void recupererListIntervenant($phaseId) async {
     var usecase = ref
         .watch(evaluationInteractorProvider)
         .getIntervenantListNetworkUseCase;
     state = state.copyWith(isLoading: true, intervenants: []);
-    var res = await usecase.run(1);
+    var res = await usecase.run($phaseId);
     print(res);
     if (res != null) {
-      state = state.copyWith(intervenants: res,intervenantsOrigin: res);
+      state = state.copyWith(intervenants: res, intervenantsOrigin: res);
     }
     state = state.copyWith(intervenants: res, isLoading: false);
   }
@@ -28,8 +29,12 @@ class IntervenantCtrl extends _$IntervenantCtrl {
     var listeData = state.intervenantsOrigin;
     print(listeData);
     var results = listeData
-        .where((n) => n.name.toLowerCase().contains(recherche.toLowerCase()))
+        .where((n) => n.email.toLowerCase().contains(recherche.toLowerCase()))
         .toList();
     state = state.copyWith(intervenants: results);
   } //TODO: Mettre le code de la reche
+
+  void setPhaseVote(PhasesVote phaseVote) {
+    state = state.copyWith(phaseVote: phaseVote);
+  }
 }

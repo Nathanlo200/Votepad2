@@ -1,7 +1,4 @@
-
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../../../m_user/business/interactor/UserInteractor.dart';
-import '../../../../m_user/business/model/Authenticate.dart';
 import '../../../business/interactor/EvaluationInteractor.dart';
 import 'IntroState.dart';
 

@@ -1,11 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:odc_mobile_project/m_evaluation/ui/composants/ListeVide.dart';
 import 'package:odc_mobile_project/m_evaluation/ui/pages/phasePage/PhaseCtrl.dart';
 import '../../../../navigation/routers.dart';
-import 'PhaseState.dart';
 
 class PhasePage extends ConsumerStatefulWidget {
   const PhasePage({super.key});
@@ -28,15 +26,18 @@ class _PhaseState extends ConsumerState<PhasePage> {
   @override
   Widget build(BuildContext context) {
     var state = ref.watch(phaseCtrlProvider);
+    print("count ${state.phases.length}");
     return Scaffold(
         body: SafeArea(
           child: Stack(
             children: [
               if (state.phases.isNotEmpty && !state.isLoading)
                 _contenuPrincipale(context, ref)
-              else  ListeVide(context,(){var ctrl = ref.read(phaseCtrlProvider.notifier);
-    ctrl.recupererListPhase();
-              }),
+              else
+                ListeVide(context, () {
+                  var ctrl = ref.read(phaseCtrlProvider.notifier);
+                  ctrl.recupererListPhase();
+                }),
               _chargement(context, ref),
             ],
           ),
@@ -51,7 +52,6 @@ class _PhaseState extends ConsumerState<PhasePage> {
               return Container();
             }),
           ),
-
           actions: [
             IconButton(
                 onPressed: () {
@@ -70,7 +70,6 @@ class _PhaseState extends ConsumerState<PhasePage> {
 
 _contenuPrincipale(BuildContext context, WidgetRef ref) {
   var state = ref.watch(phaseCtrlProvider);
-
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 8),
     child: Column(
@@ -106,21 +105,24 @@ _contenuPrincipale(BuildContext context, WidgetRef ref) {
                         trailing: Icon(Icons.arrow_forward_ios),
                         onTap: () {
                           context.goNamed(Urls.intervenants.name,
-                              extra: phase);
+                              extra: phase,
+                              pathParameters: {
+                                "id": phase.phases!.id.toString()
+                              },
+                          );
                         },
-                        title: Text(phase.nom),
+                        title: Text(phase.phases?.nom ?? ""),
                         subtitle: Container(
                           //color: Colors.amber,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Statut : ${phase.statut}"),
-                              Text("candidats : ${phase.nbreCandidats}"),
+                              Text("Statut : ${phase.phases?.statut}"),
+                              Text("candidats : ${phase.intervenants}"),
                             ],
                           ),
                         ),
                       ));
-
                 }))
       ],
     ),
