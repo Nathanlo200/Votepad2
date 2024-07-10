@@ -103,15 +103,14 @@ class _AuthPageState extends ConsumerState<AuthPage> {
         child: ElevatedButton(
           //style: style,
           onPressed: () async {
-            context.goNamed(Urls.phases.name);
-            /*var ctrl = ref.read(authCtrlProvider.notifier);
-            var result = await ctrl.soumettre(emailCtrl.text, couponCtrl.text);
+            var ctrl = ref.read(authCtrlProvider.notifier);
+            var res = await ctrl.soumettre (emailCtrl.text, couponCtrl.text);
+            if (res != null) {
+              afficherMessageErreur(context, res);
+            }else {
+              context.goNamed(Urls.evaluation.name);
+            }
 
-            if (result) {
-
-            } else {
-              afficherMessageErreur(context,"Email ou Coupon incorrect");
-            }*/
           },
           child: const Text('Envoyer'),
         ));
