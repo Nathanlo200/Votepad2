@@ -108,7 +108,7 @@ class _AuthPageState extends ConsumerState<AuthPage> {
             if (res != null) {
               afficherMessageErreur(context, res);
             }else {
-              context.goNamed(Urls.evaluation.name);
+              context.goNamed(Urls.introEvaluation.name);
             }
 
           },

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:odc_mobile_project/m_evaluation/ui/pages/AuthPage/AuthCtrl.dart';
 import 'package:odc_mobile_project/m_evaluation/ui/pages/evaluation/EvaluationCtrl.dart';
 import 'package:linear_progress_bar/linear_progress_bar.dart';
 
@@ -16,6 +17,7 @@ class EvaluationPage extends ConsumerStatefulWidget {
 class _EvaluationPage extends ConsumerState<EvaluationPage> {
   var key = "RESPONSES";
 
+
   @override
   void initState() {
     // TODO: implement initState
@@ -23,14 +25,16 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // action initiale de la page et appel d'un controleur
       var ctrl = ref.read(evaluationCtrlProvider.notifier);
+      var authCtrl = ref.read(authCtrlProvider);
       ctrl.getReponses();
-      ctrl.getQuestions();
+      ctrl.getQuestions(authCtrl.phaseId);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //extendBodyBehindAppBar: true,
       appBar: AppBar(
         actions: [
           Padding(
@@ -43,7 +47,7 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
                 )),
           ),
         ],
-        toolbarHeight: 80.0,
+        toolbarHeight: 70.0,
         automaticallyImplyLeading: false,
         backgroundColor: Colors.orange,
         title: Text(
@@ -79,7 +83,7 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
       valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
       semanticsLabel: "Label",
       semanticsValue: "Value",
-      minHeight: 6,
+      minHeight: 8,
     );
   }
 
@@ -89,61 +93,77 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
     var question = state.maQuestion;
     var selectedValue = state.reponsesChoices?[state.maQuestion?.id] ?? -1;
 
-    return Card(
-        child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 30.0,
-                  ),
-                  Text(
-                      "QUESTIONS : ${state.currentIndex}/${state.questions.length}"),
-                  SizedBox(
-                    height: 15.0,
-                  ),
-                  _myProgressBar(),
-                  SizedBox(
-                    height: 60.0,
-                  ),
-                  Text(
-                    question?.libelle ?? "",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                        padding: EdgeInsets.all(10.0),
-                        shrinkWrap: true,
-                        itemCount: state.assertions.length,
-                        itemBuilder: (ctx, index) {
-                          var assertions = state.assertions[index].id;
-                          return Card(
-                            shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(5.0))),
-                            child: RadioListTile(
-                                activeColor: Colors.orange,
-                                title: Text("${index + 1}." +
-                                    " ${state.assertions[index].libelle}"),
-                                value: assertions,
-                                groupValue: selectedValue,
-                                onChanged: (value) {
-                                  ctrl.selectAnswer(value!);
-                                  print("valeur selectionnée $value");
-                                }),
-                          );
-                        }),
-                  ),
-                  _myButton(),
-                ])));
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // SizedBox(
+          //   height: 73.0,
+          // ),
+          _myProgressBar(),
+
+          Align(
+            alignment: Alignment.topRight,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 12, top: 8.0),
+              child: Text(
+                  "${state.currentIndex}/${state.questions.length}"),
+            ),
+          ),
+
+          SizedBox(
+            height: 40.0,
+          ),
+          Align(
+            alignment: Alignment.center,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Text(
+                question?.libelle ?? "",
+                style: TextStyle(
+                  fontSize: 18,
+                  //fontWeight: FontWeight.w200,
+                ),
+              ),
+            ),
+          ),
+          //_separateurOu(),
+          SizedBox(
+            height: 20.0,
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(14.0),
+              child: ListView.builder(
+                  padding: EdgeInsets.all(10.0),
+                  shrinkWrap: true,
+                  itemCount: state.assertions.length,
+                  itemBuilder: (ctx, index) {
+                    var myAssertion = state.assertions[index].id;
+                    return Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(5.0))),
+                      child: RadioListTile(
+                          controlAffinity: ListTileControlAffinity.trailing,
+                          activeColor: Colors.orange,
+                          title: Text("${index + 1}." +
+                              " ${state.assertions[index].libelle}",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                          ),),
+                          value: myAssertion,
+                          groupValue: selectedValue,
+                          onChanged: (value) {
+                            ctrl.selectAnswer(value!);
+                            print("valeur selectionnée $value");
+                          }),
+                    );
+                  }),
+            ),
+          ),
+          _myButton(),
+        ]);
   } // end main content
 
   _myButton() {
@@ -151,10 +171,10 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
     var state = ref.watch(evaluationCtrlProvider);
     var ctrl = ref.read(evaluationCtrlProvider.notifier);
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(right: 6.0, bottom: 8.0),
           child: Visibility(
             visible: state.backButtonVsible,
             child: FloatingActionButton.extended(
@@ -167,12 +187,15 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(5.0))),
               onPressed: () => ctrl.nextPreviousQuestion(-1),
-              label: Text('retour'),
+              label: Text('retour',
+                style: TextStyle(
+                  fontSize: 12,
+                ),),
             ),
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(left: 6.0, bottom: 8.0),
           child: Visibility(
             visible: state.submitVisible,
             child: FloatingActionButton.extended(
@@ -214,13 +237,16 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
                 // );
 
               },
-              label: Text('soumettre les résultats'),
+              label: Text('soumettre les résultats',
+              style: TextStyle(
+                fontSize: 12,
+              ),),
 
             ),
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(left: 6.0, bottom: 8.0),
           child: Visibility(
             visible: state.nextButtonVisible,
             child: FloatingActionButton.extended(
@@ -234,12 +260,38 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
               onPressed: (){
                 ctrl.nextPreviousQuestion(1);
               },
-              label: Text('suivant'),),
+              label: Text('suivant',
+    style: TextStyle(
+    fontSize: 12,
+    ),),),
           ),
         ),
       ],
     );
   }
+
+
+
+  _separateurOu() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(height: 10,),
+          Expanded(
+            child: Divider(
+              color: Colors.grey,
+              thickness: 1,
+              height: 1,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+
 
   _chargement(BuildContext context) {
     var state = ref.watch(evaluationCtrlProvider);

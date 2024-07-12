@@ -28,7 +28,7 @@ class EvaluationCtrl extends _$EvaluationCtrl {
   }
 
 
-  void getQuestions() async {
+  void getQuestions(int phaseId) async {
     // var useCase =
     //     ref.watch(evaluationInteractorProvider).getQuestionListByPhaseUseCase;
     // var res = await useCase.run();
@@ -42,7 +42,7 @@ class EvaluationCtrl extends _$EvaluationCtrl {
 
 
     var usecase = ref.watch(evaluationInteractorProvider).getQuestionListByPhaseUseCase;
-    var res = await usecase.run();
+    var res = await usecase.run(phaseId);
     if (res.length > 0) {
       state = await state.copyWith(
           maQuestion: res[state.currentQuestionIndex].question,
