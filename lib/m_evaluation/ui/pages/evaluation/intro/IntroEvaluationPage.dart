@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 import '../../../../../navigation/routers.dart';
 
 
-class IntroPage extends StatelessWidget {
-  const IntroPage({super.key});
+class IntroEvaluationPage extends StatelessWidget {
+  const IntroEvaluationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
