@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:odc_mobile_project/m_evaluation/ui/pages/evaluation/intro/IntroEvaluationPage.dart';
 import 'package:odc_mobile_project/m_evaluation/ui/pages/infoPage/InfoPage.dart';
 import 'package:odc_mobile_project/m_user/business/interactor/UserInteractor.dart';
 import 'package:odc_mobile_project/m_user/ui/pages/TestPage.dart';
@@ -67,6 +68,13 @@ GoRouter router(RouterRef ref) {
             GoRoute(path: "info",
                 name: Urls.info.name,
                 builder: (ctx, state) => InfoPage()),
+
+
+            GoRoute(
+                path: 'introEvaluation',
+                name: Urls.introEvaluation.name,
+                builder: (ctx, state) => IntroEvaluationPage()),
+
 
             GoRoute(
                 path: 'evaluation',
