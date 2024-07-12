@@ -19,14 +19,16 @@ class Question {
 
   factory Question.fromJson(Map json) => Question(
     id: json["id"] ?? 1,
-    libelle: json["question"] ?? "",
+    //libelle: json["question"] ?? "",
+    libelle: json["libele"] ?? "",
     createdAt: json["created_at"]!=null? DateTime.parse(json["created_at"] ?? ""): DateTime.now(),
     updatedAt: json["updated_at"]!=null? DateTime.parse(json["updated_at"] ?? "") : DateTime.now(),
   );
 
-  Map<String, dynamic> toJson() => {
+  Map toJson() => {
     "id": id,
-    "question": libelle,
+    "libele": libelle,
+    //"question": libelle,
     "created_at": createdAt.toIso8601String(),
     "updated_at": updatedAt.toIso8601String(),
   };

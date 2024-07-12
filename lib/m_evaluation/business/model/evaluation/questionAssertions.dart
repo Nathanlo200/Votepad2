@@ -12,7 +12,8 @@ class QuestionsAssertions {
   });
 
   factory QuestionsAssertions.fromJson(Map json) => QuestionsAssertions(
-    question: Question.fromJson(json["questions"]),
+    //question: Question.fromJson(json["questions"]),
+    question: Question.fromJson(json["question"]),
     assertions: List<Assertions>.from(json["assertions"].map((x) => Assertions.fromJson(x))),
   );
 
