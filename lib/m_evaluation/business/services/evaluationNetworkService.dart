@@ -27,7 +27,7 @@ abstract class EvaluationNetworkService
   //evaluationNetworkService
   Future<Intervenants?> getIntervenant(String email, String coupon);
   Future<PhaseIntervenant> getPhasesByIntervenant(int intervenantId, int competitionId);
-  Future<List<QuestionsAssertions>> getQuestionListByPhase();
+  Future<List<QuestionsAssertions>> getQuestionListByPhase(int phaseId);
   Future<List<Assertions>> getAssertionList(int questionId);
   Future<bool> postReponses(List<PostReponses>  data);
   //Fin evalutaionNetworkService*

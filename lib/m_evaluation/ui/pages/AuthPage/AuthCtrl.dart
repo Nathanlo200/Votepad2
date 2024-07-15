@@ -13,8 +13,10 @@ class AuthCtrl extends _$AuthCtrl {
     var usecase = ref.watch(evaluationInteractorProvider).getIntervenantNetworkUseCase;
     state = state.copyWith(isLoading: true);
     try {
-      await usecase.run(email, coupon);
-      state = state.copyWith(isLoading: false);
+      var data = await usecase.run(email, coupon);
+      state = state.copyWith(
+          phaseId: data?.id ?? 1,
+          isLoading: false);
       return  null;
     } catch (e) {
       return e.toString();

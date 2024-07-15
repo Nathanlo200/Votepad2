@@ -8,8 +8,8 @@ class GetQuestionListByPhaseNetworkUseCase{
   EvaluationNetworkService network;
 
   GetQuestionListByPhaseNetworkUseCase(this.network);
-  Future<List<QuestionsAssertions>> run() async{
-    var res = await network.getQuestionListByPhase();
+  Future<List<QuestionsAssertions>> run(int phaseId) async{
+    var res = await network.getQuestionListByPhase(phaseId);
     return res;
   }
 

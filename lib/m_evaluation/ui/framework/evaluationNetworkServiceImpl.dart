@@ -60,12 +60,20 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
   }
 
   @override
-  Future<List<QuestionsAssertions>> getQuestionListByPhase() async {
-    var res= await http.get(Uri.parse("$baseURL/api/questions"));
+  Future<List<QuestionsAssertions>> getQuestionListByPhase(int phaseId) async {
+    // var res= await http.get(Uri.parse("$baseURL/api/questions"));
+    // var reponseList=json.decode(res.body) as List;
+    // //print("responseMap $reponseList");
+    // await Future.delayed(Duration(seconds: 1));
+    // var responseFinal= reponseList.map((e)=> QuestionsAssertions.fromJson(e) ).toList();
+    // return responseFinal;
+
+    var res= await http.get(Uri.parse("$baseURL/api/question_phases/$phaseId"));
     var reponseList=json.decode(res.body) as List;
-    //print("responseMap $reponseList");
+    print("responseMap $reponseList");
     await Future.delayed(Duration(seconds: 1));
-    var responseFinal= reponseList.map((e)=> QuestionsAssertions.fromJson(e) ).toList();
+    var responseFinal= reponseList.map((e)=>QuestionsAssertions.fromJson(e["data"])).toList() ;
+    //var responseFinal= reponseList.map((e)=> QuestionsAssertions.fromJson(e) ).toList();
     return responseFinal;
   }
 
