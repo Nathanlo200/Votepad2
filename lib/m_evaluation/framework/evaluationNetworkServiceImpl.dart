@@ -1,16 +1,19 @@
+import 'dart:async';
+
 import 'package:odc_mobile_project/m_evaluation/business/model/Evenement.dart';
+import 'package:odc_mobile_project/m_evaluation/business/model/Vote/PhasesVote.dart';
 
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/createVoteRequest.dart';
 
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/groupes.dart';
 
-import 'package:odc_mobile_project/m_evaluation/business/model/Vote/intervenants.dart';
+import 'package:odc_mobile_project/m_evaluation/business/model/intervenants.dart';
 
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/jurys.dart';
 
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/phaseCriteres.dart';
 
-import 'package:odc_mobile_project/m_evaluation/business/model/Vote/phaseIntervenant.dart';
+import 'package:odc_mobile_project/m_evaluation/business/model/phaseIntervenant.dart';
 
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/votes.dart';
 
@@ -101,7 +104,7 @@ class EvaluationNetworkServiceImplTest implements EvaluationNetworkService {
       "created_at": null,
       "updated_at": null,
     });
-    return Future.value(null);
+    return Future.value(resultat);
   }
 
   @override
@@ -218,7 +221,7 @@ class EvaluationNetworkServiceImplTest implements EvaluationNetworkService {
       })
     ];
 
-    return Future.value([]);
+    return Future.value(resultat);
   }
 
   @override
@@ -230,23 +233,6 @@ class EvaluationNetworkServiceImplTest implements EvaluationNetworkService {
       "created_at": null,
       "updated_at": null,
     });
-    return Future.value(null);
-  }
-
-  @override
-  Future<Phases> getPhaseListById(int id) {
-    var resultat = Phases.fromJson({
-      "id": 1,
-      "evenement_id": 1,
-      "nom": "test",
-      "description": "test",
-      "type": "test",
-      "dateDebut": null,
-      "dateFin": null,
-      "statut": false,
-      "created_at": null,
-      "updated_at": null,
-    });
     return Future.value(resultat);
   }
 
@@ -255,54 +241,6 @@ class EvaluationNetworkServiceImplTest implements EvaluationNetworkService {
     var resultat = true;
     return Future.value(resultat);
   }
-
-  @override
-  Future<List<Phases>> getPhasesList() {
-    // TODO: implement getPhasesList
-    var res = [
-      Phases.fromJson({
-        "id": 1,
-        "evenement_id": 1,
-        "nom": "test",
-        "description": "test",
-        "type": "test",
-        "dateDebut": null,
-        "dateFin": null,
-        "statut": false,
-        "created_at": null,
-        "updated_at": null,
-        "nbreCandidats": 10
-      }),
-      Phases.fromJson({
-        "id": 1,
-        "evenement_id": 1,
-        "nom": "test",
-        "description": "test",
-        "type": "test",
-        "dateDebut": null,
-        "dateFin": null,
-        "statut": false,
-        "created_at": null,
-        "updated_at": null,
-        "nbreCandidats": 8
-      }),
-      Phases.fromJson({
-        "id": 1,
-        "evenement_id": 1,
-        "nom": "test",
-        "description": "test",
-        "type": "test",
-        "dateDebut": null,
-        "dateFin": null,
-        "statut": false,
-        "created_at": null,
-        "updated_at": null,
-        "nbreCandidats": 5
-      }),
-    ];
-    return Future.value([]);
-  }
-
   @override
   Future<List<Question>> getQuestionListByPhase(int phaseId) {
     var resultat = [
@@ -351,5 +289,68 @@ class EvaluationNetworkServiceImplTest implements EvaluationNetworkService {
   Future sendVoteByCandidat(CreateVoteRequest data) {
     var resultat = true;
     return Future.value(resultat);
+  }
+
+  @override
+  Future<List<PhasesVote>?> getPhasesList() {
+    var res = [
+      Phases.fromJson({
+        "id": 1,
+        "evenement_id": 1,
+        "nom": "test",
+        "description": "test",
+        "type": "test",
+        "dateDebut": null,
+        "dateFin": null,
+        "statut": false,
+        "created_at": null,
+        "updated_at": null,
+        "nbreCandidats": 10
+      }),
+      Phases.fromJson({
+        "id": 1,
+        "evenement_id": 1,
+        "nom": "test",
+        "description": "test",
+        "type": "test",
+        "dateDebut": null,
+        "dateFin": null,
+        "statut": false,
+        "created_at": null,
+        "updated_at": null,
+        "nbreCandidats": 8
+      }),
+      Phases.fromJson({
+        "id": 1,
+        "evenement_id": 1,
+        "nom": "test",
+        "description": "test",
+        "type": "test",
+        "dateDebut": null,
+        "dateFin": null,
+        "statut": false,
+        "created_at": null,
+        "updated_at": null,
+        "nbreCandidats": 5
+      }),
+    ];
+    return Future.value(res as FutureOr<List<PhasesVote>?>);
+  }
+
+  @override
+  Future<PhasesVote> getPhaseListById(int id) {
+    var resultat = Phases.fromJson({
+      "id": 1,
+      "evenement_id": 1,
+      "nom": "test",
+      "description": "test",
+      "type": "test",
+      "dateDebut": null,
+      "dateFin": null,
+      "statut": false,
+      "created_at": null,
+      "updated_at": null,
+    });
+    return Future.value(resultat as FutureOr<PhasesVote>?);
   }
 }
