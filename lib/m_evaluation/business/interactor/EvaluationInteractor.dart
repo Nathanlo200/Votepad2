@@ -6,7 +6,6 @@ import 'package:odc_mobile_project/m_evaluation/business/interactor/questions/Ge
 import 'package:odc_mobile_project/m_evaluation/business/interactor/reponses/GetReponseListLocalUseCase.dart';
 import 'package:odc_mobile_project/m_evaluation/business/interactor/reponses/PostReponseNetworkUseCase.dart';
 import 'package:odc_mobile_project/m_evaluation/business/interactor/reponses/SaveReponseLocalUseCase.dart';
-import 'package:odc_mobile_project/m_evaluation/business/interactor/votes/GetVoteByGroupeNetworkUseCase.dart';
 import 'package:odc_mobile_project/m_evaluation/business/interactor/votes/GetVoteByIntervenantLocalUseCase.dart';
 import 'package:odc_mobile_project/m_evaluation/business/interactor/votes/GetVoteByIntervenantNetworkUseCase.dart';
 import 'package:odc_mobile_project/m_evaluation/business/interactor/votes/SaveVoteLocalUseCase.dart';
@@ -43,7 +42,6 @@ class EvaluationInteractor {
   GetCritereListByPhaseNetworkUseCase getCritereListByPhaseNetworkUseCase;
   GetCritereListByPhaseLocalUseCase getCritereListByPhaseLocalUseCase;
   SaveCritereListByPhaseLocalUseCase saveCritereListByPhaseLocalUseCase;
-  GetVoteByGroupeNetworkUseCase getVoteByGroupeNetworkUseCase;
   GetVoteByIntervenantNetworkUseCase getVoteByIntervenantNetworkUseCase;
   GetVoteByIntervenantLocalUseCase getVoteByIntervenantLocalUseCase;
   SaveVoteLocalUseCase saveVoteLocalUseCase;
@@ -66,7 +64,6 @@ class EvaluationInteractor {
       this.getCritereListByPhaseNetworkUseCase,
       this.getCritereListByPhaseLocalUseCase,
       this.saveCritereListByPhaseLocalUseCase,
-      this.getVoteByGroupeNetworkUseCase,
       this.getVoteByIntervenantNetworkUseCase,
       this.saveVoteLocalUseCase,
       this.getVoteByIntervenantLocalUseCase,
@@ -92,7 +89,6 @@ class EvaluationInteractor {
         GetCritereListByPhaseNetworkUseCase(network),
         GetCritereListByPhaseLocalUseCase(local),
         SaveCritereListByPhaseLocalUseCase(local),
-        GetVoteByGroupeNetworkUseCase(network),
         GetVoteByIntervenantNetworkUseCase(network),
         SaveVoteLocalUseCase(local),
         GetVoteByIntervenantLocalUseCase(local),

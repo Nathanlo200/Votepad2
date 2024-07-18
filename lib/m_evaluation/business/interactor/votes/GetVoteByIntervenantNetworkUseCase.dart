@@ -1,15 +1,15 @@
-import '../../model/Vote/votes.dart';
-import '../../services/evaluationLocalService.dart';
+import 'package:odc_mobile_project/m_evaluation/business/model/Vote/createVoteRequest.dart';
+
+import '../../model/Vote/ResultatVotes.dart';
 import '../../services/evaluationNetworkService.dart';
 
 class GetVoteByIntervenantNetworkUseCase{
 
   EvaluationNetworkService network;
-  EvaluationLocalService local;
 
-  GetVoteByIntervenantNetworkUseCase(this.network, this.local);
+  GetVoteByIntervenantNetworkUseCase(this.network);
 
-  Future<Votes?> run(int intervenantId) async {
+  Future<CreateVoteRequest?> run(int intervenantId) async {
     var res = await network.getVoteByIntervenant(intervenantId);
     return res;
   }
