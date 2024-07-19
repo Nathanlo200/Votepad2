@@ -8,13 +8,14 @@ import 'package:go_router/go_router.dart';
 
 import '../m_evaluation/ui/pages/AuthPage/AuthPage.dart';
 import '../m_evaluation/ui/pages/IntroPage/IntroPage.dart';
+import '../m_evaluation/ui/pages/SaisieCouponPage/SaisieCouponPage.dart';
 import '../m_evaluation/ui/pages/ScanCouponPage/ScanCouponPage.dart';
 import '../m_evaluation/ui/pages/intervenantPage/intervenantPage.dart';
 import '../m_evaluation/ui/pages/phasePage/PhasePage.dart';
 
 part "routers.g.dart";
 
-enum Urls { home, detailArticle, auth, login, test, Intro, scanner, evaluationAuth, phases, intervenants,info }
+enum Urls { home, detailArticle, auth, login, test, Intro, scanner, evaluationAuth, phases, intervenants,info, saisieCoupon}
 
 @Riverpod(keepAlive: true)
 GoRouter router(RouterRef ref) {
@@ -78,9 +79,17 @@ GoRouter router(RouterRef ref) {
                 builder: (ctx, state) => AuthPage(),
               ),
               GoRoute(
-                  path: 'scanner',
+                  path: 'scanner/:type',
                   name: Urls.scanner.name,
-                  builder: (ctx, state) => ScanCouponPage()),
+                pageBuilder: (ctx, state) {
+                  var type=state.pathParameters["type"]?? '';
+                  return MaterialPage(key: state.pageKey, child: ScanCouponPage(type: type,));
+                },
+              ),
+              GoRoute(
+                path: 'saisieCoupon',
+                name: Urls.saisieCoupon.name,
+                builder: (ctx, state) => SaisieCouponPage(),)
 
             ]),
       ],
