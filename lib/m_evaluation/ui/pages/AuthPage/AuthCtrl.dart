@@ -11,11 +11,19 @@ class AuthCtrl extends _$AuthCtrl {
     return AuthState();
   }
 
-  Future<bool> soumettre( String email, String coupon) async {
-    var usecase = ref.watch(evaluationInteractorProvider).getIntervenantNetworkUseCase;
+  Future<String?> soumettre(String email, String coupon) async {
+    var usecase = ref
+        .watch(evaluationInteractorProvider)
+        .getIntervenantNetworkUseCase;
     state = state.copyWith(isLoading: true);
-    var res = await usecase.run(email, coupon);
-    state = state.copyWith(isLoading: false);
-    return res !=null;
+    try {
+      var res = await usecase.run(coupon, email);
+      state = state.copyWith(isLoading: false);
+      print("res ${res?.toJson()}");
+      return null;
+    }
+    catch (e) {
+      return e.toString();
+    }
   }
 }

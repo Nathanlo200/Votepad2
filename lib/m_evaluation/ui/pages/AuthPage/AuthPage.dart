@@ -64,6 +64,7 @@ class _AuthPageState extends ConsumerState<AuthPage> {
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               hintText: 'Entrez Email',
+              prefixIcon: Icon(Icons.email),
             ),
           ),
         ]);
@@ -82,7 +83,7 @@ class _AuthPageState extends ConsumerState<AuthPage> {
                   onPressed: () async {
                     var result = await Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ScanCouponPage()),
+                      MaterialPageRoute(builder: (context) => ScanCouponPage(type:"evaluation")),
                     );
                     if (result != null) {
                       print("result dans login $result");
@@ -103,15 +104,13 @@ class _AuthPageState extends ConsumerState<AuthPage> {
         child: ElevatedButton(
           //style: style,
           onPressed: () async {
-            context.goNamed(Urls.phases.name);
-            /*var ctrl = ref.read(authCtrlProvider.notifier);
+            var ctrl = ref.read(authCtrlProvider.notifier);
             var result = await ctrl.soumettre(emailCtrl.text, couponCtrl.text);
-
-            if (result) {
-
+            if (result==null) {
+              context.goNamed(Urls.phases.name);
             } else {
               afficherMessageErreur(context,"Email ou Coupon incorrect");
-            }*/
+            }
           },
           child: const Text('Envoyer'),
         ));
