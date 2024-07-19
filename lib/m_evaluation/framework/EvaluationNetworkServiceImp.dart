@@ -4,19 +4,17 @@ import 'package:odc_mobile_project/m_evaluation/business/model/Vote/EvenementVot
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/createVoteRequest.dart';
 
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/groupes.dart';
-import 'package:odc_mobile_project/m_evaluation/business/model/Vote/intervenants.dart';
+import 'package:odc_mobile_project/m_evaluation/business/model/intervenants.dart';
 
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/jurys.dart';
 
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/phaseCriteres.dart';
 
-import 'package:odc_mobile_project/m_evaluation/business/model/Vote/phaseIntervenant.dart';
+import 'package:odc_mobile_project/m_evaluation/business/model/phaseIntervenant.dart';
 
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/votes.dart';
 
 import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/assertions.dart';
-
-import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/intervenants.dart';
 
 import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/questions.dart';
 
@@ -24,6 +22,7 @@ import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/repons
 
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/PhasesVote.dart';
 import '../business/model/Vote/PhasesVote.dart';
+import '../business/model/Vote/juryIdentifiant.dart';
 import '../business/services/evaluationNetworkService.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -81,9 +80,19 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService {
 
 
   @override
-  Future<Jury?> getJury(String coupon) {
-    // TODO: implement getJury
-    throw UnimplementedError();
+  Future<JuryIdentifiant?> getJury(String coupon, String imei) async{
+    var res = await http.post(
+        Uri.parse("$baseURL/api/jurys-identifiant"),
+        body: {"imei": imei, "coupon": coupon});
+    // print(res.body);
+    // print(res.statusCode);
+    if ([200, 201].indexOf(res.statusCode) == -1) {
+      throw Exception(res.body);
+    }
+    var reponseMap = json.decode(res.body) as Map;
+    print("responseMap $reponseMap");
+    var reponseFinal = JuryIdentifiant.fromJson(reponseMap.cast<String, dynamic>());
+    return reponseFinal;
   }
 
 

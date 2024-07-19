@@ -25,6 +25,7 @@ import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/repons
 
 import 'package:odc_mobile_project/m_evaluation/business/model/phases.dart';
 
+import '../business/model/Vote/juryIdentifiant.dart';
 import '../business/services/evaluationNetworkService.dart';
 
 class EvaluationNetworkServiceImplTest implements EvaluationNetworkService {
@@ -223,19 +224,6 @@ class EvaluationNetworkServiceImplTest implements EvaluationNetworkService {
 
     return Future.value(resultat);
   }
-
-  @override
-  Future<Jury?> getJury(String coupon) {
-    var resultat = Jury.fromJson({
-      "id": 1,
-      "name": "test",
-      "email": "test",
-      "created_at": null,
-      "updated_at": null,
-    });
-    return Future.value(resultat);
-  }
-
   @override
   Future<bool> getPhasesByIntervenant(int intervenantId, int competitionId) {
     var resultat = true;
@@ -353,4 +341,17 @@ class EvaluationNetworkServiceImplTest implements EvaluationNetworkService {
     });
     return Future.value(resultat as FutureOr<PhasesVote>?);
   }
-}
+
+  @override
+  Future<JuryIdentifiant?> getJury(String coupon, String imei) {
+      var resultat = JuryIdentifiant.fromJson({
+        "id": 1,
+        "name": "test",
+        "email": "test",
+        "created_at": null,
+        "updated_at": null,
+      });
+      return Future.value(resultat as FutureOr<JuryIdentifiant?>?);
+    }
+
+  }

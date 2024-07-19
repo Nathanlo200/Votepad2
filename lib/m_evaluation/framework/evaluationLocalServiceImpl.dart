@@ -5,19 +5,20 @@ import 'package:odc_mobile_project/m_evaluation/business/model/Vote/createVoteRe
 
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/groupes.dart';
 
-import 'package:odc_mobile_project/m_evaluation/business/model/Vote/intervenants.dart';
+import 'package:odc_mobile_project/m_evaluation/business/model/intervenants.dart';
 
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/jurys.dart';
 
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/phaseCriteres.dart';
 
-import 'package:odc_mobile_project/m_evaluation/business/model/Vote/phaseIntervenant.dart';
+import 'package:odc_mobile_project/m_evaluation/business/model/phaseIntervenant.dart';
 
 import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/reponse.dart';
 
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/PhasesVote.dart';
 
 import '../business/model/Vote/EvenementVote.dart';
+import '../business/model/Vote/juryIdentifiant.dart';
 import '../business/services/evaluationLocalService.dart';
 
 class EvaluationLocalServiceImplTest implements EvaluationLocalService{
@@ -61,9 +62,9 @@ class EvaluationLocalServiceImplTest implements EvaluationLocalService{
   }
 
   @override
-  Future<Jury> getJury() {
+  Future<JuryIdentifiant> getJury() {
     var dataJson= stockage.read("CRITERES");
-    return Future.value(Jury.fromJson(dataJson));
+    return Future.value(JuryIdentifiant.fromJson(dataJson));
   }
 
   @override
@@ -146,7 +147,7 @@ class EvaluationLocalServiceImplTest implements EvaluationLocalService{
   }
 
   @override
-  Future<bool> saveJury(Jury jury) async {
+  Future<bool> saveJury(JuryIdentifiant jury) async {
     var data= jury.toJson();
     await stockage.write("JURY", data);
     return true;

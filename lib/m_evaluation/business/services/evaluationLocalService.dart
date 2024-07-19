@@ -3,10 +3,11 @@ import '../model/Evenement.dart';
 import '../model/Vote/EvenementVote.dart';
 import '../model/Vote/createVoteRequest.dart';
 import '../model/Vote/groupes.dart';
-import '../model/Vote/intervenants.dart';
+import '../model/Vote/juryIdentifiant.dart';
+import '../model/intervenants.dart';
 import '../model/Vote/jurys.dart';
 import '../model/Vote/phaseCriteres.dart';
-import '../model/Vote/phaseIntervenant.dart';
+import '../model/phaseIntervenant.dart';
 import '../model/evaluation/reponse.dart';
 import '../model/Vote/PhasesVote.dart';
 
@@ -33,7 +34,7 @@ abstract class EvaluationLocalService {
 
   //voteLocalService
   //LocalGetService
-  Future<Jury> getJury();
+  Future<JuryIdentifiant> getJury();
   Future<List<Groupes>> getGroupeList();
   Future<PhaseIntervenant> getGroup(int id);
   Future<List<Intervenants>> getIntervenantList();
@@ -43,7 +44,7 @@ abstract class EvaluationLocalService {
 
   //LocalSaveService
   Future<bool> saveVote(CreateVoteRequest data);
-  Future<bool> saveJury(Jury data);
+  Future<bool> saveJury(JuryIdentifiant data);
   Future<bool> saveGroupeList(List<Groupes> data);
   Future<bool> saveGroup(Groupes data);
   Future<bool> saveIntervenantList(List<Intervenants> data);
