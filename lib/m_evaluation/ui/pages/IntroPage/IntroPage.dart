@@ -1,3 +1,4 @@
+import 'package:device_info_plus/device_info_plus.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -21,24 +22,32 @@ class _IntroPageState extends ConsumerState<IntroPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
     print("init intro page");
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // action initiale de la page et appel d'un controleur
-      var ctrl = ref.read(loginCtrlProvider.notifier);
+      var ctrl = ref.read(introCtrlProvider.notifier);
+     // _getDeviceImei();
+      ctrl.getDeviceIdentifier();
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          _contenuPrincipale(context),
-          _chargement(context),
-        ],
-      ),
-    );
+     body:Stack(
+          children:[
+            _contenuPrincipale(context),
+            _chargement(context),
+          ]
+        ));
+  }
+
+  _getDeviceImei()async{
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    print('Running on ${androidInfo.data}');
+    print("androidInfo ${androidInfo.id}");
   }
 
   _contenuPrincipale(BuildContext context) {
@@ -89,25 +98,30 @@ class _IntroPageState extends ConsumerState<IntroPage> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 80),
       width: double.infinity,
-      child: ElevatedButton(
-        style: style,
-        onPressed: () async {
-          var result = await Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => ScanCouponPage()),
-          );
-          if (result != null) {
-            print("result dans login $result");
-            var ctrl = ref.read(introCtrlProvider.notifier);
-            var res = await ctrl.soumettre("coupon");
-            if (res) {
-              context.goNamed(Urls.phases.name);
-            } else {
-              afficherMessageErreur(context,"Coupon invalide");
-            }
-          }
-        },
-        child: const Text('voter'),
+      child: Column(
+        children: [
+          ElevatedButton(
+            style: style,
+            onPressed: () async {
+              var result = await Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ScanCouponPage(type:"vote")),
+              );
+              if (result != null) {
+                print("result dans login $result");
+                var ctrl = ref.read(introCtrlProvider.notifier);
+                var res = await ctrl.soumettre("coupon");
+                if (res == null) {
+                  context.pushNamed(Urls.phases.name);
+                } else {
+                  afficherMessageErreur(context,"Coupon invalide");
+                }
+              }
+            },
+            child: const Text('voter'),
+
+          ),
+        ],
       ),
     );
   }
@@ -165,3 +179,4 @@ class _IntroPageState extends ConsumerState<IntroPage> {
         visible: state.isLoading, child: CircularProgressIndicator());
   }
 }
+
