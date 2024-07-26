@@ -34,7 +34,8 @@ class _PhaseState extends ConsumerState<PhasePage> {
             children: [
               if (state.phasesVote.isNotEmpty && !state.isLoading)
                 _contenuPrincipale(context, ref)
-              else  ListeVide(context,(){var ctrl = ref.read(phaseCtrlProvider.notifier);
+              else
+                ListeVide(context,(){var ctrl = ref.read(phaseCtrlProvider.notifier);
     ctrl.recupererListPhase();
               }),
               _chargement(context, ref),
@@ -48,7 +49,9 @@ class _PhaseState extends ConsumerState<PhasePage> {
           leading: Container(
             child: Builder(builder: (context) {
               // const ;
-              return Container();
+              return Container(
+
+              );
             }),
           ),
 
@@ -95,7 +98,7 @@ _contenuPrincipale(BuildContext context, WidgetRef ref) {
                 },
                 itemCount: state.phasesVote.length,
                 itemBuilder: (ctx, index) {
-                  var phase = state.phasesVote[index];
+                  var phase = state.phases[index];
                   return Card(
                       color: Colors.transparent,
                       elevation: 0,

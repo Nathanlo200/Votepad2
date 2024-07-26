@@ -1,5 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../../business/model/Vote/PhasesVote.dart';
+import '../../../business/model/Phases.dart';
 import 'PhaseState.dart';
 import '../../../business/interactor/EvaluationInteractor.dart';
 part 'PhaseCtrl.g.dart';
@@ -17,7 +17,7 @@ class PhaseCtrl extends _$PhaseCtrl{
     state = state.copyWith(isLoading: true, phases: []);
     var res = await usecase.run();
     if (res!= null) {
-      state = state.copyWith(phases: res,isLoading: false);
+      state = state.copyWith(phases: res as List<Phases>,isLoading: false);
     }
     state = state.copyWith(isLoading: false, phases: []);
   }
