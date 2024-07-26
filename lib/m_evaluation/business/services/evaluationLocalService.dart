@@ -7,8 +7,8 @@ import '../model/Vote/intervenants.dart';
 import '../model/Vote/jurys.dart';
 import '../model/Vote/phaseCriteres.dart';
 import '../model/Vote/PhasesVote.dart';
+import '../model/Vote/phases.dart';
 import '../model/intervenant/phaseIntervenant.dart';
-import '../model/phases.dart';
 
 abstract class EvaluationLocalService {
   //eventLocalSave
@@ -38,11 +38,11 @@ abstract class EvaluationLocalService {
   Future<PhaseIntervenant> getGroup(int id);
   Future<List<Intervenants>> getIntervenantList();
   Future<List<PhaseCriteres>> getCritereListByPhase();
-  Future<CreateVoteRequest> getVoteByIntervenant(int intervenantId);
-  Future<CreateVoteRequest> getVoteByGroupe(int groupeId);
+  Future<Map<String, double>?> getVoteByIntervenant(int intervenantId);
+  Future<Map<String, double>> getVoteByGroupe(int groupeId);
 
   //LocalSaveService
-  Future<bool> saveVote(CreateVoteRequest data);
+  Future<bool> saveVote(int intervenantId,Map<String, double> data);
   Future<bool> saveJury(Jury data);
   Future<bool> saveGroupeList(List<Groupes> data);
   Future<bool> saveGroup(Groupes data);
