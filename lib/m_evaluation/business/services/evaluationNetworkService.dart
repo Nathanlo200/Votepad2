@@ -7,11 +7,10 @@ import '../model/Vote/juryIdentifiant.dart';
 import '../model/intervenants.dart';
 import '../model/Vote/jurys.dart';
 import '../model/Vote/phaseCriteres.dart';
-import '../model/phaseIntervenant.dart';
-import '../model/Vote/votes.dart';
 import '../model/evaluation/assertions.dart';
-import '../model/evaluation/reponse.dart';
-import '../model/evaluation/questions.dart';
+import '../model/evaluation/postReponses.dart';
+import '../model/evaluation/questionAssertions.dart';
+import '../model/phaseIntervenant.dart';
 
 
 
@@ -25,10 +24,10 @@ abstract class EvaluationNetworkService
 
   //evaluationNetworkService
   Future<Intervenants?> getIntervenant(String email, String coupon);
-  Future<bool> getPhasesByIntervenant(int intervenantId, int competitionId);
-  Future<List<Question>> getQuestionListByPhase(int phaseId);
+  Future<PhaseIntervenant> getPhasesByIntervenant(int intervenantId, int competitionId);
+  Future<List<QuestionsAssertions>> getQuestionListByPhase(int phaseId);
   Future<List<Assertions>> getAssertionList(int questionId);
-  Future<bool> postReponses(Reponse data);
+  Future<bool> postReponses(List<PostReponses>  data);
   //Fin evalutaionNetworkService*
 
   //voteNetworkservice
@@ -38,8 +37,8 @@ abstract class EvaluationNetworkService
   Future<List<Intervenants>?> getIntervenantList(int phaseId);
   Future<PhaseIntervenant> getIntervenantById(int id);
   Future<List<PhaseCriteres>?> getCritereListByPhase(int phaseId);
-  Future<Votes?> getVoteByIntervenant(int intervenantId);
-  Future<Votes?> getVoteByGroupe(int groupeId);
-  Future<dynamic> sendVoteByCandidat(CreateVoteRequest data);
-  //Fin voteNetworkService*
+  Future<CreateVoteRequest?> getVoteByIntervenant(int intervenantId);
+  Future<CreateVoteRequest?> getVoteByGroupe(int groupeId);
+  Future<bool> sendVoteByCandidat(CreateVoteRequest data);
+//Fin voteNetworkService*
 }

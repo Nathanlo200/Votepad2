@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
 import '../../../../navigation/routers.dart';
 import '../../composants/ListeVide.dart';
 import 'intervenantCtrl.dart';
 
 class IntervenantPage extends ConsumerStatefulWidget {
-  const IntervenantPage({super.key, required int phaseId});
 
+  final int phaseId;
+  const IntervenantPage( {super.key,required this.phaseId});
   @override
   ConsumerState<IntervenantPage> createState() => _IntervenantState();
 }
@@ -20,23 +20,25 @@ class _IntervenantState extends ConsumerState<IntervenantPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       var ctrl = ref.read(intervenantCtrlProvider.notifier);
-      ctrl.recupererListIntervenant();
+      ctrl.recupererListIntervenant(widget.phaseId);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     var state = ref.watch(intervenantCtrlProvider);
+    var phaseId=widget.phaseId;
     return Scaffold(
         body: SafeArea(
           child: Stack(
             children: [
-              if (state.intervenants.isNotEmpty && !state.isLoading)
-              _contenuPrincipale(context, ref)
-              else ListeVide(context,(){
-                var ctrl = ref.read(intervenantCtrlProvider.notifier);
-                ctrl.recupererListIntervenant();
-              }),
+              if (state.intervenantsOrigin.isEmpty && !state.isLoading)
+                ListeVide(context, () {
+                  var ctrl = ref.read(intervenantCtrlProvider.notifier);
+                  ctrl.recupererListIntervenant(phaseId);
+                })
+              else
+                _contenuPrincipale(context, ref),
               _chargement(context, ref),
             ],
           ),
@@ -44,10 +46,11 @@ class _IntervenantState extends ConsumerState<IntervenantPage> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           leading: Container(
-          child: IconButton(onPressed: () {
-              context.goNamed(Urls.phases.name);
-            },
-              icon: Icon(Icons.arrow_back_ios_new_rounded)),
+            child: IconButton(
+                onPressed: () {
+                  context.goNamed(Urls.phases.name);
+                },
+                icon: Icon(Icons.arrow_back_ios_new_rounded)),
           ),
           title: Text("Intervenants"),
           actions: [
@@ -62,7 +65,6 @@ class _IntervenantState extends ConsumerState<IntervenantPage> {
 
   _contenuPrincipale(BuildContext context, WidgetRef ref) {
     var state = ref.watch(intervenantCtrlProvider);
-
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8),
       child: Column(
@@ -93,7 +95,9 @@ class _IntervenantState extends ConsumerState<IntervenantPage> {
                             trailing: (intervenant.isDone)?
                     Icon(Icons.check_sharp,color: Colors.green,):
                     Icon(Icons.arrow_forward),
-                        title: Text(intervenant.name),)
+                     onTap: () {
+                    },
+                        title: Text(intervenant.email),)
                     );
                   }))
         ],

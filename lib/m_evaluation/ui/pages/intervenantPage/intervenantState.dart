@@ -1,19 +1,26 @@
+
 import '../../../business/model/intervenants.dart';
+
 
 class IntervenantState {
   List<Intervenants> intervenants;
   List<Intervenants> intervenantsOrigin;
   bool isLoading;
 
+
   IntervenantState({
     this.isLoading=false,
     this.intervenants = const [],
-    this.intervenantsOrigin = const [],
+    this.intervenantsOrigin = const []
+
   });
+
+  get phasesVote => null;
 
   IntervenantState copyWith({
     bool? isLoading,
     List<Intervenants>? intervenants,
+
     List<Intervenants>? intervenantsOrigin,
   }) =>
       IntervenantState(

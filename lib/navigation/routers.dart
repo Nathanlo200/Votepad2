@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:odc_mobile_project/m_evaluation/ui/pages/evaluation/intro/IntroEvaluationPage.dart';
 import 'package:odc_mobile_project/m_evaluation/ui/pages/infoPage/InfoPage.dart';
 import 'package:odc_mobile_project/m_user/business/interactor/UserInteractor.dart';
 import 'package:odc_mobile_project/m_user/ui/pages/TestPage.dart';
@@ -10,12 +11,20 @@ import '../m_evaluation/ui/pages/AuthPage/AuthPage.dart';
 import '../m_evaluation/ui/pages/IntroPage/IntroPage.dart';
 import '../m_evaluation/ui/pages/SaisieCouponPage/SaisieCouponPage.dart';
 import '../m_evaluation/ui/pages/ScanCouponPage/ScanCouponPage.dart';
+import '../m_evaluation/ui/pages/evaluation/EvaluationPage.dart';
+import '../m_evaluation/ui/pages/evaluation/end/endPage.dart';
 import '../m_evaluation/ui/pages/intervenantPage/intervenantPage.dart';
 import '../m_evaluation/ui/pages/phasePage/PhasePage.dart';
 
 part "routers.g.dart";
 
-enum Urls { home, detailArticle, auth, login, test, Intro, scanner, evaluationAuth, phases, intervenants,info, saisieCoupon}
+
+enum Urls { home, detailArticle, auth,
+  login,  test, Intro,
+  scanner,  evaluationAuth, phases,
+  intervenants,info ,
+  evaluation, EvaluationFinalStep, introEvaluation,saisieCoupon}
+
 
 @Riverpod(keepAlive: true)
 GoRouter router(RouterRef ref) {
@@ -55,12 +64,33 @@ GoRouter router(RouterRef ref) {
               pageBuilder: (ctx, state) {
                 var id=state.pathParameters["id"]?? '-1';
                 final phaseId = int.tryParse(id) ?? -1;
+
                 return MaterialPage(key: state.pageKey, child: IntervenantPage(phaseId: phaseId,));
+
               },
             ),
             GoRoute(path: "info",
                 name: Urls.info.name,
                 builder: (ctx, state) => InfoPage()),
+
+
+            GoRoute(
+                path: 'introEvaluation',
+                name: Urls.introEvaluation.name,
+                builder: (ctx, state) => IntroEvaluationPage()),
+
+
+            GoRoute(
+                path: 'evaluation',
+                name: Urls.evaluation.name,
+                builder: (ctx, state) => EvaluationPage()),
+
+
+            GoRoute(
+                path: 'EvaluationFinalStep',
+                name: Urls.EvaluationFinalStep.name,
+                builder: (ctx, state) => EndPage()),
+
           ],
         ),
         GoRoute(

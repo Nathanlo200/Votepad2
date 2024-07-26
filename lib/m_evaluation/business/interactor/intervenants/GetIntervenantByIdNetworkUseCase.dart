@@ -1,3 +1,4 @@
+
 import '../../model/phaseIntervenant.dart';
 import '../../services/evaluationNetworkService.dart';
 
@@ -12,3 +13,4 @@ class GetIntervenantByIdNetworkUseCase{
     return res;
   }
 }
+

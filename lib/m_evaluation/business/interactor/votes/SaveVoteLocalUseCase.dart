@@ -7,8 +7,8 @@ class SaveVoteLocalUseCase{
 
   SaveVoteLocalUseCase(this.local);
 
-  Future<bool> run(CreateVoteRequest data) async {
-    var res = await local.saveVote(data);
+  Future<bool> run(int intervenantId,   Map<String, double> data) async {
+    var res = await local.saveVote(intervenantId,data);
     return res;
   }
 }

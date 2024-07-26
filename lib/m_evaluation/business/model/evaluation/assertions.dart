@@ -7,34 +7,36 @@ String assertionsToJson(Assertions data) => json.encode(data.toJson());
 
 class Assertions {
   int id;
-  int questionId;
+  int question_id;
   String libelle;
-  double ponderation;
+  int ponderation;
   DateTime createdAt;
   DateTime updatedAt;
 
   Assertions({
     required this.id,
-    this.questionId =1,
+    this.question_id =1,
     this.libelle ="",
-    this.ponderation =0.0,
+    this.ponderation =0,
     required this.createdAt,
     required this.updatedAt,
   });
 
-  factory Assertions.fromJson(Map<String, dynamic> json) => Assertions(
-    id: json["id"],
-    questionId: json["questionId"],
-    libelle: json["libelle"],
-    ponderation: json["ponderation"],
+  factory Assertions.fromJson(Map json) => Assertions(
+    id: json["id"]??0,
+    question_id: json["question_id"]?? 0,
+    //libelle: json["assertion"]?? "",
+    libelle: json["libele"]?? "",
+    ponderation: json["ponderation"]?? 0,
     createdAt: json["created_at"]!=null? DateTime.parse(json["created_at"] ?? ""): DateTime.now(),
     updatedAt: json["updated_at"]!=null? DateTime.parse(json["updated_at"] ?? "") : DateTime.now(),
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
-    "questionId": questionId,
-    "libelle": libelle,
+    "question_id": question_id,
+    //"assertion": libelle,
+    "libele": libelle,
     "ponderation": ponderation,
     "created_at": createdAt.toIso8601String(),
     "updated_at": updatedAt.toIso8601String(),

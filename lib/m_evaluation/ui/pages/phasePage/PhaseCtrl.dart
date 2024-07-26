@@ -14,11 +14,13 @@ class PhaseCtrl extends _$PhaseCtrl{
 
   void recupererListPhase() async {
     var usecase = ref.watch(evaluationInteractorProvider).getPhasesListNetworkUseCase;
-    state = state.copyWith(isLoading: true, phases: []);
+
+    state = state.copyWith(isLoading: true, );
     var res = await usecase.run();
     if (res!= null) {
-      state = state.copyWith(phases: res as List<Phases>,isLoading: false);
+      print("res $res)");
+      state = state.copyWith(phases: res,isLoading: false);
     }
-    state = state.copyWith(isLoading: false, phases: []);
+    state = state.copyWith(isLoading: false,);
   }
-  }
+}

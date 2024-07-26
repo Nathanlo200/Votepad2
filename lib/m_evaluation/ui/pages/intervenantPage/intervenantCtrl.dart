@@ -11,12 +11,10 @@ class IntervenantCtrl extends _$IntervenantCtrl {
     return IntervenantState();
   }
 
-  void recupererListIntervenant() async {
-    var usecase = ref
-        .watch(evaluationInteractorProvider)
-        .getIntervenantListNetworkUseCase;
+  void recupererListIntervenant(int phaseId) async {
+    var usecase = ref.watch(evaluationInteractorProvider).getIntervenantListNetworkUseCase;
     state = state.copyWith(isLoading: true, intervenants: []);
-    var res = await usecase.run(1);
+    var res = await usecase.run(phaseId);
     print(res);
     if (res != null) {
       state = state.copyWith(intervenants: res,intervenantsOrigin: res);
@@ -27,9 +25,7 @@ class IntervenantCtrl extends _$IntervenantCtrl {
   void rechercherIntervenant(String recherche) async {
     var listeData = state.intervenantsOrigin;
     print(listeData);
-    var results = listeData
-        .where((n) => n.name.toLowerCase().contains(recherche.toLowerCase()))
-        .toList();
+    var results = listeData.where((n) => n.name.toLowerCase().contains(recherche.toLowerCase())).toList();
     state = state.copyWith(intervenants: results);
-  } //TODO: Mettre le code de la reche
+  } //TODO: Mettre le code de la
 }

@@ -4,6 +4,7 @@ import 'package:odc_mobile_project/m_evaluation/business/model/phases.dart';
 
 import 'EvenementVote.dart';
 
+
 PhasesVote phasesVoteFromJson(String str) => PhasesVote.fromJson(json.decode(str));
 
 String phasesVoteToJson(PhasesVote data) => json.encode(data.toJson());

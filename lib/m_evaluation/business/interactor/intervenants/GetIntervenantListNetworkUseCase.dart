@@ -11,9 +11,6 @@ class GetIntervenantListNetworkUseCase{
 
   Future<List<Intervenants>?> run(int phaseId) async {
     var res = await network.getIntervenantList(phaseId);
-    if(res != null){
-      local.getIntervenantList();
-    }
     return res;
   }
 }

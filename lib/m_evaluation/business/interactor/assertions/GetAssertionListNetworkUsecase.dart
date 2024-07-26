@@ -7,8 +7,8 @@ class GetAssertionListNetworkUsecase{
 
   GetAssertionListNetworkUsecase(this.network);
 
-  Future<List<Assertions>> run(int questionId) async {
-    var res = await network.getAssertionList(questionId);
+  Future<List<Assertions>> run(int id) async {
+    var res = await network.getAssertionList( id);
     return res;
 
   }

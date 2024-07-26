@@ -1,3 +1,5 @@
+
+import 'package:flutter/painting.dart';
 class IntroState {
   bool isLoading;
   String imei;
@@ -15,4 +17,4 @@ class IntroState {
         isLoading: isLoading ?? this.isLoading,
         imei: imei ?? this.imei,
       );
-}
+}   

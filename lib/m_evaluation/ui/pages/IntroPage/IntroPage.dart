@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:odc_mobile_project/m_user/ui/pages/login/LoginCtrl.dart';
 import 'package:odc_mobile_project/navigation/routers.dart';
-
 import '../../composants/afficherMessageErreur.dart';
 import '../AuthPage/AuthCtrl.dart';
 import '../ScanCouponPage/ScanCouponPage.dart';
@@ -28,22 +27,38 @@ class _IntroPageState extends ConsumerState<IntroPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // action initiale de la page et appel d'un controleur
       var ctrl = ref.read(introCtrlProvider.notifier);
-     // _getDeviceImei();
+      // _getDeviceImei();
       ctrl.getDeviceIdentifier();
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     body:Stack(
-          children:[
-            _contenuPrincipale(context),
-            _chargement(context),
-          ]
-        ));
+        body: Container(
+            child: Column(children: <Widget>[
+      Container(
+        height: MediaQuery.of(context).size.height * 0.4,
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                colors: [Colors.orange, Colors.orangeAccent],
+                end: Alignment.bottomCenter,
+                begin: Alignment.topCenter),
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(50),
+                bottomRight: Radius.circular(50))),
+        child: Center(
+          child: _logo(context),
+        ),
+      ),
+      Expanded(
+          child: Column(
+        children: [_contenuPrincipale(context)],
+      ))
+    ])));
   }
 
-  _getDeviceImei()async{
+  _getDeviceImei() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
     print('Running on ${androidInfo.data}');
@@ -59,33 +74,27 @@ class _IntroPageState extends ConsumerState<IntroPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          _logoJury(context),
+          Text(
+            'Welcome to VotPad!',
+            style: TextStyle(height: 10),
+          ),
+          Text(
+            'you can pass an evaluation or give it a vote',
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 100),
           _boutonVote(),
           const SizedBox(height: 30),
-          _separateurOu(),
-          const SizedBox(height: 30),
           _boutonEvaluation(),
-          _logoEvaluation(context),
-
         ],
       ),
     );
   }
 
-  _logoJury(BuildContext context) {
+  _logo(BuildContext context) {
     return Center(
       child: Image.asset(
-        'images/jury.png',
-        width: 100,
-        height: 100,
-      ),
-    );
-  }
-
-  _logoEvaluation(BuildContext context) {
-    return Center(
-      child: Image.asset(
-        'images/evaluation.png',
+        'images/images.png',
         width: 100,
         height: 100,
       ),
@@ -93,8 +102,10 @@ class _IntroPageState extends ConsumerState<IntroPage> {
   }
 
   _boutonVote() {
-    final ButtonStyle style =
-        ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
+    final ButtonStyle style = ElevatedButton.styleFrom(
+      textStyle: const TextStyle(fontSize: 20),
+      backgroundColor: Colors.orange,
+    );
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 80),
       width: double.infinity,
@@ -105,21 +116,21 @@ class _IntroPageState extends ConsumerState<IntroPage> {
             onPressed: () async {
               var result = await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ScanCouponPage(type:"vote")),
+                MaterialPageRoute(
+                    builder: (context) => ScanCouponPage(type: "vote")),
               );
               if (result != null) {
-                print("result dans login $result");
+                //print("result dans login $result");
                 var ctrl = ref.read(introCtrlProvider.notifier);
                 var res = await ctrl.soumettre("coupon");
                 if (res == null) {
                   context.pushNamed(Urls.phases.name);
                 } else {
-                  afficherMessageErreur(context,"Coupon invalide");
+                  afficherMessageErreur(context, "Coupon invalide");
                 }
               }
             },
             child: const Text('voter'),
-
           ),
         ],
       ),
@@ -127,48 +138,18 @@ class _IntroPageState extends ConsumerState<IntroPage> {
   }
 
   _boutonEvaluation() {
-    final ButtonStyle style =
-        ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
+    final ButtonStyle style = ElevatedButton.styleFrom(
+        textStyle: const TextStyle(fontSize: 20),
+        backgroundColor: Colors.orange);
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 40),
       width: double.infinity,
       child: ElevatedButton(
         style: style,
         onPressed: () {
-          context.goNamed(Urls.evaluationAuth.name);},
+          context.goNamed(Urls.evaluationAuth.name);
+        },
         child: const Text('Passer une evaluation'),
-      ),
-    );
-  }
-
-  _separateurOu() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 40),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Expanded(
-            child: Divider(
-              color: Colors.grey,
-              thickness: 1,
-              height: 1,
-            ),
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Text("OU"),
-          SizedBox(
-            width: 10,
-          ),
-          Expanded(
-            child: Divider(
-              color: Colors.grey,
-              thickness: 1,
-              height: 1,
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -179,4 +160,3 @@ class _IntroPageState extends ConsumerState<IntroPage> {
         visible: state.isLoading, child: CircularProgressIndicator());
   }
 }
-
