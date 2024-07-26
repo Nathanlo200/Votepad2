@@ -6,6 +6,7 @@ import 'package:odc_mobile_project/m_evaluation/business/interactor/EvaluationIn
 import 'package:odc_mobile_project/m_evaluation/framework/evaluationLocalServiceImpl.dart';
 import 'package:odc_mobile_project/m_evaluation/framework/evaluationNetworkServiceImpl.dart';
 
+import 'm_evaluation/framework/EvaluationNetworkServiceImp.dart';
 import 'm_user/business/interactor/UserInteractor.dart';
 import 'm_user/ui/framework/UserLocalServiceImpl.dart';
 import 'm_user/ui/framework/UserNetworkServiceImpl.dart';
@@ -25,7 +26,7 @@ void main() async {
   var userInteractor=UserInteractor.build(userNetworkImpl, userLocalImpl);
 
   // module evaluation service implementations
-  var evaluationNetworkImpl = EvaluationNetworkServiceImplTest();
+  var evaluationNetworkImpl = EvaluationNetworkServiceImpl(baseUrl);
   var evaluationLocalImpl = EvaluationLocalServiceImplTest(stockage);
   var evaluationInteractor=EvaluationInteractor.build(evaluationNetworkImpl, evaluationLocalImpl);
 
