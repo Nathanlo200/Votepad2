@@ -44,7 +44,7 @@ class VoteCtrl extends _$VoteCtrl {
 
   void setCandidat(Intervenants intervenant) {
     state = state.copywith(phaseVoteIntervenants: intervenant);
-    print("CANDIDAT: ${state.phaseVoteIntervenants?.email}");
+    print("CANDIDAT: ${state.phaseVoteIntervenants?.id}");
   }
 
   void checkVote(int intervenantId) async {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:odc_mobile_project/m_evaluation/ui/pages/intervenantPage/intervenantCtrl.dart';
 import '../../composants/CustomSlider.dart';
+import '../intervenantPage/intervenantPage.dart';
 import 'VoteCtrl.dart';
 
 class VotePage extends ConsumerStatefulWidget {
@@ -29,6 +30,7 @@ class _VotePageState extends ConsumerState<VotePage> {
       var intervenantId = widget.intervenantId;
       print("intervenantId $intervenantId");
       var ctrl = ref.read(voteCtrlProvider.notifier);
+      print("CRITERS AFFICHER ${widget.phaseId}");
       await ctrl.recupererCriteres(widget.phaseId);
 
       var intervenantCrt = ref.read(intervenantCtrlProvider);
@@ -79,7 +81,7 @@ class _VotePageState extends ConsumerState<VotePage> {
         ),
         actions: [
           Text(
-            " /${state.criteres.length} Critères ",
+            " ${state.criteres.length} Critères ",
             style: TextStyle(
                 color: Colors.black,
                 backgroundColor: Colors.orange,
@@ -246,7 +248,7 @@ class _VotePageState extends ConsumerState<VotePage> {
         isExtended: true,
         onPressed: () {
           AlertDialog alertDialog = AlertDialog(
-            title: Text("Voulez-vous enregistrer votre vote ?"),
+            title: Text("Voulez-vous soumettre  votre vote ?"),
             actions: <Widget>[
               TextButton(
                 child: Text(
@@ -263,6 +265,9 @@ class _VotePageState extends ConsumerState<VotePage> {
                   var ctrl = ref.read(voteCtrlProvider.notifier);
                   ctrl.sendVoteResulats(widget.intervenantId);
                   // Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(builder: (_) {
+                    return IntervenantPage(phaseId: widget.phaseId);
+                  }));
 
           },
               ),
