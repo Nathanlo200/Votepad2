@@ -101,10 +101,10 @@ class EvaluationNetworkServiceNathImpl implements EvaluationNetworkService{
   }
   @override
   Future<List<PhaseCriteres>?> getCritereListByPhase(int phaseId) async {
-    var res= await http.get(Uri.parse("$baseURL/api/phase-criteres/"),);
-    var reponseList=json.decode(res.body) as List;
-    print("responseMap $reponseList");
-    var responseFinal= reponseList.map((e)=> PhaseCriteres.fromJson(e) ).toList();
+    var res= await http.get(Uri.parse("$baseURL/api/phase-criteres/$phaseId"),);
+    var responseList=json.decode(res.body) as List;
+    print("responseMap $responseList");
+    var responseFinal= responseList.map((e)=> PhaseCriteres.fromJson(e) ).toList();
     return responseFinal;
   }
 
