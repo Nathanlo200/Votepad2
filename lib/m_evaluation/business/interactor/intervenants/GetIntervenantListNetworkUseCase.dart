@@ -1,4 +1,4 @@
-import '../../model/Vote/intervenants.dart';
+import '../../model/intervenants.dart';
 import '../../services/evaluationLocalService.dart';
 import '../../services/evaluationNetworkService.dart';
 

@@ -1,4 +1,4 @@
-import '../../model/Vote/phaseIntervenant.dart';
+import '../../model/phaseIntervenant.dart';
 import '../../services/evaluationNetworkService.dart';
 
 class GetIntervenantByIdNetworkUseCase{

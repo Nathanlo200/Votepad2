@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:odc_mobile_project/m_evaluation/business/model/Vote/phases.dart';
+import 'package:odc_mobile_project/m_evaluation/business/model/phases.dart';
 
 import 'EvenementVote.dart';
 
