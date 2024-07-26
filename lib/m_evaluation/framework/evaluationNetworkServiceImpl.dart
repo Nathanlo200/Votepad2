@@ -1,357 +1,166 @@
-import 'dart:async';
-
-import 'package:odc_mobile_project/m_evaluation/business/model/Evenement.dart';
-import 'package:odc_mobile_project/m_evaluation/business/model/Vote/PhasesVote.dart';
+import 'package:odc_mobile_project/m_evaluation/business/model/Vote/EvenementVote.dart';
 
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/createVoteRequest.dart';
 
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/groupes.dart';
 
-import 'package:odc_mobile_project/m_evaluation/business/model/intervenants.dart';
-
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/jurys.dart';
 
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/phaseCriteres.dart';
 
-import 'package:odc_mobile_project/m_evaluation/business/model/phaseIntervenant.dart';
+import 'package:odc_mobile_project/m_evaluation/business/model/Vote/phaseIntervenant.dart';
 
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/votes.dart';
 
 import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/assertions.dart';
 
+import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/intervenants.dart';
+
 import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/questions.dart';
 
 import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/reponse.dart';
 
-import 'package:odc_mobile_project/m_evaluation/business/model/phases.dart';
+import 'package:odc_mobile_project/m_evaluation/business/model/Vote/PhasesVote.dart';
 
-import '../business/model/Vote/juryIdentifiant.dart';
+import '../../m_user/business/model/AuthenticateResponse.dart';
+import '../business/model/Vote/phases.dart';
 import '../business/services/evaluationNetworkService.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class EvaluationNetworkServiceImplTest implements EvaluationNetworkService {
+class EvaluationNetworkServiceImpl implements EvaluationNetworkService {
+  String baseURL;
+
+  EvaluationNetworkServiceImpl(this.baseURL);
+
   @override
   Future<List<Assertions>> getAssertionList(int questionId) {
-    var resultat = [
-      Assertions.fromJson({
-        "id": 1,
-        "questions_id": 1,
-        "name": "test",
-        "created_at": null,
-        "updated_at": null,
-      })
-    ];
-    return Future.value(resultat);
+    // TODO: implement getAssertionList
+    throw UnimplementedError();
   }
 
   @override
-  Future<List<PhaseCriteres>> getCritereListByPhase(int phaseId) {
-    var resultat = [
-      PhaseCriteres.fromJson({
-        "id": 1,
-        "phases_id": 1,
-        "name": "test",
-        "created_at": null,
-        "updated_at": null,
-      })
-    ];
-    return Future.value(resultat);
+  Future<List<PhaseCriteres>?> getCritereListByPhase(int phaseId) {
+    // TODO: implement getCritereListByPhase
+    throw UnimplementedError();
   }
 
   @override
-  Future<Evenement> getEvenementById(int id) {
-    var resultat = Evenement.fromJson({
-      "id": 1,
-      "name": "test",
-      "description": "test",
-      "created_at": null,
-      "updated_at": null,
-    });
-    return Future.value(resultat);
+  Future<EvenementVote> getEvenementById(int id) {
+    // TODO: implement getEvenementById
+    throw UnimplementedError();
   }
 
   @override
   Future<PhaseIntervenant> getGroupById(int id) {
-    var resultat = PhaseIntervenant.fromJson({
-      "id": 1,
-      "intervenants_id": 1,
-      "phases_id": 1,
-      "created_at": null,
-      "updated_at": null,
-    });
-    return Future.value(resultat);
+    // TODO: implement getGroupById
+    throw UnimplementedError();
   }
 
   @override
-  Future<List<Groupes>> getGroupeList(int phaseId) {
-    var resultat = [
-      Groupes.fromJson({
-        "id": 1,
-        "phases_id": 1,
-        "name": "test",
-        "created_at": null,
-        "updated_at": null,
-      })
-    ];
-    return Future.value(resultat);
+  Future<List<Groupes>?> getGroupeList(int phaseId) {
+    // TODO: implement getGroupeList
+    throw UnimplementedError();
   }
 
   @override
-  Future<Intervenants?> getIntervenant(String email, String coupon) {
-    var resultat = Intervenants.fromJson({
-      "id": 1,
-      "phases_intervenants_id": 1,
-      "name": "test",
-      "email": "test",
-      "created_at": null,
-      "updated_at": null,
-    });
-    return Future.value(resultat);
+  Future<Intervenants?> getIntervenant(String email, String coupon) async {
+    var res = await http.post(
+        Uri.parse("$baseURL/api/intervenants-authenticate"),
+        body: {"email": email, "coupon": coupon});
+    // print(res.body);
+    // print(res.statusCode);
+    if ([200, 201].indexOf(res.statusCode) == -1) {
+      throw Exception(res.body);
+    }
+    var reponseMap = json.decode(res.body) as Map;
+    print("responseMap $reponseMap");
+    var reponseFinal = Intervenants.fromJson(reponseMap);
+    return reponseFinal;
   }
 
   @override
   Future<PhaseIntervenant> getIntervenantById(int id) {
-    var resultat = PhaseIntervenant.fromJson({
-      "id": 1,
-      "intervenants_id": 1,
-      "phases_id": 1,
-      "created_at": null,
-      "updated_at": null,
-    });
-    return Future.value(resultat);
+    // TODO: implement getIntervenantById
+    throw UnimplementedError();
   }
 
   @override
-  Future<List<Intervenants>> getIntervenantList(int phaseId) {
-    var resultat = [
-      Intervenants.fromJson({
-        "id": 1,
-        "phases_intervenants_id": 1,
-        "name": "Exauce",
-        "email": "test",
-        "created_at": null,
-        "updated_at": null,
-      }),
-      Intervenants.fromJson({
-        "id": 1,
-        "phases_intervenants_id": 1,
-        "name": "joseph",
-        "email": "test",
-        "created_at": null,
-        "updated_at": null,
-      }),
-      Intervenants.fromJson({
-        "id": 1,
-        "phases_intervenants_id": 1,
-        "name": "esther",
-        "email": "test",
-        "created_at": null,
-        "updated_at": null,
-      }),
-      Intervenants.fromJson({
-        "id": 1,
-        "phases_intervenants_id": 1,
-        "name": "elie",
-        "email": "test",
-        "created_at": null,
-        "updated_at": null,
-      }),
-      Intervenants.fromJson({
-        "id": 1,
-        "phases_intervenants_id": 1,
-        "name": "david",
-        "email": "test",
-        "created_at": null,
-        "updated_at": null,
-      }),
-      Intervenants.fromJson({
-        "id": 1,
-        "phases_intervenants_id": 1,
-        "name": "grace",
-        "email": "test",
-        "created_at": null,
-        "updated_at": null,
-      }),
-      Intervenants.fromJson({
-        "id": 1,
-        "phases_intervenants_id": 1,
-        "name": "dorcas",
-        "email": "test",
-        "created_at": null,
-        "updated_at": null,
-      }),
-      Intervenants.fromJson({
-        "id": 1,
-        "phases_intervenants_id": 1,
-        "name": "candide",
-        "email": "test",
-        "created_at": null,
-        "updated_at": null,
-      }),
-      Intervenants.fromJson({
-        "id": 1,
-        "phases_intervenants_id": 1,
-        "name": "françoise",
-        "email": "test",
-        "created_at": null,
-        "updated_at": null,
-      }),
-      Intervenants.fromJson({
-        "id": 1,
-        "phases_intervenants_id": 1,
-        "name": "mael",
-        "email": "test",
-        "created_at": null,
-        "updated_at": null,
-      }),
-      Intervenants.fromJson({
-        "id": 1,
-        "phases_intervenants_id": 1,
-        "name": "levis",
-        "email": "test",
-        "created_at": null,
-        "updated_at": null,
-        "isDone": true,
-      }),
-      Intervenants.fromJson({
-        "id": 1,
-        "phases_intervenants_id": 1,
-        "name": "lyly",
-        "email": "test",
-        "created_at": null,
-        "updated_at": null,
-      })
-    ];
-
-    return Future.value(resultat);
+  Future<List<Intervenants>?> getIntervenantList(int phaseId) async {
+    var res= await http.get(Uri.parse("$baseURL/api/intervenant-phases/$phaseId"),);
+    var reponseList=json.decode(res.body) as List;
+    print("responseList = $reponseList");
+    var responseFinal= reponseList.map((e)=> Intervenants.fromJson(e) ).toList();
+    return responseFinal;
   }
+
+  @override
+  Future<Jury?> getJury(String coupon) {
+    // TODO: implement getJury
+    throw UnimplementedError();
+  }
+
+
   @override
   Future<bool> getPhasesByIntervenant(int intervenantId, int competitionId) {
-    var resultat = true;
-    return Future.value(resultat);
+    // TODO: implement getPhasesByIntervenant
+    throw UnimplementedError();
   }
+
+
   @override
   Future<List<Question>> getQuestionListByPhase(int phaseId) {
-    var resultat = [
-      Question.fromJson({
-        "id": 1,
-        "phases_id": 1,
-        "name": "test",
-        "created_at": null,
-        "updated_at": null,
-      })
-    ];
-    return Future.value(resultat);
+    // TODO: implement getQuestionListByPhase
+    throw UnimplementedError();
   }
 
   @override
-  Future<Votes> getVoteByGroupe(int groupeId) {
-    var resultat = Votes.fromJson({
-      "id": 1,
-      "intervenants_id": 1,
-      "phases_id": 1,
-      "created_at": null,
-      "updated_at": null,
-    });
-    return Future.value(resultat);
+  Future<Votes?> getVoteByGroupe(int groupeId) {
+    // TODO: implement getVoteByGroupe
+    throw UnimplementedError();
   }
 
   @override
-  Future<Votes> getVoteByIntervenant(int intervenantId) {
-    var resultat = Votes.fromJson({
-      "id": 1,
-      "intervenants_id": 1,
-      "phases_id": 1,
-      "created_at": null,
-      "updated_at": null,
-    });
-    return Future.value(resultat);
+  Future<Votes?> getVoteByIntervenant(int intervenantId) {
+    // TODO: implement getVoteByIntervenant
+    throw UnimplementedError();
   }
 
   @override
   Future<bool> postReponses(Reponse data) {
-    var resultat = true;
-    return Future.value(resultat);
+    // TODO: implement postReponses
+    throw UnimplementedError();
   }
 
   @override
   Future sendVoteByCandidat(CreateVoteRequest data) {
-    var resultat = true;
-    return Future.value(resultat);
+    // TODO: implement sendVoteByCandidat
+    throw UnimplementedError();
   }
 
   @override
-  Future<List<PhasesVote>?> getPhasesList() {
-    var res = [
-      Phases.fromJson({
-        "id": 1,
-        "evenement_id": 1,
-        "nom": "test",
-        "description": "test",
-        "type": "test",
-        "dateDebut": null,
-        "dateFin": null,
-        "statut": false,
-        "created_at": null,
-        "updated_at": null,
-        "nbreCandidats": 10
-      }),
-      Phases.fromJson({
-        "id": 1,
-        "evenement_id": 1,
-        "nom": "test",
-        "description": "test",
-        "type": "test",
-        "dateDebut": null,
-        "dateFin": null,
-        "statut": false,
-        "created_at": null,
-        "updated_at": null,
-        "nbreCandidats": 8
-      }),
-      Phases.fromJson({
-        "id": 1,
-        "evenement_id": 1,
-        "nom": "test",
-        "description": "test",
-        "type": "test",
-        "dateDebut": null,
-        "dateFin": null,
-        "statut": false,
-        "created_at": null,
-        "updated_at": null,
-        "nbreCandidats": 5
-      }),
-    ];
-    return Future.value(res as FutureOr<List<PhasesVote>?>);
+  Future<Phases> getPhaseById(int id) {
+    // TODO: implement getPhaseListById
+    throw UnimplementedError();
   }
 
   @override
-  Future<PhasesVote> getPhaseListById(int id) {
-    var resultat = Phases.fromJson({
-      "id": 1,
-      "evenement_id": 1,
-      "nom": "test",
-      "description": "test",
-      "type": "test",
-      "dateDebut": null,
-      "dateFin": null,
-      "statut": false,
-      "created_at": null,
-      "updated_at": null,
-    });
-    return Future.value(resultat as FutureOr<PhasesVote>?);
+  Future<List<PhasesVote>?> getPhasesList() async {
+    var res= await http.get(Uri.parse("$baseURL/api/phases"),);
+    print(res.body);
+    var reponseList=json.decode(res.body) as List;
+    print("responseMap $reponseList");
+    var responseFinal= reponseList.map((e)=> PhasesVote.fromJson(e) ).toList();
+    return responseFinal;
   }
 
-  @override
-  Future<JuryIdentifiant?> getJury(String coupon, String imei) {
-      var resultat = JuryIdentifiant.fromJson({
-        "id": 1,
-        "name": "test",
-        "email": "test",
-        "created_at": null,
-        "updated_at": null,
-      });
-      return Future.value(resultat as FutureOr<JuryIdentifiant?>?);
-    }
+}
 
-  }
+
+main  () async{
+  var baseUrlTest="http://10.252.252.59:8000";
+  var impl=EvaluationNetworkServiceImpl(baseUrlTest);
+  // test
+  impl.getIntervenant("glody@gmail.com", "V5OZT7");
+
+}
