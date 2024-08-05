@@ -54,10 +54,10 @@ class _VotePageState extends ConsumerState<VotePage> {
       appBar: AppBar(
         centerTitle: true,
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.white70,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.0),
-          side: BorderSide(color: Colors.white, width: 1.0),
+          side: BorderSide(color: Colors.white70, width: 1.0),
         ),
         title: Text(
           "Vote",
@@ -71,7 +71,7 @@ class _VotePageState extends ConsumerState<VotePage> {
           icon: Icon(Icons.arrow_back_ios_new, color: Colors.black),
           onPressed: () => Navigator.pop(context),
           style: ButtonStyle(
-            backgroundColor: WidgetStateProperty.all(Colors.orange),
+            backgroundColor: WidgetStateProperty.all(Colors.white),
             shape: WidgetStateProperty.all(CircleBorder()),
             iconSize: WidgetStateProperty.all(25.0),
             padding: WidgetStateProperty.all(EdgeInsets.all(10.0)),
@@ -84,7 +84,7 @@ class _VotePageState extends ConsumerState<VotePage> {
             " ${state.criteres.length} Critères ",
             style: TextStyle(
                 color: Colors.black,
-                backgroundColor: Colors.orange,
+                backgroundColor: Colors.white,
                 fontSize: 15,
                 height: 2.5,
                 letterSpacing: 2.5,
@@ -97,15 +97,19 @@ class _VotePageState extends ConsumerState<VotePage> {
       ),
       body: Column(
         children: [
-          Text(
-            "Vote pour le candidat :${state.phaseVoteIntervenants?.email}",
-            style: TextStyle(fontSize: 15),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10.0, top: 10.0),
+            child: Text(
+              "Vote pour le candidat :${state.phaseVoteIntervenants?.email}",
+              style: TextStyle(fontSize: 17),
+            ),
           ),
           Expanded(
             child: ListView.builder(
                 itemCount: state.criteres.length,
                 itemBuilder: (context, index) {
                   var critere = state.criteres[index].critere;
+                  print(critere.toJson());
                   var savedValue = state.valeurs["${critere.id}"] ?? 0.0;
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -114,7 +118,6 @@ class _VotePageState extends ConsumerState<VotePage> {
                     children: [
                       Container(
                           alignment: Alignment.center,
-                          padding: EdgeInsets.all(10),
                           width: MediaQuery.of(context).size.width * 0.93,
                           // height:  335,
                           color: Colors.white70,
@@ -261,10 +264,9 @@ class _VotePageState extends ConsumerState<VotePage> {
               TextButton(
                 child: Text("Oui"),
                 onPressed: () {
-                  print("WIDGE ${widget.intervenantId}");
                   var ctrl = ref.read(voteCtrlProvider.notifier);
-                  ctrl.sendVoteResulats(widget.intervenantId);
-                  // Navigator.pop(context);
+                  ctrl.sendVoteResulats(widget.intervenantId, widget.phaseId);
+                   Navigator.pop(context);
                   Navigator.push(context, MaterialPageRoute(builder: (_) {
                     return IntervenantPage(phaseId: widget.phaseId);
                   }));
