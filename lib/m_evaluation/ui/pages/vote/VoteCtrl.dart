@@ -57,22 +57,21 @@ class VoteCtrl extends _$VoteCtrl {
     }
   }
 
-  void sendVoteResulats(int intervenantId) async {
-    print("SAVE  VOTE $intervenantId");
+  void sendVoteResulats(int intervenantId,int phaseId) async {
     var useCase = ref.watch(evaluationInteractorProvider).sendVoteByCandidatNetworkUseCase;
     var cotes = state.valeurs.entries
         .map((entry) => {"critere_id": int.parse(entry.key) , "valeur":entry.value})
         .toList();
     var store = {
       "intervenant_id": intervenantId,
+      "phase_id": phaseId,
       "cote": cotes
     };
-    print("store $store");
     var data = CreateVoteRequest.fromJson(store) ;
-    print("VER ${data.toJson()}");
-    return;
+    print("data ${data.toJson()}");
     var res = await useCase.run(data);
     print("res $res");
     state = state.copywith(isVoteSend: true);
-    print(res);}
+    print(res);
+  }
 }
