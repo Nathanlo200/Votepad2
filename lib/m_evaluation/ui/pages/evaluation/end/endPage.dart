@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class EndPage extends StatelessWidget {
   const EndPage({super.key});
@@ -11,7 +12,20 @@ class EndPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Center(child: Text("Merci pour votre participation")),
-          Center(child: Text("à bientot"))
+          Center(child: Text("à bientot")),
+          SizedBox(height: 18.0,),
+          Center(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(5.0))),
+              ),
+              onPressed: (){
+                SystemNavigator.pop();
+              },
+              child: Text("Quitter"),
+            ),
+          )
         ],
       ),
     );
