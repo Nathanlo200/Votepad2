@@ -3,7 +3,7 @@ import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/questi
 import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/questions.dart';
 
 class EvaluationState {
-
+  bool isQuestionLoading;
   bool isLoading;
   bool nextButtonVisible;
   bool submitVisible;
@@ -16,6 +16,7 @@ class EvaluationState {
 
   int currentQuestionIndex = 0;
   int currentIndex = 1;
+  int statusCode = 1;
 
   int? selectedAnswerIndex = -1;
 
@@ -23,7 +24,9 @@ class EvaluationState {
    Map <int,int>? reponsesChoices;
   List<Map<String, int>>? postReponses;
 
+
   EvaluationState({
+    this.isQuestionLoading = false,
     this.nextButtonVisible = true,
     this.pageVisible = true,
     this.submitVisible = false,
@@ -35,13 +38,16 @@ class EvaluationState {
     this.assertions = const [],
     this.currentQuestionIndex = 0,
     this.currentIndex = 1,
+    this.statusCode = 1,
     this.selectedAnswerIndex = -1,
     this.reponsesChoices,
-   this.postReponses
+   this.postReponses,
+
   });
 
   EvaluationState copyWith({
     bool? isLoading,
+    bool? isQuestionLoading,
     bool? nextButtonVisible,
     bool? submitVisible,
     bool? pageVisible,
@@ -49,16 +55,18 @@ class EvaluationState {
     Question? maQuestion,
     int ? currentQuestionIndex,
     int ? currentIndex,
+    int ? statusCode,
     int ? selectedAnswerIndex,
     List<QuestionsAssertions>? reponses,
     List<Assertions>? assertions,
     List<QuestionsAssertions>? questions,
     Map <int,int>? reponsesChoices,
-    List<Map<String, int>>? postReponses
+    List<Map<String, int>>? postReponses,
 
   }) =>
       EvaluationState(
           isLoading: isLoading ?? this.isLoading,
+          isQuestionLoading: isQuestionLoading ?? this.isQuestionLoading,
           nextButtonVisible: nextButtonVisible ?? this.nextButtonVisible,
           pageVisible: pageVisible ?? this.pageVisible,
           submitVisible: submitVisible ?? this.submitVisible,
@@ -70,7 +78,8 @@ class EvaluationState {
           selectedAnswerIndex: selectedAnswerIndex ?? this.selectedAnswerIndex,
           currentQuestionIndex: currentQuestionIndex ?? this.currentQuestionIndex,
           currentIndex: currentIndex ?? this.currentIndex,
+          statusCode: statusCode ?? this.statusCode,
           reponsesChoices: reponsesChoices ?? this.reponsesChoices,
-          postReponses: postReponses ?? this.postReponses
+          postReponses: postReponses ?? this.postReponses,
       );
 }
