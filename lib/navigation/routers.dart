@@ -15,6 +15,7 @@ import '../m_evaluation/ui/pages/evaluation/EvaluationPage.dart';
 import '../m_evaluation/ui/pages/evaluation/end/endPage.dart';
 import '../m_evaluation/ui/pages/intervenantPage/intervenantPage.dart';
 import '../m_evaluation/ui/pages/phasePage/PhasePage.dart';
+import '../m_evaluation/ui/pages/vote/VotePage.dart';
 
 part "routers.g.dart";
 
@@ -23,8 +24,7 @@ enum Urls { home, detailArticle, auth,
   login,  test, Intro,
   scanner,  evaluationAuth, phases,
   intervenants,info ,
-  evaluation, EvaluationFinalStep, introEvaluation,saisieCoupon}
-
+  evaluation, EvaluationFinalStep, introEvaluation,saisieCoupon,vote}
 
 @Riverpod(keepAlive: true)
 GoRouter router(RouterRef ref) {
@@ -32,9 +32,9 @@ GoRouter router(RouterRef ref) {
   return GoRouter(
       debugLogDiagnostics: true,
       initialLocation: "/auth/intro",
-      /* redirect: (context, state) async {
+      redirect: (context, state) async {
         return null;
-      },*/
+      },
       routes: <RouteBase>[
         GoRoute(
           path: "/home",
@@ -54,6 +54,17 @@ GoRouter router(RouterRef ref) {
               },
             ),
             GoRoute(
+              path: 'vote/:phaseId/:intervenantId',
+              name: Urls.vote.name,
+              pageBuilder: (ctx, state) {
+                var phaseIdStr=state.pathParameters["phaseId"]?? '-1';
+                final phaseId = int.tryParse(phaseIdStr) ?? -1;
+
+                var intervenantIdStr=state.pathParameters["intervenantId"]?? '-1';
+                final intervenantId = int.tryParse(intervenantIdStr) ?? -1;
+                return MaterialPage(key: state.pageKey, child: VotePage(phaseId: phaseId, intervenantId: intervenantId));
+              },),
+            GoRoute(
               path: "phases",
               name: Urls.phases.name,
               builder: (ctx, state) => PhasePage(),
@@ -64,8 +75,8 @@ GoRouter router(RouterRef ref) {
               pageBuilder: (ctx, state) {
                 var id=state.pathParameters["id"]?? '-1';
                 final phaseId = int.tryParse(id) ?? -1;
-
                 return MaterialPage(key: state.pageKey, child: IntervenantPage(phaseId: phaseId,));
+
 
               },
             ),
@@ -109,8 +120,8 @@ GoRouter router(RouterRef ref) {
                 builder: (ctx, state) => AuthPage(),
               ),
               GoRoute(
-                  path: 'scanner/:type',
-                  name: Urls.scanner.name,
+                path: 'scanner/:type',
+                name: Urls.scanner.name,
                 pageBuilder: (ctx, state) {
                   var type=state.pathParameters["type"]?? '';
                   return MaterialPage(key: state.pageKey, child: ScanCouponPage(type: type,));
