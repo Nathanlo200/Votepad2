@@ -1,5 +1,6 @@
 
-import '../../../business/model/Vote/intervenants.dart';
+import '../../../business/model/intervenants.dart';
+
 
 class IntervenantState {
   List<Intervenants> intervenants;

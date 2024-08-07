@@ -9,9 +9,10 @@ import 'package:odc_mobile_project/m_evaluation/ui/pages/ScanCouponPage/scanner_
 import '../../../../navigation/routers.dart';
 import 'mobile_scanner_overlay.dart';
 
-
 class ScanCouponPage extends ConsumerStatefulWidget {
-  const ScanCouponPage({super.key});
+  final String type;
+
+  const ScanCouponPage({super.key, required this.type});
 
   @override
   ConsumerState createState() => _ScancouponpageState();
@@ -90,11 +91,27 @@ class _ScancouponpageState extends ConsumerState<ScanCouponPage> {
     );
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Scannez le code'),
-        leading: IconButton(onPressed: (){
-         context.pop();
-        }, icon: Icon(Icons.arrow_back_ios), color: Colors.white,),
-        backgroundColor: Colors.black,),
+      appBar: AppBar(
+        title: const Text('Scannez le code'),
+        leading: IconButton(
+          onPressed: () {
+            context.pop();
+          },
+          icon: Icon(Icons.arrow_back_ios),
+          color: Colors.white,
+        ),
+        backgroundColor: Colors.black,
+        actions: [
+          if (widget.type == 'vote')
+            IconButton(
+              onPressed: () {
+                context.goNamed(Urls.saisieCoupon.name);
+              },
+              icon: Icon(Icons.edit),
+              color: Colors.white,
+            ),
+        ],
+      ),
       backgroundColor: Colors.black,
       body: Stack(
         fit: StackFit.expand,

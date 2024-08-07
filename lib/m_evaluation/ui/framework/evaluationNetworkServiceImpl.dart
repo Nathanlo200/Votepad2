@@ -3,14 +3,16 @@ import 'package:odc_mobile_project/m_evaluation/business/model/Evenement.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/PhasesVote.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/createVoteRequest.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/groupes.dart';
-import 'package:odc_mobile_project/m_evaluation/business/model/Vote/intervenants.dart';
+import 'package:odc_mobile_project/m_evaluation/business/model/Vote/juryIdentifiant.dart';
+
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/jurys.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/phaseCriteres.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/votes.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/assertions.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/questionAssertions.dart';
-import 'package:odc_mobile_project/m_evaluation/business/model/intervenant/phaseIntervenant.dart';
 import '../../business/model/evaluation/postReponses.dart';
+import '../../business/model/intervenants.dart';
+import '../../business/model/phaseIntervenant.dart';
 import '../../business/model/phases.dart';
 import '../../business/services/evaluationNetworkService.dart';
 import "package:http/http.dart" as http;
@@ -54,7 +56,7 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
         headers: {"Authorization": "Bearer $evenementId"});
     var reponseBody = json.decode(res.body) as PhaseIntervenant;
     await Future.delayed(Duration(seconds: 3));
-    var responseFinal = PhaseIntervenant.fromJson(reponseBody as Map);
+    var responseFinal = PhaseIntervenant.fromJson(reponseBody as Map<String, dynamic>);
     return responseFinal;
 
   }
@@ -141,29 +143,41 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
     return responseFinal;
   }
 
+  @override
+  Future<PhaseIntervenant> getPhasesByIntervenants(int intervenantId, int evenementId) {
+    // TODO: implement getPhasesByIntervenant
+    throw UnimplementedError();
+  }
 
   @override
-  Future<Jury?> getJury(String coupon) {
+  Future<List<PhaseIntervenant>> getPhasesListByIntervenant(int intervenantId) {
+    // TODO: implement getPhasesListByIntervenant
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<JuryIdentifiant?> getJury(String coupon, String imei) {
     // TODO: implement getJury
     throw UnimplementedError();
   }
 
   @override
-  Future<Votes?> getVoteByGroupe(int groupeId) {
+  Future<CreateVoteRequest?> getVoteByGroupe(int groupeId) {
     // TODO: implement getVoteByGroupe
     throw UnimplementedError();
   }
 
   @override
-  Future<Votes?> getVoteByIntervenant(int intervenantId) {
+  Future<CreateVoteRequest?> getVoteByIntervenant(int intervenantId) {
     // TODO: implement getVoteByIntervenant
     throw UnimplementedError();
   }
 
   @override
-  Future sendVoteByCandidat(CreateVoteRequest data) {
+  Future<bool> sendVoteByCandidat(CreateVoteRequest data) {
     // TODO: implement sendVoteByCandidat
     throw UnimplementedError();
   }
+
 
 }

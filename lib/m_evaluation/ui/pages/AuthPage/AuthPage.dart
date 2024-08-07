@@ -22,23 +22,34 @@ class _AuthPageState extends ConsumerState<AuthPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //appBar: AppBar(title: _logo(context)),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        body: SingleChildScrollView(
+      child: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+        Container(
+          height: MediaQuery.of(context).size.height * 0.4,
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [Colors.orange, Colors.orangeAccent],
+                  end: Alignment.bottomCenter,
+                  begin: Alignment.topCenter),
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(50),
+                  bottomRight: Radius.circular(50))),
+          child: Center(
+            child: _logo(context),
+          ),
+        ),
+        Column(
           children: [
-            _logo(context),
-            _texte(context),
+            const SizedBox(height: 50),
             _email(context),
             const SizedBox(height: 30),
             _coupon(context),
-            const SizedBox(height: 100),
+            const SizedBox(height: 50),
             _envoyer(context),
           ],
-        ),
-      ),
-    );
+        )
+      ]),
+    ));
   }
 
   _logo(BuildContext context) {
@@ -56,65 +67,85 @@ class _AuthPageState extends ConsumerState<AuthPage> {
   }
 
   _email(BuildContext context) {
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          TextFormField(
-            controller: emailCtrl,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: 'Entrez Email',
+    return Container(
+        margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+        child: Column(children: [
+          Column(children: [
+            TextFormField(
+              controller: emailCtrl,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Entrez Email',
+                prefixIcon: Icon(Icons.email),
+              ),
             ),
-          ),
-        ]);
+          ]),
+        ]));
   }
 
   _coupon(BuildContext Context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        TextFormField(
-          controller: couponCtrl,
-          decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: 'Entrez le coupon',
-              suffixIcon: IconButton(
-                  onPressed: () async {
-                    var result = await Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ScanCouponPage()),
-                    );
-                    if (result != null) {
-                      print("result dans login $result");
-                      setState(() {
-                        couponCtrl.text = result;
-                      });
-                    }
-                  },
-                  icon: Icon(Icons.camera_alt))),
+    return Container(
+      margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+      child: Column(children: [
+        Column(
+          children: [
+            TextFormField(
+              controller: couponCtrl,
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Entrez le coupon',
+                  suffixIcon: IconButton(
+                      onPressed: () async {
+                        var result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  ScanCouponPage(type: "evaluation")),
+                        );
+                        if (result != null) {
+                          print("result dans login $result");
+                          setState(() {
+                            couponCtrl.text = result;
+                          });
+                        }
+                      },
+                      icon: Icon(Icons.camera_alt))),
+            ),
+          ],
         ),
-      ],
+      ]),
     );
   }
 
   _envoyer(BuildContext Context) {
     return Container(
-        width: double.infinity,
+        // width: double.infinity,
+        // height: 40,
+        decoration: BoxDecoration(
+            // gradient: LinearGradient(
+            //     colors: Colors.accents,
+            //     end: Alignment.bottomCenter,
+            //     begin: Alignment.topCenter),
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(50),
+                bottomRight: Radius.circular(50))),
         child: ElevatedButton(
           //style: style,
           onPressed: () async {
             var ctrl = ref.read(authCtrlProvider.notifier);
-            var res = await ctrl.soumettre (emailCtrl.text, couponCtrl.text);
-            if (res != null) {
-              afficherMessageErreur(context, res);
-            }else {
-              context.goNamed(Urls.introEvaluation.name);
+            var result = await ctrl.soumettre(emailCtrl.text, couponCtrl.text);
+            if (result == null) {
+              context.goNamed(Urls.phases.name);
+            } else {
+              afficherMessageErreur(context, "Email ou Coupon incorrect");
             }
-
           },
-          child: const Text('Envoyer'),
+          child: const Text(
+            'Envoyer',
+            style: TextStyle(
+              fontSize: 20,
+            ),
+          ),
         ));
   }
-
-
 }

@@ -1,26 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'intervenantCtrl.dart';
+part of 'SaisieCouponCtrl.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$intervenantCtrlHash() => r'c0732e80a5d4be9b5b0867f068b8ecda6372f97b';
+String _$saisieCouponCtrlHash() => r'55664ac7b5c4a862802edb5efc7648ee29cb8e76';
 
-/// See also [IntervenantCtrl].
-@ProviderFor(IntervenantCtrl)
-final intervenantCtrlProvider =
-    AutoDisposeNotifierProvider<IntervenantCtrl, IntervenantState>.internal(
-  IntervenantCtrl.new,
-  name: r'intervenantCtrlProvider',
+/// See also [SaisieCouponCtrl].
+@ProviderFor(SaisieCouponCtrl)
+final saisieCouponCtrlProvider =
+    AutoDisposeNotifierProvider<SaisieCouponCtrl, SaisieCouponState>.internal(
+  SaisieCouponCtrl.new,
+  name: r'saisieCouponCtrlProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$intervenantCtrlHash,
+      : _$saisieCouponCtrlHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$IntervenantCtrl = AutoDisposeNotifier<IntervenantState>;
+typedef _$SaisieCouponCtrl = AutoDisposeNotifier<SaisieCouponState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

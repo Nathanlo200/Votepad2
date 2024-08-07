@@ -27,7 +27,7 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
       var ctrl = ref.read(evaluationCtrlProvider.notifier);
       var authCtrl = ref.read(authCtrlProvider);
       ctrl.getReponses();
-      ctrl.getQuestions(authCtrl.phaseId);
+      //ctrl.getQuestions(authCtrl.phaseId);
     });
   }
 

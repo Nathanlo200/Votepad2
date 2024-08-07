@@ -84,7 +84,7 @@ class EvaluationInteractor {
         GetIntervenantLocalUseCase(local),
         SaveIntervenantLocalUseCase(local),
         GetReponseListLocalUseCase(local),
-        GetJuryNetworkUseCase(network, local),
+        GetJuryNetworkUseCase(network),
         GetIntervenantListNetworkUseCase(network, local),
         GetCritereListByPhaseNetworkUseCase(network),
         GetCritereListByPhaseLocalUseCase(local),

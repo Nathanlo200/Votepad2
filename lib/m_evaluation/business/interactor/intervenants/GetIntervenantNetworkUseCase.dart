@@ -1,4 +1,4 @@
-import 'package:odc_mobile_project/m_evaluation/business/model/Vote/intervenants.dart';
+import 'package:odc_mobile_project/m_evaluation/business/model/intervenants.dart';
 import '../../services/evaluationNetworkService.dart';
 
 class GetIntervenantNetworkUseCase {

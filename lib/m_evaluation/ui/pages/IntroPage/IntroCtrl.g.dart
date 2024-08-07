@@ -6,12 +6,11 @@ part of 'IntroCtrl.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$introCtrlHash() => r'89b9980620694af5a9142df6d947b7e6f3d0478c';
+String _$introCtrlHash() => r'de5a61459eaba86f2e8f18f3a13f0b287185ff38';
 
 /// See also [IntroCtrl].
 @ProviderFor(IntroCtrl)
-final introCtrlProvider =
-    AutoDisposeNotifierProvider<IntroCtrl, IntroState>.internal(
+final introCtrlProvider = NotifierProvider<IntroCtrl, IntroState>.internal(
   IntroCtrl.new,
   name: r'introCtrlProvider',
   debugGetCreateSourceHash:
@@ -20,6 +19,6 @@ final introCtrlProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$IntroCtrl = AutoDisposeNotifier<IntroState>;
+typedef _$IntroCtrl = Notifier<IntroState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
