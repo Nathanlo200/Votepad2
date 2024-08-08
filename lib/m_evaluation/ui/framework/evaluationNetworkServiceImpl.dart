@@ -11,6 +11,7 @@ import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/assert
 import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/questionAssertions.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/intervenant/phaseIntervenant.dart';
 import '../../business/model/evaluation/postReponses.dart';
+import '../../business/model/evaluation/reponse.dart';
 import '../../business/model/phases.dart';
 import '../../business/services/evaluationNetworkService.dart';
 import "package:http/http.dart" as http;
@@ -78,9 +79,17 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
   }
 
   @override
-  Future<bool> postReponses(List<PostReponses> data) async{
-    await http.post(Uri.parse("$baseURL/api/reponses"));
-    return Future.value(true);
+  Future<int> postReponses(Reponse reponse) async {
+    var dataToSend=reponse.toJson();
+    print("DATA to send $dataToSend");
+    final res = await http.post(Uri.parse("$baseURL/api/reponses"), headers: {
+      "content-type": "application/json",
+    }, body: json.encode(dataToSend));
+    if ([200, 201].indexOf(res.statusCode) == -1) {
+      throw Exception(res.body);
+    }
+    print("statuscode de la requete ${res.statusCode}");
+    return res.statusCode;
   }
 
   @override
