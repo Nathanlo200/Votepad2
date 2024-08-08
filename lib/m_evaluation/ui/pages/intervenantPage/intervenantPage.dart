@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
 import '../../../../navigation/routers.dart';
 import '../../composants/ListeVide.dart';
-import '../phasePage/PhaseCtrl.dart';
 import 'intervenantCtrl.dart';
 
 class IntervenantPage extends ConsumerStatefulWidget {
+
   final int phaseId;
   const IntervenantPage( {super.key,required this.phaseId});
-
   @override
   ConsumerState<IntervenantPage> createState() => _IntervenantState();
 }
@@ -21,17 +19,8 @@ class _IntervenantState extends ConsumerState<IntervenantPage> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      var phaseId=widget.phaseId;
       var ctrl = ref.read(intervenantCtrlProvider.notifier);
-      ctrl.recupererListIntervenant(phaseId);
-
-      var phaseCtrl = ref.read(phaseCtrlProvider);
-      var phaseList = phaseCtrl.phases.where((p) => p.phases ?.id == phaseId).toList();
-      if (phaseList.length > 0) {
-        var phase = phaseList[0];
-        ctrl.setPhaseVote(phase);
-      }
-
+      ctrl.recupererListIntervenant(widget.phaseId);
     });
   }
 
@@ -67,7 +56,7 @@ class _IntervenantState extends ConsumerState<IntervenantPage> {
           actions: [
             IconButton(
                 onPressed: () {
-                  // context.goNamed(Urls.Intro.name);
+                 // context.goNamed(Urls.Intro.name);
                 },
                 icon: Icon(Icons.menu_rounded)),
           ],
@@ -76,15 +65,13 @@ class _IntervenantState extends ConsumerState<IntervenantPage> {
 
   _contenuPrincipale(BuildContext context, WidgetRef ref) {
     var state = ref.watch(intervenantCtrlProvider);
-
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Phase : ${state.phaseVote?.phases?.nom??""}"),
           Padding(
-            padding: const EdgeInsets.only(left: 5.0),
+            padding: const EdgeInsets.only(left: 10.0),
             child: _zoneDeRecherche(context),
           ),
           Expanded(
@@ -102,16 +89,16 @@ class _IntervenantState extends ConsumerState<IntervenantPage> {
                         elevation: 0,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
-                        child: ListTile(
-                          leading: Icon(Icons.person),
-                          trailing: (intervenant.isDone)
-                              ? Icon(
-                            Icons.check_sharp,
-                            color: Colors.green,
-                          )
-                              : Icon(Icons.arrow_forward),
-                          title: Text(intervenant.email),
-                        ));
+                        child:
+                        ListTile(
+                            leading: Icon(Icons.person),
+                            trailing: (intervenant.isDone)?
+                    Icon(Icons.check_sharp,color: Colors.green,):
+                    Icon(Icons.arrow_forward),
+                     onTap: () {
+                    },
+                        title: Text(intervenant.email),)
+                    );
                   }))
         ],
       ),
@@ -137,6 +124,7 @@ class _IntervenantState extends ConsumerState<IntervenantPage> {
           ),
         ]);
   }
+
 
   _chargement(BuildContext context, WidgetRef ref) {
     var state = ref.watch(intervenantCtrlProvider);

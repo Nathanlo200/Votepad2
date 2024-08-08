@@ -1,16 +1,15 @@
 import 'package:get_storage/get_storage.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Evenement.dart';
+import 'package:odc_mobile_project/m_evaluation/business/model/Phases.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/EvenementVote.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/PhasesVote.dart';
-import 'package:odc_mobile_project/m_evaluation/business/model/Vote/createVoteRequest.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/groupes.dart';
-import 'package:odc_mobile_project/m_evaluation/business/model/Vote/intervenants.dart';
-import 'package:odc_mobile_project/m_evaluation/business/model/Vote/jurys.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/phaseCriteres.dart';
-import 'package:odc_mobile_project/m_evaluation/business/model/intervenant/phaseIntervenant.dart';
-import 'package:odc_mobile_project/m_evaluation/business/services/evaluationLocalService.dart';
 
-import '../../business/model/phases.dart';
+import '../../business/model/Vote/juryIdentifiant.dart';
+import '../../business/model/intervenants.dart';
+import '../../business/model/phaseIntervenant.dart';
+import '../../business/services/evaluationLocalService.dart';
 
 class EvaluationLocalServiceImpl implements EvaluationLocalService{
   GetStorage stockage;
@@ -84,11 +83,10 @@ class EvaluationLocalServiceImpl implements EvaluationLocalService{
   }
 
   @override
-  Future<List<Phases>> getPhasesList() {
+  Future<List<PhasesVote>> getPhaseList() {
     var dataJson= stockage.read("PHASES");
-    return Future.value(List<Phases>.from(dataJson.map((x) => Phases.fromJson(x))));
+    return Future.value(List<PhasesVote>.from(dataJson.map((x) => PhasesVote.fromJson(x))));
   }
-
   @override
   Future<EvenementVote> saveEvenementById(EvenementVote data) {
     var dataJson= data.toJson();
@@ -97,12 +95,10 @@ class EvaluationLocalServiceImpl implements EvaluationLocalService{
   }
 
   @override
-  Future<bool> savePhasesList(List<Phases> data) async{
-    var dataJson= data.map((e) => e.toJson()).toList();
-    await stockage.write("PHASES", dataJson);
-    return true;
+  Future<PhaseCriteres> getCritereById(int id) {
+    var dataJson= stockage.read("CRITERES");
+    return Future.value(PhaseCriteres.fromJson(dataJson));
   }
-
   @override
   Future<List<PhaseCriteres>> getCritereListByPhase() {
     var dataJson= stockage.read("CRITERES");
@@ -128,21 +124,19 @@ class EvaluationLocalServiceImpl implements EvaluationLocalService{
   }
 
   @override
-  Future<Jury> getJury() {
+
+  Future<JuryIdentifiant> getJury() {
     var dataJson= stockage.read("JURYS");
-    return Future.value(Jury.fromJson(dataJson));
+    return Future.value(JuryIdentifiant.fromJson(dataJson));
   }
 
-  @override
-  Future<CreateVoteRequest> getVoteByGroupe(int groupeId) {
-    var dataJson= stockage.read("VOTES");
-    return Future.value(CreateVoteRequest.fromJson(dataJson));
-  }
+
 
   @override
-  Future<CreateVoteRequest> getVoteByIntervenant(int intervenantId) {
-    var dataJson= stockage.read("VOTES");
-    return Future.value(CreateVoteRequest.fromJson(dataJson));
+  Future<bool> saveGroup(Groupes data) {
+    var dataJson= data.toJson();
+    stockage.write("GROUPES", dataJson);
+    return Future.value(true);
   }
 
   @override
@@ -153,7 +147,8 @@ class EvaluationLocalServiceImpl implements EvaluationLocalService{
   }
 
   @override
-  Future<bool> saveGroup(Groupes data) {
+
+  Future<bool> saveGroupe(Groupes data) {
     var dataJson= data.toJson();
     stockage.write("GROUPES", dataJson);
     return Future.value(true);
@@ -174,16 +169,51 @@ class EvaluationLocalServiceImpl implements EvaluationLocalService{
   }
 
   @override
-  Future<bool> saveJury(Jury jury) async{
-    var data= jury.toJson();
-    await stockage.write("JURYS", data);
-    return true;
-  }
-
-  @override
-  Future<bool> saveVote(CreateVoteRequest data) {
+  Future<bool> saveIntervenants(Intervenants data) {
     var dataJson= data.toJson();
+    stockage.write("iNTERVENANTS", dataJson);
+    return Future.value(true);
+  }
+  @override
+
+  Future<bool> saveVote(int intervenantId,Map<String, double> data) {
+    var dataJson= data;
     stockage.write("VOTES", dataJson);
     return Future.value(true);
   }
+
+
+
+  @override
+  Future<Map<String, double>> getVoteByGroupe(int groupeId) {
+    // TODO: implement getVoteByGroupe
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Map<String, double>?> getVoteByIntervenant(int intervenantId) {
+    // TODO: implement getVoteByIntervenant
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> savePhasesList(List<dynamic> data) {
+    // TODO: implement savePhasesList
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<Phases>> getPhasesList() {
+    // TODO: implement getPhasesList
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> saveJury(JuryIdentifiant data) {
+    var dataJson= data.toJson();
+    stockage.write("JURYS", dataJson);
+    return Future.value(true);
+  }
+
+
 }

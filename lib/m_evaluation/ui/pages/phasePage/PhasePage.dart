@@ -31,9 +31,10 @@ class _PhaseState extends ConsumerState<PhasePage> {
         body: SafeArea(
           child: Stack(
             children: [
-              if (state.phases.isNotEmpty && !state.isLoading)
+              if (state.phasesVote.isNotEmpty && !state.isLoading)
                 _contenuPrincipale(context, ref)
               else
+
                 ListeVide(context, () {
                   var ctrl = ref.read(phaseCtrlProvider.notifier);
                   ctrl.recupererListPhase();
@@ -49,7 +50,9 @@ class _PhaseState extends ConsumerState<PhasePage> {
           leading: Container(
             child: Builder(builder: (context) {
               // const ;
-              return Container();
+              return Container(
+
+              );
             }),
           ),
           actions: [
@@ -78,7 +81,7 @@ _contenuPrincipale(BuildContext context, WidgetRef ref) {
         Padding(
           padding: const EdgeInsets.only(left: 10.0),
           child: Text(
-            "Phases : ${state.phases.length}",
+            "Phases : ${state.phasesVote.length}",
             style: TextStyle(fontSize: 20),
           ),
         ),
@@ -92,7 +95,7 @@ _contenuPrincipale(BuildContext context, WidgetRef ref) {
                     thickness: 1,
                   );
                 },
-                itemCount: state.phases.length,
+                itemCount: state.phasesVote.length,
                 itemBuilder: (ctx, index) {
                   var phase = state.phases[index];
                   return Card(

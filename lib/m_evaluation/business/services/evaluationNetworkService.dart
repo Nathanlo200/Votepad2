@@ -3,16 +3,14 @@ import 'package:odc_mobile_project/m_evaluation/business/model/Vote/PhasesVote.d
 
 import '../model/Vote/createVoteRequest.dart';
 import '../model/Vote/groupes.dart';
-import '../model/Vote/intervenants.dart';
+import '../model/Vote/juryIdentifiant.dart';
+import '../model/intervenants.dart';
 import '../model/Vote/jurys.dart';
 import '../model/Vote/phaseCriteres.dart';
-import '../model/Vote/votes.dart';
 import '../model/evaluation/assertions.dart';
 import '../model/evaluation/postReponses.dart';
 import '../model/evaluation/questionAssertions.dart';
-import '../model/evaluation/reponse.dart';
-import '../model/evaluation/questions.dart';
-import '../model/intervenant/phaseIntervenant.dart';
+import '../model/phaseIntervenant.dart';
 
 
 
@@ -33,14 +31,14 @@ abstract class EvaluationNetworkService
   //Fin evalutaionNetworkService*
 
   //voteNetworkservice
-  Future<Jury?> getJury(String coupon);
+  Future<JuryIdentifiant?> getJury(String coupon, String imei);
   Future<List<Groupes>?> getGroupeList(int phaseId);
   Future<PhaseIntervenant> getGroupById(int id);
   Future<List<Intervenants>?> getIntervenantList(int phaseId);
   Future<PhaseIntervenant> getIntervenantById(int id);
   Future<List<PhaseCriteres>?> getCritereListByPhase(int phaseId);
-  Future<Votes?> getVoteByIntervenant(int intervenantId);
-  Future<Votes?> getVoteByGroupe(int groupeId);
-  Future<dynamic> sendVoteByCandidat(CreateVoteRequest data);
+  Future<CreateVoteRequest?> getVoteByIntervenant(int intervenantId);
+  Future<CreateVoteRequest?> getVoteByGroupe(int groupeId);
+  Future<bool> sendVoteByCandidat(CreateVoteRequest data);
 //Fin voteNetworkService*
 }
