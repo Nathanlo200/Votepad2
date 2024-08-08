@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../../navigation/routers.dart';
 
 class EndPage extends StatelessWidget {
   const EndPage({super.key});
@@ -21,9 +24,12 @@ class EndPage extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(5.0))),
               ),
               onPressed: (){
-                SystemNavigator.pop();
+                while(context.canPop()){
+                  context.pop();
+                }
+                context.pushReplacement(Urls.evaluationAuth.name);
               },
-              child: Text("Quitter"),
+              child: Text("Retour"),
             ),
           )
         ],
