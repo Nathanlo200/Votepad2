@@ -29,7 +29,7 @@ abstract class EvaluationNetworkService
   Future<PhaseIntervenant> getPhasesByIntervenant(int intervenantId, int competitionId);
   Future<List<QuestionsAssertions>> getQuestionListByPhase(int phaseId);
   Future<List<Assertions>> getAssertionList(int questionId);
-  Future<bool> postReponses(List<PostReponses>  data);
+  Future<int> postReponses(Reponse reponse);
   //Fin evalutaionNetworkService*
 
   //voteNetworkservice
