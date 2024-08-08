@@ -40,7 +40,14 @@ class EvaluationLocalServiceImpl implements EvaluationLocalService{
 
   @override
   Future<bool> resetReponses()async {
-    var key = "REPONSES";
+    var key = "RESPONSES";
+    await stockage.remove(key);
+    return true;
+  }
+
+  @override
+  Future<bool> resetIntervenant()async {
+    var key = "INTERVENANT";
     await stockage.remove(key);
     return true;
   }

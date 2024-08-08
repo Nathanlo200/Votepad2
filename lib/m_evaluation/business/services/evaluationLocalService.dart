@@ -27,6 +27,7 @@ abstract class EvaluationLocalService {
   Future<bool> saveReponses(Map<int, int>? data);
 
   Future<bool> resetReponses();
+  Future<bool> resetIntervenant();
   Future <Map<int, int>?> getReponsesList();
   //fin evaluationLocalService*
 
