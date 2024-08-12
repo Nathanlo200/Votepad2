@@ -1,7 +1,7 @@
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/createVoteRequest.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../business/interactor/EvaluationInteractor.dart';
-import '../../../business/model/Vote/intervenants.dart';
+import '../../../business/model/intervenants.dart';
 import 'VoteState.dart';
 
 part "VoteCtrl.g.dart";
