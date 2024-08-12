@@ -25,7 +25,7 @@ class IntervenantCtrl extends _$IntervenantCtrl {
   void rechercherIntervenant(String recherche) async {
     var listeData = state.intervenantsOrigin;
     print(listeData);
-    var results = listeData.where((n) => n.name.toLowerCase().contains(recherche.toLowerCase())).toList();
+    var results = listeData.where((n) => n.email.toLowerCase().contains(recherche.toLowerCase())).toList();
     state = state.copyWith(intervenants: results);
   } //TODO: Mettre le code de la
 }
