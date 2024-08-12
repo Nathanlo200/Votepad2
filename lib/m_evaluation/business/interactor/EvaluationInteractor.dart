@@ -5,6 +5,7 @@ import 'package:odc_mobile_project/m_evaluation/business/interactor/phases/GetPh
 import 'package:odc_mobile_project/m_evaluation/business/interactor/questions/GetQuestionListByPhaseNetworkUseCase.dart';
 import 'package:odc_mobile_project/m_evaluation/business/interactor/reponses/GetReponseListLocalUseCase.dart';
 import 'package:odc_mobile_project/m_evaluation/business/interactor/reponses/PostReponseNetworkUseCase.dart';
+import 'package:odc_mobile_project/m_evaluation/business/interactor/reponses/ResetReponseLocalUseCase.dart';
 import 'package:odc_mobile_project/m_evaluation/business/interactor/reponses/SaveReponseLocalUseCase.dart';
 import 'package:odc_mobile_project/m_evaluation/business/interactor/votes/GetVoteByIntervenantLocalUseCase.dart';
 import 'package:odc_mobile_project/m_evaluation/business/interactor/votes/GetVoteByIntervenantNetworkUseCase.dart';
@@ -21,6 +22,7 @@ import 'criteres/SaveCritereListByPhaseLocalUseCase.dart';
 import 'intervenants/GetIntervenantListNetworkUseCase.dart';
 import 'intervenants/GetIntervenantLocalUseCase.dart';
 import 'intervenants/GetIntervenantNetworkUseCase.dart';
+import 'intervenants/ResetIntervenantLocalUseCase.dart';
 import 'intervenants/SaveIntervenantLocalUseCase.dart';
 
 part 'EvaluationInteractor.g.dart';
@@ -39,6 +41,10 @@ class EvaluationInteractor {
   SaveIntervenantLocalUseCase saveIntervenantLocalUseCase;
   GetJuryNetworkUseCase getJuryNetworkUseCase;
   GetIntervenantListNetworkUseCase getIntervenantListNetworkUseCase;
+
+  ResetReponseLocalUseCase resetReponseLocalUseCase;
+  ResetIntervenantLocalUseCase resetIntervenantLocalUseCase;
+
   GetCritereListByPhaseNetworkUseCase getCritereListByPhaseNetworkUseCase;
   GetCritereListByPhaseLocalUseCase getCritereListByPhaseLocalUseCase;
   SaveCritereListByPhaseLocalUseCase saveCritereListByPhaseLocalUseCase;
@@ -46,6 +52,7 @@ class EvaluationInteractor {
   GetVoteByIntervenantLocalUseCase getVoteByIntervenantLocalUseCase;
   SaveVoteLocalUseCase saveVoteLocalUseCase;
   SendVoteByCandidatNetworkUseCase sendVoteByCandidatNetworkUseCase;
+
 
   EvaluationInteractor._(
       this.getIntervenantNetworkUseCase,
@@ -61,6 +68,11 @@ class EvaluationInteractor {
       this.getReponseListUseCase,
       this.getJuryNetworkUseCase,
       this.getIntervenantListNetworkUseCase,
+
+      this.resetReponseLocalUseCase,
+      this.resetIntervenantLocalUseCase,
+
+
       this.getCritereListByPhaseNetworkUseCase,
       this.getCritereListByPhaseLocalUseCase,
       this.saveCritereListByPhaseLocalUseCase,
@@ -71,12 +83,12 @@ class EvaluationInteractor {
 
   static build(EvaluationNetworkService network, EvaluationLocalService local) {
     return EvaluationInteractor._(
-        GetIntervenantNetworkUseCase(network),
-        GetPhasesListNetworkUseCase(network, local),
-        SaveIntervenantLocalUseCase(local),
-        GetAssertionListNetworkUsecase(
-          network,
-        ),
+
+        GetIntervenantNetworkUseCase(network,local),
+      GetPhasesListNetworkUseCase(network, local),
+      SaveIntervenantLocalUseCase(local),
+        GetAssertionListNetworkUsecase(network,),
+
         GetPhaseByIntervenantNetworkUseCase(network, local),
         GetQuestionListByPhaseNetworkUseCase(network),
         PostReponseNetworkUseCase(network, local),
@@ -84,8 +96,12 @@ class EvaluationInteractor {
         GetIntervenantLocalUseCase(local),
         SaveIntervenantLocalUseCase(local),
         GetReponseListLocalUseCase(local),
-        GetJuryNetworkUseCase(network, local),
+
+        GetJuryNetworkUseCase(network),
         GetIntervenantListNetworkUseCase(network, local),
+        ResetReponseLocalUseCase(local),
+        ResetIntervenantLocalUseCase(local),
+
         GetCritereListByPhaseNetworkUseCase(network),
         GetCritereListByPhaseLocalUseCase(local),
         SaveCritereListByPhaseLocalUseCase(local),
@@ -93,6 +109,7 @@ class EvaluationInteractor {
         SaveVoteLocalUseCase(local),
         GetVoteByIntervenantLocalUseCase(local),
         SendVoteByCandidatNetworkUseCase(network));
+
   }
 }
 

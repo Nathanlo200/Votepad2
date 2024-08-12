@@ -6,7 +6,7 @@ part of 'PhaseCtrl.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$phaseCtrlHash() => r'8fd86633386299e68465a131430f57bb65d152e2';
+String _$phaseCtrlHash() => r'ded5e562fed73616574771f7e67b6bfe4f8d569d';
 
 /// See also [PhaseCtrl].
 @ProviderFor(PhaseCtrl)

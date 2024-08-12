@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:odc_mobile_project/m_evaluation/ui/pages/AuthPage/AuthCtrl.dart';
 import 'package:odc_mobile_project/m_evaluation/ui/pages/evaluation/EvaluationCtrl.dart';
 import 'package:linear_progress_bar/linear_progress_bar.dart';
+import 'package:odc_mobile_project/m_evaluation/ui/pages/evaluation/questionNotFound.dart';
 
 import '../../../../navigation/routers.dart';
+import '../../composants/ListeVide.dart';
 
 class EvaluationPage extends ConsumerStatefulWidget {
   const EvaluationPage({super.key});
@@ -15,8 +17,6 @@ class EvaluationPage extends ConsumerStatefulWidget {
 }
 
 class _EvaluationPage extends ConsumerState<EvaluationPage> {
-  var key = "RESPONSES";
-
 
   @override
   void initState() {
@@ -25,26 +25,91 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // action initiale de la page et appel d'un controleur
       var ctrl = ref.read(evaluationCtrlProvider.notifier);
-      var authCtrl = ref.read(authCtrlProvider);
       ctrl.getReponses();
-      ctrl.getQuestions(authCtrl.phaseId);
+
+      ctrl.getQuestions();
+      //ctrl.getQuestions(authCtrl.phaseId);
+
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    var state = ref.watch(evaluationCtrlProvider);
+    var ctrl = ref.read(evaluationCtrlProvider.notifier);
     return Scaffold(
-      //extendBodyBehindAppBar: true,
       appBar: AppBar(
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
-            child: IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.person,
-                  color: Colors.white,
-                )),
+            child: TextButton(
+                onPressed: ()=>showDialog(context: context, builder: (BuildContext context) {
+                  return AlertDialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                    title: Center(child: Text("Quitter")),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text("Voulez-vous quitter et"),
+                        Text("mettre fin à l'évaluation ?"),
+                        SizedBox(height: 15,),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.orange,
+                                foregroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                              ),
+                              onPressed: () {
+                                ctrl.resetIntervenantAndResponses();
+                                SystemNavigator.pop();
+                              },
+                              child: Text("Quitter",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.white,
+                                ),),
+                            ),
+                            SizedBox(width: 14.0,),
+                            ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.white,
+                                  foregroundColor: Colors.black,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                                ),
+                                onPressed: (){
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text("annuler"))
+                          ],
+                        ),
+                      ],
+                    )
+                  ); }),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 3.0),
+                      child: Text("Quitter",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),),
+                    ),
+                    Icon(Icons.arrow_forward,
+                      color: Colors.white,
+                      size: 16.0,),
+                  ],
+                ),
+            ),
           ),
         ],
         toolbarHeight: 70.0,
@@ -55,12 +120,19 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
           style: TextStyle(
               color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.bold),
         ),
-        centerTitle: true,
       ),
       body: Stack(
         fit: StackFit.expand,
         children: [
-          _mainContent(),
+      if(state.questions.isNotEmpty && !state.isQuestionLoading)
+          _mainContent(context, ref)
+      else
+        QuestionNotFound(context, (){
+          var ctrl = ref.read(evaluationCtrlProvider.notifier);
+          ctrl.getQuestions();
+        }),
+    _chargement(context, ref),
+
           SizedBox(
             height: 20,
           ),
@@ -72,7 +144,6 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
 
   _myProgressBar() {
     var state = ref.watch(evaluationCtrlProvider);
-    //var ctrl = ref.read(evaluationCtrlProvider.notifier);
     return LinearProgressBar(
       maxSteps: state.questions.length,
       //questions.length,
@@ -87,7 +158,7 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
     );
   }
 
-  _mainContent() {
+  _mainContent(BuildContext context, WidgetRef ref) {
     var state = ref.watch(evaluationCtrlProvider);
     var ctrl = ref.read(evaluationCtrlProvider.notifier);
     var question = state.maQuestion;
@@ -100,6 +171,7 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
           // SizedBox(
           //   height: 73.0,
           // ),
+          _chargementPostReponses(context, ref),
           _myProgressBar(),
 
           Align(
@@ -164,6 +236,7 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
           ),
           _myButton(),
         ]);
+
   } // end main content
 
   _myButton() {
@@ -204,38 +277,17 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
                 Icons.check_circle_outlined,
             color: Colors.white,
               ),
-              backgroundColor: Colors.green,
+              backgroundColor: Colors.orange,
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(5.0))),
               onPressed: () {
                 // Fin du quiz
                 ctrl.postAnswers();
-                context.pushNamed(Urls.EvaluationFinalStep.name);
-                // showDialog(
-                //   context: context,
-                //   builder: (context) => AlertDialog(
-                //     title: Text("Fin de l'évaluation"),
-                //     content:
-                //         Text("Merci pour votre participation\n à la prochaine"),
-                //     actions: [
-                //       ElevatedButton(
-                //         onPressed: () {
-                //
-                //           //ctrl.postAnswers();
-                //         },
-                //         child: Text('Quitter'),
-                //         style: ElevatedButton.styleFrom(
-                //           backgroundColor: Colors.green,
-                //           foregroundColor: Colors.white,
-                //           shape: RoundedRectangleBorder(
-                //               borderRadius: BorderRadius.circular(4.0)),
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // );
-
+                if(state.statusCode == 200 || state.statusCode == 201){
+                  context.pushNamed(Urls.EvaluationFinalStep.name);
+                  ctrl.resetIntervenantAndResponses();
+                }
               },
               label: Text('soumettre les résultats',
               style: TextStyle(
@@ -272,7 +324,7 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
 
 
 
-  _separateurOu() {
+  _separateur() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20),
       child: Row(
@@ -290,12 +342,18 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
       ),
     );
   }
+}
 
+_chargement(BuildContext context, WidgetRef ref) {
+  var state = ref.watch(evaluationCtrlProvider);
+  return Visibility(
+      visible: state.isQuestionLoading,
+      child: Center(child: CircularProgressIndicator()));
+}
 
-
-  _chargement(BuildContext context) {
-    var state = ref.watch(evaluationCtrlProvider);
-    return Visibility(
-        visible: state.isLoading, child: CircularProgressIndicator());
-  }
+_chargementPostReponses(BuildContext context, WidgetRef ref) {
+  var state = ref.watch(evaluationCtrlProvider);
+  return Visibility(
+      visible: state.isLoading,
+      child: Center(child: CircularProgressIndicator()));
 }

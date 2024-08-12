@@ -6,9 +6,9 @@ import '../../composants/ListeVide.dart';
 import 'intervenantCtrl.dart';
 
 class IntervenantPage extends ConsumerStatefulWidget {
+
   final int phaseId;
   const IntervenantPage( {super.key,required this.phaseId});
-
   @override
   ConsumerState<IntervenantPage> createState() => _IntervenantState();
 }
@@ -96,9 +96,6 @@ class _IntervenantState extends ConsumerState<IntervenantPage> {
                     Icon(Icons.check_sharp,color: Colors.green,):
                     Icon(Icons.arrow_forward),
                      onTap: () {
-                      context.pushNamed(Urls.vote.name,
-                      pathParameters: {"phaseId":widget.phaseId.toString(),
-                        "intervenantId":intervenant.id.toString()});
                     },
                         title: Text(intervenant.email),)
                     );

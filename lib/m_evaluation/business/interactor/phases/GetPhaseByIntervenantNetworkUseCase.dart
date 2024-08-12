@@ -1,4 +1,4 @@
-import 'package:odc_mobile_project/m_evaluation/business/model/intervenant/phaseIntervenant.dart';
+import '../../model/phaseIntervenant.dart';
 import '../../services/evaluationLocalService.dart';
 import '../../services/evaluationNetworkService.dart';
 

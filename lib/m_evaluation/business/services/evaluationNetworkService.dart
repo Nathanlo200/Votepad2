@@ -3,13 +3,14 @@ import 'package:odc_mobile_project/m_evaluation/business/model/Vote/PhasesVote.d
 
 import '../model/Vote/createVoteRequest.dart';
 import '../model/Vote/groupes.dart';
-import '../model/Vote/intervenants.dart';
+import '../model/Vote/juryIdentifiant.dart';
+import '../model/intervenants.dart';
 import '../model/Vote/jurys.dart';
 import '../model/Vote/phaseCriteres.dart';
 import '../model/evaluation/assertions.dart';
 import '../model/evaluation/postReponses.dart';
 import '../model/evaluation/questionAssertions.dart';
-import '../model/intervenant/phaseIntervenant.dart';
+import '../model/phaseIntervenant.dart';
 
 
 
@@ -26,11 +27,11 @@ abstract class EvaluationNetworkService
   Future<PhaseIntervenant> getPhasesByIntervenant(int intervenantId, int competitionId);
   Future<List<QuestionsAssertions>> getQuestionListByPhase(int phaseId);
   Future<List<Assertions>> getAssertionList(int questionId);
-  Future<bool> postReponses(List<PostReponses>  data);
+  Future<int> postReponses(Reponse reponse);
   //Fin evalutaionNetworkService*
 
   //voteNetworkservice
-  Future<Jury?> getJury(String coupon);
+  Future<JuryIdentifiant?> getJury(String coupon, String imei);
   Future<List<Groupes>?> getGroupeList(int phaseId);
   Future<PhaseIntervenant> getGroupById(int id);
   Future<List<Intervenants>?> getIntervenantList(int phaseId);

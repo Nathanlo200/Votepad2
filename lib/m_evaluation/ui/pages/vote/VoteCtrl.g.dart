@@ -6,7 +6,7 @@ part of 'VoteCtrl.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$voteCtrlHash() => r'a5a89ddd53b05dcd766510004af5f1320fb9865f';
+String _$voteCtrlHash() => r'b547f33b20bea07a9cdf99581daa099e9b8081ae';
 
 /// See also [VoteCtrl].
 @ProviderFor(VoteCtrl)

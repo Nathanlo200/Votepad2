@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+a    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <application
         android:label="odc_mobile_project"
         android:name="${applicationName}"

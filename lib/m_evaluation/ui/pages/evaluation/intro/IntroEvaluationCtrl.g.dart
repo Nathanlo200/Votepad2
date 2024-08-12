@@ -1,26 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'EvaluationCtrl.dart';
+part of 'IntroEvaluationCtrl.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$evaluationCtrlHash() => r'd8a260d6d811c4d1c306e86b08e59f8c19646432';
+String _$introEvaluationCtrlHash() =>
+    r'd20a1c01bb3514550f2d8d1edc9c6ec760323b48';
 
-/// See also [EvaluationCtrl].
-@ProviderFor(EvaluationCtrl)
-final evaluationCtrlProvider =
-    AutoDisposeNotifierProvider<EvaluationCtrl, EvaluationState>.internal(
-  EvaluationCtrl.new,
-  name: r'evaluationCtrlProvider',
+/// See also [IntroEvaluationCtrl].
+@ProviderFor(IntroEvaluationCtrl)
+final introEvaluationCtrlProvider = AutoDisposeNotifierProvider<
+    IntroEvaluationCtrl, IntroEvaluationState>.internal(
+  IntroEvaluationCtrl.new,
+  name: r'introEvaluationCtrlProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$evaluationCtrlHash,
+      : _$introEvaluationCtrlHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$EvaluationCtrl = AutoDisposeNotifier<EvaluationState>;
+typedef _$IntroEvaluationCtrl = AutoDisposeNotifier<IntroEvaluationState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
