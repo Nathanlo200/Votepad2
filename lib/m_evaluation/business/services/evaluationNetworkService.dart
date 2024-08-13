@@ -1,18 +1,14 @@
 import 'package:odc_mobile_project/m_evaluation/business/model/Evenement.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/PhasesVote.dart';
-
 import '../model/Vote/createVoteRequest.dart';
 import '../model/Vote/groupes.dart';
 import '../model/Vote/juryIdentifiant.dart';
+import '../model/evaluation/reponse.dart';
 import '../model/intervenants.dart';
-import '../model/Vote/jurys.dart';
 import '../model/Vote/phaseCriteres.dart';
 import '../model/evaluation/assertions.dart';
-import '../model/evaluation/postReponses.dart';
 import '../model/evaluation/questionAssertions.dart';
 import '../model/phaseIntervenant.dart';
-
-
 
 abstract class EvaluationNetworkService
 {
@@ -39,6 +35,6 @@ abstract class EvaluationNetworkService
   Future<List<PhaseCriteres>?> getCritereListByPhase(int phaseId);
   Future<CreateVoteRequest?> getVoteByIntervenant(int intervenantId);
   Future<CreateVoteRequest?> getVoteByGroupe(int groupeId);
-  Future<bool> sendVoteByCandidat(CreateVoteRequest data);
+  Future<bool> sendVoteByCandidat(CreateVoteRequest data, String coupon);
 //Fin voteNetworkService*
 }

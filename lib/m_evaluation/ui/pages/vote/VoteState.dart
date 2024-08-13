@@ -1,7 +1,7 @@
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/createVoteRequest.dart';
 
-import '../../../business/model/Vote/intervenants.dart';
 import '../../../business/model/Vote/phaseCriteres.dart';
+import '../../../business/model/intervenants.dart';
 class VoteState {
   bool isLoading;
   List<PhaseCriteres> criteres;

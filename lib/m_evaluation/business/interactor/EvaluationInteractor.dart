@@ -13,7 +13,6 @@ import 'package:odc_mobile_project/m_evaluation/business/interactor/votes/SaveVo
 import 'package:odc_mobile_project/m_evaluation/business/interactor/votes/SendVoteByCandidatNetworkUseCase.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
 import '../services/evaluationLocalService.dart';
 import '../services/evaluationNetworkService.dart';
 import 'assertions/GetAssertionListNetworkUsecase.dart';
@@ -108,7 +107,8 @@ class EvaluationInteractor {
         GetVoteByIntervenantNetworkUseCase(network),
         SaveVoteLocalUseCase(local),
         GetVoteByIntervenantLocalUseCase(local),
-        SendVoteByCandidatNetworkUseCase(network));
+        SendVoteByCandidatNetworkUseCase(network, local)
+    );
 
   }
 }
