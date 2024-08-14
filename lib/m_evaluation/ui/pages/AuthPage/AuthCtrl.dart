@@ -17,12 +17,13 @@ class AuthCtrl extends _$AuthCtrl {
         .getIntervenantNetworkUseCase;
     state = state.copyWith(isLoading: true);
     try {
-      var res = await usecase.run(coupon, email);
+      var res = await usecase.run(email, coupon);
       state = state.copyWith(isLoading: false);
       print("res ${res?.toJson()}");
       return null;
     }
-    catch (e) {
+    catch (e,s) {
+      print("error $e $s");
       return e.toString();
     }
   }
