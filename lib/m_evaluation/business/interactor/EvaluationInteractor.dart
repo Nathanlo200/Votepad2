@@ -22,6 +22,7 @@ import 'intervenants/GetIntervenantListNetworkUseCase.dart';
 import 'intervenants/GetIntervenantLocalUseCase.dart';
 import 'intervenants/GetIntervenantNetworkUseCase.dart';
 import 'intervenants/SaveIntervenantLocalUseCase.dart';
+import 'jurys/GetJuryLocalUseCase.dart';
 
 part 'EvaluationInteractor.g.dart';
 
@@ -36,7 +37,6 @@ class EvaluationInteractor {
   SaveIntervenantLocalUseCase saveIntervenantUseCase;
   GetReponseListLocalUseCase getReponseListUseCase;
   GetPhasesListNetworkUseCase getPhasesListNetworkUseCase;
-  SaveIntervenantLocalUseCase saveIntervenantLocalUseCase;
   GetJuryNetworkUseCase getJuryNetworkUseCase;
   GetIntervenantListNetworkUseCase getIntervenantListNetworkUseCase;
   GetCritereListByPhaseNetworkUseCase getCritereListByPhaseNetworkUseCase;
@@ -46,11 +46,11 @@ class EvaluationInteractor {
   GetVoteByIntervenantLocalUseCase getVoteByIntervenantLocalUseCase;
   SaveVoteLocalUseCase saveVoteLocalUseCase;
   SendVoteByCandidatNetworkUseCase sendVoteByCandidatNetworkUseCase;
+  GetJuryLocalUseCase getJuryLocalUseCase;
 
   EvaluationInteractor._(
       this.getIntervenantNetworkUseCase,
       this.getPhasesListNetworkUseCase,
-      this.saveIntervenantLocalUseCase,
       this.getAssertionListUsecase,
       this.getPhaseByIntervenantuseCase,
       this.getQuestionListByPhaseUseCase,
@@ -67,16 +67,14 @@ class EvaluationInteractor {
       this.getVoteByIntervenantNetworkUseCase,
       this.saveVoteLocalUseCase,
       this.getVoteByIntervenantLocalUseCase,
-      this.sendVoteByCandidatNetworkUseCase);
+      this.sendVoteByCandidatNetworkUseCase,
+      this.getJuryLocalUseCase);
 
   static build(EvaluationNetworkService network, EvaluationLocalService local) {
     return EvaluationInteractor._(
-        GetIntervenantNetworkUseCase(network),
+        GetIntervenantNetworkUseCase(network,local),
         GetPhasesListNetworkUseCase(network, local),
-        SaveIntervenantLocalUseCase(local),
-        GetAssertionListNetworkUsecase(
-          network,
-        ),
+        GetAssertionListNetworkUsecase(network),
         GetPhaseByIntervenantNetworkUseCase(network, local),
         GetQuestionListByPhaseNetworkUseCase(network),
         PostReponseNetworkUseCase(network, local),
@@ -84,7 +82,7 @@ class EvaluationInteractor {
         GetIntervenantLocalUseCase(local),
         SaveIntervenantLocalUseCase(local),
         GetReponseListLocalUseCase(local),
-        GetJuryNetworkUseCase(network),
+        GetJuryNetworkUseCase(network, local),
         GetIntervenantListNetworkUseCase(network, local),
         GetCritereListByPhaseNetworkUseCase(network),
         GetCritereListByPhaseLocalUseCase(local),
@@ -92,7 +90,8 @@ class EvaluationInteractor {
         GetVoteByIntervenantNetworkUseCase(network),
         SaveVoteLocalUseCase(local),
         GetVoteByIntervenantLocalUseCase(local),
-        SendVoteByCandidatNetworkUseCase(network));
+        SendVoteByCandidatNetworkUseCase(network),
+        GetJuryLocalUseCase(local));
   }
 }
 
