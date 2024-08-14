@@ -9,6 +9,7 @@ import 'package:odc_mobile_project/m_evaluation/business/model/Vote/jurys.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/phaseCriteres.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/votes.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/assertions.dart';
+import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/intervenantEvaluation.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/questionAssertions.dart';
 import '../../business/model/evaluation/postReponses.dart';
 import '../../business/model/intervenants.dart';
@@ -35,18 +36,18 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
 
 
   @override
-  Future<Intervenants?> getIntervenant(String email, String coupon) async {
+  Future<IntervenantEvaluation?> getIntervenant(String email, String coupon) async {
     var res = await http.post(
         Uri.parse("$baseURL/api/intervenants-authenticate"),
         body: {"email": email, "coupon": coupon});
-    // print("body response ${res.body}");
-    // print(res.statusCode);
+    print("body response ${res.body}");
+    print(res.statusCode);
     if ([200, 201].indexOf(res.statusCode) == -1) {
       throw Exception(res.body);
     }
     var reponseMap = json.decode(res.body) as Map;
     print("responseMap $reponseMap");
-    var reponseFinal = Intervenants.fromJson(reponseMap.cast<String, dynamic>());
+    var reponseFinal = IntervenantEvaluation.fromJson(reponseMap.cast<String, dynamic>());
     return reponseFinal;
   }
 
@@ -156,10 +157,21 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
   }
 
   @override
-  Future<JuryIdentifiant?> getJury(String coupon, String imei) {
-    // TODO: implement getJury
-    throw UnimplementedError();
+  Future<JuryIdentifiant?> getJury(String coupon, String imei) async{
+    var res = await http.post(
+        Uri.parse("$baseURL/api/jurys-identifiant"),
+        body: {"identifiant": imei, "coupon": coupon});
+    print(res.body);
+    // print(res.statusCode);
+    if ([200, 201].indexOf(res.statusCode) == -1) {
+      throw Exception(res.body);
+    }
+    var reponseMap = json.decode(res.body) as Map;
+    print("responseMap $reponseMap");
+    var reponseFinal = JuryIdentifiant.fromJson(reponseMap.cast<String, dynamic>());
+    return reponseFinal;
   }
+
 
   @override
   Future<CreateVoteRequest?> getVoteByGroupe(int groupeId) {
