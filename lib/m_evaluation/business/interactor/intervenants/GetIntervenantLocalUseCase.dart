@@ -6,7 +6,7 @@ class GetIntervenantLocalUseCase{
   EvaluationLocalService local;
 
   GetIntervenantLocalUseCase( this.local);
-  Future<IntervenantEvaluation> run() async{
+  Future<IntervenantEvaluation?> run() async{
    var res = await local.getIntervenant();
    return res;
   }
