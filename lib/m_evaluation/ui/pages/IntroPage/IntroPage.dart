@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:odc_mobile_project/m_user/ui/pages/login/LoginCtrl.dart';
 import 'package:odc_mobile_project/navigation/routers.dart';
+import '../../../business/interactor/EvaluationInteractor.dart';
 import '../../composants/afficherMessageErreur.dart';
 import '../AuthPage/AuthCtrl.dart';
 import '../ScanCouponPage/ScanCouponPage.dart';
@@ -61,8 +62,8 @@ class _IntroPageState extends ConsumerState<IntroPage> {
   _getDeviceImei() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    print('Running on ${androidInfo.data}');
     print("androidInfo ${androidInfo.id}");
+    var imei = androidInfo.id;
   }
 
   _contenuPrincipale(BuildContext context) {
@@ -102,6 +103,7 @@ class _IntroPageState extends ConsumerState<IntroPage> {
   }
 
   _boutonVote() {
+    final evaluationInteractor = ref.watch(evaluationInteractorProvider);
     final ButtonStyle style = ElevatedButton.styleFrom(
       textStyle: const TextStyle(fontSize: 20),
       backgroundColor: Colors.orange,
@@ -114,6 +116,12 @@ class _IntroPageState extends ConsumerState<IntroPage> {
           ElevatedButton(
             style: style,
             onPressed: () async {
+              var usecase = evaluationInteractor.getJuryLocalUseCase;
+              var res = await usecase.run();
+              if (res?.token != "") {
+                context.pushNamed(Urls.phases.name);
+                return;
+              }
               var result = await Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -138,6 +146,7 @@ class _IntroPageState extends ConsumerState<IntroPage> {
   }
 
   _boutonEvaluation() {
+    final evaluationInteractor = ref.watch(evaluationInteractorProvider);
     final ButtonStyle style = ElevatedButton.styleFrom(
         textStyle: const TextStyle(fontSize: 20),
         backgroundColor: Colors.orange);
@@ -146,7 +155,14 @@ class _IntroPageState extends ConsumerState<IntroPage> {
       width: double.infinity,
       child: ElevatedButton(
         style: style,
-        onPressed: () {
+        onPressed: () async {
+          var usecase = evaluationInteractor.getIntervenantLocalUseCase;
+          var res = await usecase.run();
+          print(res.token);
+          if (res.token != "") {
+            context.pushNamed(Urls.phases.name);
+            return;
+          }
           context.goNamed(Urls.evaluationAuth.name);
         },
         child: const Text('Passer une evaluation'),

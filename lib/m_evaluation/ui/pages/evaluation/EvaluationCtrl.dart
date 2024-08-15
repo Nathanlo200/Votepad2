@@ -83,7 +83,7 @@ class EvaluationCtrl extends _$EvaluationCtrl {
         .map((entry) => {"questtion_id": entry.key, "assertion_id": entry.value})
         .toList();
     var phaseid = data.phaseId;
-    var intervenantId = data.intervenantId;
+    var intervenantId = data.intervenant;
     var rep = Reponse(
         intervenantId: intervenantId,
         questionsPhasesId: phaseid,

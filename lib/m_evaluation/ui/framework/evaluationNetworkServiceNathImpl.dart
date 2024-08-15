@@ -5,6 +5,7 @@ import 'package:odc_mobile_project/m_evaluation/business/model/Vote/createVoteRe
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/groupes.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/phaseCriteres.dart';
 import "package:http/http.dart" as http;
+import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/intervenantEvaluation.dart';
 import '../../business/model/Vote/juryIdentifiant.dart';
 import '../../business/model/evaluation/assertions.dart';
 import '../../business/model/evaluation/questionAssertions.dart';
@@ -31,7 +32,7 @@ class EvaluationNetworkServiceNathImpl implements EvaluationNetworkService{
 
 
   @override
-  Future<Intervenants?> getIntervenant(String email, String coupon) async {
+  Future<IntervenantEvaluation?> getIntervenant(String email, String coupon) async {
     var res = await http.post(
         Uri.parse("$baseURL/api/intervenants-authenticate"),
         body: {"email": email, "coupon": coupon});
@@ -42,7 +43,7 @@ class EvaluationNetworkServiceNathImpl implements EvaluationNetworkService{
     }
     var reponseMap = json.decode(res.body) as Map;
     print("responseMap $reponseMap");
-    var reponseFinal = Intervenants.fromJson(reponseMap.cast<String, dynamic>());
+    var reponseFinal = IntervenantEvaluation.fromJson(reponseMap.cast<String, dynamic>());
     return reponseFinal;
   }
 

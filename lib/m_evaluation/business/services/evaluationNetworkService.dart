@@ -1,5 +1,6 @@
 import 'package:odc_mobile_project/m_evaluation/business/model/Evenement.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/PhasesVote.dart';
+import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/intervenantEvaluation.dart';
 import '../model/Vote/createVoteRequest.dart';
 import '../model/Vote/groupes.dart';
 import '../model/Vote/juryIdentifiant.dart';
@@ -19,7 +20,7 @@ abstract class EvaluationNetworkService
   //Fin eventNetworkservice*
 
   //evaluationNetworkService
-  Future<Intervenants?> getIntervenant(String email, String coupon);
+  Future<IntervenantEvaluation?> getIntervenant(String email, String coupon);
   Future<PhaseIntervenant> getPhasesByIntervenant(int intervenantId, int competitionId);
   Future<List<QuestionsAssertions>> getQuestionListByPhase(int phaseId);
   Future<List<Assertions>> getAssertionList(int questionId);

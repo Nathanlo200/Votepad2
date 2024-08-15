@@ -16,7 +16,7 @@ class IntroEvaluationCtrl extends _$IntroEvaluationCtrl {
     var useCase = ref.watch(evaluationInteractorProvider).getIntervenantLocalUseCase;
     var phaseName = await useCase.run();
     state = state.copyWith(
-      phaseNom: phaseName.phaseName
+      phaseNom: phaseName.phaseNom
     );
   }
 
