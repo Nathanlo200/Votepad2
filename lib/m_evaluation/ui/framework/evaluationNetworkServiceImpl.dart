@@ -4,39 +4,34 @@ import 'package:odc_mobile_project/m_evaluation/business/model/Vote/PhasesVote.d
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/createVoteRequest.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/groupes.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/juryIdentifiant.dart';
-
-import 'package:odc_mobile_project/m_evaluation/business/model/Vote/jurys.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/phaseCriteres.dart';
-import 'package:odc_mobile_project/m_evaluation/business/model/Vote/votes.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/assertions.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/intervenantEvaluation.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/questionAssertions.dart';
-import '../../business/model/evaluation/postReponses.dart';
+import '../../business/model/evaluation/reponse.dart';
 import '../../business/model/intervenants.dart';
 import '../../business/model/phaseIntervenant.dart';
-import '../../business/model/phases.dart';
 import '../../business/services/evaluationNetworkService.dart';
 import "package:http/http.dart" as http;
 
-class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
+class EvaluationNetworkServiceImpl implements EvaluationNetworkService {
   String baseURL;
 
   EvaluationNetworkServiceImpl(this.baseURL);
 
   @override
-  Future<List<Assertions>> getAssertionList(int questionId) async{
-    var res= await http.get(Uri.parse("$baseURL/api/assertions"),
-        headers: {});
-    var reponseList=json.decode(res.body) as List;
+  Future<List<Assertions>> getAssertionList(int questionId) async {
+    var res = await http.get(Uri.parse("$baseURL/api/assertions"), headers: {});
+    var reponseList = json.decode(res.body) as List;
     //print("responseMap $reponseList");
     await Future.delayed(Duration(seconds: 3));
-    var responseFinal= reponseList.map((e)=> Assertions.fromJson(e) ).toList();
+    var responseFinal = reponseList.map((e) => Assertions.fromJson(e)).toList();
     return responseFinal;
   }
 
-
   @override
-  Future<IntervenantEvaluation?> getIntervenant(String email, String coupon) async {
+  Future<IntervenantEvaluation?> getIntervenant(
+      String email, String coupon) async {
     var res = await http.post(
         Uri.parse("$baseURL/api/intervenants-authenticate"),
         body: {"email": email, "coupon": coupon});
@@ -47,19 +42,21 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
     }
     var reponseMap = json.decode(res.body) as Map;
     print("responseMap $reponseMap");
-    var reponseFinal = IntervenantEvaluation.fromJson(reponseMap.cast<String, dynamic>());
+    var reponseFinal =
+        IntervenantEvaluation.fromJson(reponseMap.cast<String, dynamic>());
     return reponseFinal;
   }
 
   @override
-  Future<PhaseIntervenant> getPhasesByIntervenant(int intervenantId, int evenementId) async{
-    var res= await http.get(Uri.parse("$baseURL/api/phases"),
+  Future<PhaseIntervenant> getPhasesByIntervenant(
+      int intervenantId, int evenementId) async {
+    var res = await http.get(Uri.parse("$baseURL/api/phases"),
         headers: {"Authorization": "Bearer $evenementId"});
     var reponseBody = json.decode(res.body) as PhaseIntervenant;
     await Future.delayed(Duration(seconds: 3));
-    var responseFinal = PhaseIntervenant.fromJson(reponseBody as Map<String, dynamic>);
+    var responseFinal =
+        PhaseIntervenant.fromJson(reponseBody as Map<String, dynamic>);
     return responseFinal;
-
   }
 
   @override
@@ -71,50 +68,79 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
     // var responseFinal= reponseList.map((e)=> QuestionsAssertions.fromJson(e) ).toList();
     // return responseFinal;
 
-    var res= await http.get(Uri.parse("$baseURL/api/question_phases/$phaseId"));
-    var reponseList=json.decode(res.body) as List;
+    var res =
+        await http.get(Uri.parse("$baseURL/api/question_phases/$phaseId"));
+    var reponseList = json.decode(res.body) as List;
     print("responseMap $reponseList");
     await Future.delayed(Duration(seconds: 1));
-    var responseFinal= reponseList.map((e)=>QuestionsAssertions.fromJson(e["data"])).toList() ;
+    var responseFinal = reponseList
+        .map((e) => QuestionsAssertions.fromJson(e["data"]))
+        .toList();
     //var responseFinal= reponseList.map((e)=> QuestionsAssertions.fromJson(e) ).toList();
     return responseFinal;
   }
 
   @override
-  Future<bool> postReponses(List<PostReponses> data) async{
-    await http.post(Uri.parse("$baseURL/api/reponses"));
-    return Future.value(true);
+  Future<int> postReponses(Reponse reponse) async {
+    var dataToSend = reponse.toJson();
+    print("DATA to send $dataToSend");
+    final res = await http.post(Uri.parse("$baseURL/api/reponses"),
+        headers: {
+          "content-type": "application/json",
+        },
+        body: json.encode(dataToSend));
+    if ([200, 201].indexOf(res.statusCode) == -1) {
+      throw Exception(res.body);
+    }
+    print("statuscode de la requete ${res.statusCode}");
+    return res.statusCode;
   }
 
   @override
   Future<Evenement> getEvenementById(int id) async {
-    var res= await http.get(Uri.parse("$baseURL/api/phases"),);
+    var res = await http.get(
+      Uri.parse("$baseURL/api/phases"),
+    );
     print(res.body);
-    var reponseList=json.decode(res.body) as List;
+    var reponseList = json.decode(res.body) as List;
     print("responseMap $reponseList");
-    var responseFinal= reponseList.map((e)=> Evenement.fromJson(e) ).toList();
+    var responseFinal = reponseList.map((e) => Evenement.fromJson(e)).toList();
     return responseFinal as Evenement;
   }
 
   @override
-  Future<PhasesVote> getPhaseListById(int id) {
-    // TODO: implement getPhaseListById
-    throw UnimplementedError();
+  Future<PhasesVote> getPhaseListById(int id) async {
+    var res = await http.get(
+      Uri.parse("$baseURL/api/phases/$id"),
+    );
+    var reponseMap = json.decode(res.body) as Map;
+    print("responseMap $reponseMap");
+    var reponseFinal = PhasesVote.fromJson(reponseMap.cast<String, dynamic>());
+    return reponseFinal;
   }
 
   @override
-  Future<List<PhasesVote>> getPhasesList()  async{
-    var res= await http.get(Uri.parse("$baseURL/api/phases"),);
+  Future<List<PhasesVote>> getPhasesList() async {
+    var res = await http.get(
+      Uri.parse("$baseURL/api/phases"),
+    );
     print(res.body);
-    var reponseList=json.decode(res.body) as List;
+    var reponseList = json.decode(res.body) as List;
     print("responseMap $reponseList");
-    var responseFinal= reponseList.map((e)=> PhasesVote.fromJson(e) ).toList();
+    var responseFinal = reponseList.map((e) => PhasesVote.fromJson(e)).toList();
     return responseFinal;
   }
+
   @override
-  Future<List<PhaseCriteres>?> getCritereListByPhase(int phaseId) {
-    // TODO: implement getCritereListByPhase
-    throw UnimplementedError();
+  Future<List<PhaseCriteres>?> getCritereListByPhase(int phaseId) async {
+    var res = await http.get(
+      Uri.parse("$baseURL/api/phase-criteres/$phaseId"),
+    );
+    var responseList = json.decode(res.body) as List;
+    print("responseMap $responseList");
+    var responseFinal =
+        responseList.map((e) => PhaseCriteres.fromJson(e)).toList();
+    return responseFinal;
   }
 
   @override
@@ -130,22 +156,32 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
   }
 
   @override
-  Future<PhaseIntervenant> getIntervenantById(int id) {
-    // TODO: implement getIntervenantById
-    throw UnimplementedError();
+  Future<PhaseIntervenant> getIntervenantById(int id) async {
+    var res = await http.get(
+      Uri.parse("$baseURL/api/intervenants/$id"),
+    );
+    var reponseMap = json.decode(res.body) as Map;
+    print("responseMap $reponseMap");
+    var reponseFinal =
+        PhaseIntervenant.fromJson(reponseMap.cast<String, dynamic>());
+    return reponseFinal;
   }
 
   @override
   Future<List<Intervenants>?> getIntervenantList(int phaseId) async {
-    var res= await http.get(Uri.parse("$baseURL/api/intervenant-phases/$phaseId"),);
-    var reponseList=json.decode(res.body) as List;
+    var res = await http.get(
+      Uri.parse("$baseURL/api/intervenant-phases/$phaseId"),
+    );
+    var reponseList = json.decode(res.body) as List;
     print("responseList = $reponseList");
-    var responseFinal= reponseList.map((e)=> Intervenants.fromJson(e) ).toList();
+    var responseFinal =
+        reponseList.map((e) => Intervenants.fromJson(e)).toList();
     return responseFinal;
   }
 
   @override
-  Future<PhaseIntervenant> getPhasesByIntervenants(int intervenantId, int evenementId) {
+  Future<PhaseIntervenant> getPhasesByIntervenants(
+      int intervenantId, int evenementId) {
     // TODO: implement getPhasesByIntervenant
     throw UnimplementedError();
   }
@@ -157,21 +193,21 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
   }
 
   @override
-  Future<JuryIdentifiant?> getJury(String coupon, String imei) async{
-    var res = await http.post(
-        Uri.parse("$baseURL/api/jurys-identifiant"),
+  Future<JuryIdentifiant?> getJury(String coupon, String imei) async {
+    var res = await http.post(Uri.parse("$baseURL/api/jurys-identifiant"),
         body: {"identifiant": imei, "coupon": coupon});
     print(res.body);
     // print(res.statusCode);
+
     if ([200, 201].indexOf(res.statusCode) == -1) {
       throw Exception(res.body);
     }
     var reponseMap = json.decode(res.body) as Map;
     print("responseMap $reponseMap");
-    var reponseFinal = JuryIdentifiant.fromJson(reponseMap.cast<String, dynamic>());
+    var reponseFinal =
+        JuryIdentifiant.fromJson(reponseMap.cast<String, dynamic>());
     return reponseFinal;
   }
-
 
   @override
   Future<CreateVoteRequest?> getVoteByGroupe(int groupeId) {
@@ -180,16 +216,32 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
   }
 
   @override
-  Future<CreateVoteRequest?> getVoteByIntervenant(int intervenantId) {
-    // TODO: implement getVoteByIntervenant
-    throw UnimplementedError();
+  Future<CreateVoteRequest?> getVoteByIntervenant(int intervenantId) async {
+    var res = await http.get(
+      Uri.parse("$baseURL/api/intervenants/$intervenantId"),
+    );
+    var reponseMap = json.decode(res.body) as Map;
+    print("responseMap $reponseMap");
+    var reponseFinal =
+        CreateVoteRequest.fromJson(reponseMap.cast<String, dynamic>());
+    return reponseFinal;
   }
 
   @override
-  Future<bool> sendVoteByCandidat(CreateVoteRequest data) {
-    // TODO: implement sendVoteByCandidat
-    throw UnimplementedError();
+  Future<bool> sendVoteByCandidat(CreateVoteRequest data, String coupon) async {
+    var dataJson = data.toJson();
+    var res = await http.post(
+      Uri.parse("$baseURL/api/votesUnique"),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $coupon'
+      },
+      body: jsonEncode(dataJson),
+    );
+    print("RESULtat" + res.body);
+    var reponseMap = json.decode(res.body);
+    print("responseMap $reponseMap");
+    return reponseMap;
   }
-
-
 }

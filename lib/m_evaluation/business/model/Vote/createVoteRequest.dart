@@ -1,33 +1,31 @@
 import 'dart:convert';
 
+import 'package:odc_mobile_project/m_evaluation/business/model/Vote/ResultatVotes.dart';
+
 class CreateVoteRequest {
-  int idVotes;
-  double cote;
-  int nombre;
-  int phasesJurysid;
+  int? intervenantId;
+  int? phaseId;
+  List<ResultatVotes>? cote;
 
   CreateVoteRequest({
-    required this.idVotes,
-    required this.cote,
-    required this.nombre,
-    required this.phasesJurysid,
+    this.intervenantId,
+    this.phaseId,
+    this.cote,
   });
 
   factory CreateVoteRequest.fromRawJson(String str) => CreateVoteRequest.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory CreateVoteRequest.fromJson(Map<String, dynamic> json) => CreateVoteRequest(
-    idVotes: json["id_votes"],
-    cote: json["cote"]?.toDouble(),
-    nombre: json["nombre"],
-    phasesJurysid: json["phasesJurysid"],
+  factory CreateVoteRequest.fromJson(Map json) => CreateVoteRequest(
+    intervenantId: json["intervenant_id"],
+    phaseId: json["phase_id"],
+    cote: json["cote"] == null ? [] : List<ResultatVotes>.from(json["cote"]!.map((x) => ResultatVotes.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
-    "id_votes": idVotes,
-    "cote": cote,
-    "nombre": nombre,
-    "phasesJurysid": phasesJurysid,
+    "intervenant_id": intervenantId,
+    "phase_id": phaseId,
+    "cote": cote == null ? [] : cote!.map((x) => x.toJson()),
   };
 }

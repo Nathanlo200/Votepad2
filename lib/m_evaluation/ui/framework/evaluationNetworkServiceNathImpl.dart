@@ -3,15 +3,15 @@ import 'package:odc_mobile_project/m_evaluation/business/model/Evenement.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/PhasesVote.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/createVoteRequest.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/groupes.dart';
-import 'package:odc_mobile_project/m_evaluation/business/model/Vote/intervenants.dart';
-import 'package:odc_mobile_project/m_evaluation/business/model/Vote/jurys.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/phaseCriteres.dart';
-import 'package:odc_mobile_project/m_evaluation/business/model/intervenant/phaseIntervenant.dart';
 import "package:http/http.dart" as http;
-
+import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/intervenantEvaluation.dart';
+import '../../business/model/Vote/juryIdentifiant.dart';
 import '../../business/model/evaluation/assertions.dart';
-import '../../business/model/evaluation/postReponses.dart';
 import '../../business/model/evaluation/questionAssertions.dart';
+import '../../business/model/evaluation/reponse.dart';
+import '../../business/model/intervenants.dart';
+import '../../business/model/phaseIntervenant.dart';
 import '../../business/services/evaluationNetworkService.dart';
 
 class EvaluationNetworkServiceNathImpl implements EvaluationNetworkService{
@@ -32,7 +32,7 @@ class EvaluationNetworkServiceNathImpl implements EvaluationNetworkService{
 
 
   @override
-  Future<Intervenants?> getIntervenant(String email, String coupon) async {
+  Future<IntervenantEvaluation?> getIntervenant(String email, String coupon) async {
     var res = await http.post(
         Uri.parse("$baseURL/api/intervenants-authenticate"),
         body: {"email": email, "coupon": coupon});
@@ -43,7 +43,7 @@ class EvaluationNetworkServiceNathImpl implements EvaluationNetworkService{
     }
     var reponseMap = json.decode(res.body) as Map;
     print("responseMap $reponseMap");
-    var reponseFinal = Intervenants.fromJson(reponseMap.cast<String, dynamic>());
+    var reponseFinal = IntervenantEvaluation.fromJson(reponseMap.cast<String, dynamic>());
     return reponseFinal;
   }
 
@@ -53,7 +53,7 @@ class EvaluationNetworkServiceNathImpl implements EvaluationNetworkService{
         headers: {"Authorization": "Bearer $evenementId"});
     var reponseBody = json.decode(res.body) as PhaseIntervenant;
     await Future.delayed(Duration(seconds: 3));
-    var responseFinal = PhaseIntervenant.fromJson(reponseBody as Map);
+    var responseFinal = PhaseIntervenant.fromJson(reponseBody as Map<String, dynamic>);
     return responseFinal;
 
   }
@@ -69,9 +69,17 @@ class EvaluationNetworkServiceNathImpl implements EvaluationNetworkService{
   }
 
   @override
-  Future<bool> postReponses(List<PostReponses> data) async{
-    await http.post(Uri.parse("$baseURL/api/reponses"));
-    return Future.value(true);
+  Future<int> postReponses(Reponse reponse) async{
+    var dataToSend=reponse.toJson();
+    print("DATA to send $dataToSend");
+    final res = await http.post(Uri.parse("$baseURL/api/reponses"), headers: {
+      "content-type": "application/json",
+    }, body: json.encode(dataToSend));
+    if ([200, 201].indexOf(res.statusCode) == -1) {
+      throw Exception(res.body);
+    }
+    print("statuscode de la requete ${res.statusCode}");
+    return res.statusCode;
   }
 
   @override
@@ -85,9 +93,12 @@ class EvaluationNetworkServiceNathImpl implements EvaluationNetworkService{
   }
 
   @override
-  Future<PhasesVote> getPhaseListById(int id) {
-    // TODO: implement getPhaseListById
-    throw UnimplementedError();
+  Future<PhasesVote> getPhaseListById(int id) async{
+    var res= await http.get(Uri.parse("$baseURL/api/phases/$id"),);
+    var reponseMap = json.decode(res.body) as Map;
+    print("responseMap $reponseMap");
+    var reponseFinal = PhasesVote.fromJson(reponseMap.cast<String, dynamic>());
+    return reponseFinal;
   }
 
   @override
@@ -121,9 +132,12 @@ class EvaluationNetworkServiceNathImpl implements EvaluationNetworkService{
   }
 
   @override
-  Future<PhaseIntervenant> getIntervenantById(int id) {
-    // TODO: implement getIntervenantById
-    throw UnimplementedError();
+  Future<PhaseIntervenant> getIntervenantById(int id) async{
+    var res= await http.get(Uri.parse("$baseURL/api/intervenants/$id"),);
+    var reponseMap = json.decode(res.body) as Map;
+    print("responseMap $reponseMap");
+    var reponseFinal = PhaseIntervenant.fromJson(reponseMap.cast<String, dynamic>());
+    return reponseFinal;
   }
 
   @override
@@ -137,9 +151,18 @@ class EvaluationNetworkServiceNathImpl implements EvaluationNetworkService{
 
 
   @override
-  Future<Jury?> getJury(String coupon) {
-    // TODO: implement getJury
-    throw UnimplementedError();
+  Future<JuryIdentifiant?> getJury(String coupon, String imei)async {
+    var res = await http.post(Uri.parse("$baseURL/api/jurys-identifiant/$coupon/$imei"),
+        body: {"coupon": coupon, "imei": imei});
+    print("body response ${res.body}");
+    print(res.statusCode);
+    if ([200, 201].indexOf(res.statusCode) == -1) {
+      throw Exception(res.body);
+    }
+    var reponseMap = json.decode(res.body) as Map;
+    print("responseMap $reponseMap");
+    var reponseFinal = JuryIdentifiant.fromJson(reponseMap.cast<String, dynamic>());
+    return reponseFinal;
   }
 
   @override
@@ -149,15 +172,27 @@ class EvaluationNetworkServiceNathImpl implements EvaluationNetworkService{
   }
 
   @override
-  Future<CreateVoteRequest?> getVoteByIntervenant(int intervenantId) {
-    // TODO: implement getVoteByIntervenant
-    throw UnimplementedError();
+  Future<CreateVoteRequest?> getVoteByIntervenant(int intervenantId) async {
+   var res= await http.get(Uri.parse("$baseURL/api/intervenants/$intervenantId"),);
+    var reponseMap = json.decode(res.body) as Map;
+    print("responseMap $reponseMap");
+    var reponseFinal = CreateVoteRequest.fromJson(reponseMap.cast<String, dynamic>());
+    return reponseFinal;
   }
 
   @override
-  Future<bool> sendVoteByCandidat(CreateVoteRequest data) {
-    // TODO: implement sendVoteByCandidat
-    throw UnimplementedError();
+  Future<bool> sendVoteByCandidat(CreateVoteRequest data, String coupon) async {
+    var dataJson = data.toJson();
+    var res =await http.post(Uri.parse("$baseURL/api/votesUnique"),
+      headers: {'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization':  'Bearer $coupon'},
+      body: jsonEncode(dataJson),
+    );
+    print("RESULtat"+res.body);
+    var reponseMap = json.decode(res.body);
+    print("responseMap $reponseMap");
+    return reponseMap;
   }
 
 }
