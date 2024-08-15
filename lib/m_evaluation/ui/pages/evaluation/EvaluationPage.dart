@@ -67,9 +67,12 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.all(Radius.circular(5.0))),
                               ),
-                              onPressed: () {
+                              onPressed: (){
+                                while(context.canPop()){
+                                  context.pop();
+                                }
                                 ctrl.resetIntervenantAndResponses();
-                                SystemNavigator.pop();
+                                context.goNamed(Urls.Intro.name);
                               },
                               child: Text("Quitter",
                                 style: TextStyle(
@@ -281,18 +284,65 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(5.0))),
-              onPressed: () {
-                // Fin du quiz
-                ctrl.postAnswers();
-                if(state.statusCode == 200 || state.statusCode == 201){
-                  context.pushNamed(Urls.EvaluationFinalStep.name);
-                  ctrl.resetIntervenantAndResponses();
-                }
-              },
-              label: Text('soumettre les résultats',
-              style: TextStyle(
-                fontSize: 12,
-              ),),
+
+              onPressed: ()=>showDialog(context: context, builder: (BuildContext context) {
+                return AlertDialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                    title: Center(child: Text("Fin de l'évaluation")),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text("Cliquez sur le bouton soumettre"),
+                        Text("pour envoyer vos résultats"),
+                        SizedBox(height: 15,),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.orange,
+                                foregroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                              ),
+                              onPressed: (){
+                                while(context.canPop()){
+                                  context.pop();
+                                }
+                                ctrl.postAnswers();
+                                context.goNamed(Urls.Intro.name);
+                              },
+                              child: Text("soumettre",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.white,
+                                ),),
+                            ),
+                            SizedBox(width: 14.0,),
+                            ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.white,
+                                  foregroundColor: Colors.black,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                                ),
+                                onPressed: (){
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text("retour"))
+                          ],
+                        ),
+                      ],
+                    )
+                ); }),
+              label: Text('valider les résultats',
+                style: TextStyle(
+                  fontSize: 12,
+                ),),
 
             ),
           ),

@@ -32,7 +32,7 @@ class EvaluationCtrl extends _$EvaluationCtrl {
     var getIntervenant = ref.watch(evaluationInteractorProvider).getIntervenantLocalUseCase;
     var intervenant = await getIntervenant.run();
     var usecase = ref.watch(evaluationInteractorProvider).getQuestionListByPhaseUseCase;
-    var res = await usecase.run(intervenant.phaseId);
+    var res = await usecase.run(intervenant!.phaseId);
     if (res.length > 0) {
       state = await state.copyWith(
           maQuestion: res[state.currentQuestionIndex].question,
@@ -80,9 +80,9 @@ class EvaluationCtrl extends _$EvaluationCtrl {
 
     var data = await intervenant.run();
     var myList = state.reponsesChoices!.entries
-        .map((entry) => {"questtion_id": entry.key, "assertion_id": entry.value})
+        .map((entry) => {"question_id": entry.key, "assertion_id": entry.value})
         .toList();
-    var phaseid = data.phaseId;
+    var phaseid = data!.phaseId;
     var intervenantId = data.intervenant;
     var rep = Reponse(
         intervenantId: intervenantId,
