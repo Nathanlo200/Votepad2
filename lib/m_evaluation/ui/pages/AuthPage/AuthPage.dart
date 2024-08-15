@@ -135,7 +135,7 @@ class _AuthPageState extends ConsumerState<AuthPage> {
             var ctrl = ref.read(authCtrlProvider.notifier);
             var result = await ctrl.soumettre(emailCtrl.text, couponCtrl.text);
             if (result == null) {
-              context.goNamed(Urls.phases.name);
+              context.goNamed(Urls.introEvaluation.name);
             } else {
               afficherMessageErreur(context, "Email ou Coupon incorrect");
             }
