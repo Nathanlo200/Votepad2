@@ -21,9 +21,14 @@ class EvaluationLocalServiceImpl implements EvaluationLocalService{
   EvaluationLocalServiceImpl(this.stockage);
 
   @override
-  Future<IntervenantEvaluation> getIntervenant() async{
+  Future<IntervenantEvaluation?> getIntervenant() async{
     var dataJson= stockage.read("INTERVENANT");
-    return Future.value(IntervenantEvaluation.fromJson(dataJson));
+    if(dataJson == null){
+      return null;
+    }else {
+      return Future.value(IntervenantEvaluation.fromJson(dataJson));
+    }
+
   }
 
   @override
