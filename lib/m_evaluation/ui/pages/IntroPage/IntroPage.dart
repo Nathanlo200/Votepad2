@@ -158,12 +158,12 @@ class _IntroPageState extends ConsumerState<IntroPage> {
         onPressed: () async {
           var usecase = evaluationInteractor.getIntervenantLocalUseCase;
           var res = await usecase.run();
-          print(res.token);
-          if (res.token != "") {
-            context.pushNamed(Urls.phases.name);
+          print(res?.token);
+          if (res?.token == null) {
+            context.pushNamed(Urls.evaluationAuth.name);
             return;
           }
-          context.goNamed(Urls.evaluationAuth.name);
+          context.goNamed(Urls.introEvaluation.name);
         },
         child: const Text('Passer une evaluation'),
       ),
