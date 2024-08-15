@@ -28,7 +28,7 @@ abstract class EvaluationLocalService {
   //fin eventLocalService*
 
   //evaluationLocalService
-  Future<IntervenantEvaluation> getIntervenant();
+  Future<IntervenantEvaluation?> getIntervenant();
   Future<bool> saveIntervenant(IntervenantEvaluation data);
   Future<bool> saveReponses(Map<int, int>? data);
 
