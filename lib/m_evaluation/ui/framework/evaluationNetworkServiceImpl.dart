@@ -186,15 +186,20 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
   }
 
   @override
-  Future<bool> sendVoteByCandidat(CreateVoteRequest data,String coupon) async{
-    var dataJson = data.toJson();
-    var res =await http.post(Uri.parse("$baseURL/api/votesUnique"),
-      headers: {'Content-Type': 'application/json',
+  Future<Map> sendVoteByCandidat(CreateVoteRequest data,String token) async{
+    var res = await http.post(
+      Uri.parse("$baseURL/api/votesUnique"),
+      headers: {
+        'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization':  'Bearer $coupon'},
-      body: jsonEncode(dataJson),
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode(data.toJson()),
     );
-    print("RESULtat"+res.body);
+    if ([200, 201].indexOf(res.statusCode) == -1) {
+      throw Exception(res.body);
+    }
+    print("RESULtat" + res.body);
     var reponseMap = json.decode(res.body);
     print("responseMap $reponseMap");
     return reponseMap;
