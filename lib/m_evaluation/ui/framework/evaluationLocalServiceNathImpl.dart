@@ -4,8 +4,10 @@ import 'package:get_storage/get_storage.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Evenement.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/EvenementVote.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/PhasesVote.dart';
+import 'package:odc_mobile_project/m_evaluation/business/model/Vote/createVoteRequest.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/groupes.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/phaseCriteres.dart';
+import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/intervenantEvaluation.dart';
 import 'package:odc_mobile_project/m_evaluation/business/services/evaluationLocalService.dart';
 
 import '../../business/model/Phases.dart';
@@ -18,11 +20,11 @@ class EvaluationLocalServiceNathImpl implements EvaluationLocalService {
 
   EvaluationLocalServiceNathImpl(this.stockage);
 
-  @override
+  /*@override
   Future<Intervenants> getIntervenant() async {
     var dataJson = stockage.read("INTERVENANT");
     return Future.value(Intervenants.fromJson(dataJson));
-  }
+  }*/
 
   @override
   Future<Map<int, int>?> getReponsesList() async {
@@ -46,12 +48,12 @@ class EvaluationLocalServiceNathImpl implements EvaluationLocalService {
     return true;
   }
 
-  @override
+ /* @override
   Future<bool> saveIntervenant(Intervenants intervenant) async {
     var data = intervenant.toJson();
     await stockage.write("INTERVENANT", data);
     return true;
-  }
+  }*/
 
   @override
   Future<bool> saveReponses(Map<int, int>? data) async {
@@ -203,5 +205,29 @@ class EvaluationLocalServiceNathImpl implements EvaluationLocalService {
     var key = "REPONSES";
     await stockage.remove(key);
     return true;
+  }
+
+  @override
+  Future<PhaseIntervenant>? getIntervenantById(int id) {
+    // TODO: implement getIntervenantById
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool>? sendVoteByCandidat(CreateVoteRequest data) {
+    // TODO: implement sendVoteByCandidat
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<IntervenantEvaluation> getIntervenant() {
+    // TODO: implement getIntervenant
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> saveIntervenant(IntervenantEvaluation data) {
+    // TODO: implement saveIntervenant
+    throw UnimplementedError();
   }
 }

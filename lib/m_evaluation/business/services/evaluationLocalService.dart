@@ -5,6 +5,7 @@ import '../model/Vote/EvenementVote.dart';
 import '../model/Vote/createVoteRequest.dart';
 import '../model/Vote/groupes.dart';
 import '../model/Vote/juryIdentifiant.dart';
+import '../model/evaluation/intervenantEvaluation.dart';
 import '../model/intervenants.dart';
 import '../model/Vote/jurys.dart';
 import '../model/Vote/phaseCriteres.dart';
@@ -27,8 +28,8 @@ abstract class EvaluationLocalService {
   //fin eventLocalService*
 
   //evaluationLocalService
-  Future<Intervenants> getIntervenant();
-  Future<bool> saveIntervenant(Intervenants intervenant);
+  Future<IntervenantEvaluation?> getIntervenant();
+  Future<bool> saveIntervenant(IntervenantEvaluation data);
   Future<bool> saveReponses(Map<int, int>? data);
 
   Future<bool> resetReponses();
@@ -39,13 +40,14 @@ abstract class EvaluationLocalService {
 
   //voteLocalService
   //LocalGetService
-  Future<JuryIdentifiant> getJury();
+  Future<JuryIdentifiant?> getJury();
   Future<List<Groupes>> getGroupeList();
   Future<PhaseIntervenant> getGroup(int id);
   Future<List<Intervenants>> getIntervenantList();
   Future<List<PhaseCriteres>> getCritereListByPhase();
   Future<Map<String, double>?> getVoteByIntervenant(int intervenantId);
   Future<Map<String, double>> getVoteByGroupe(int groupeId);
+  Future<PhaseIntervenant>? getIntervenantById(int id);
 
   //LocalSaveService
 
@@ -56,5 +58,7 @@ abstract class EvaluationLocalService {
   Future<bool> saveGroup(Groupes data);
   Future<bool> saveIntervenantList(List<Intervenants> data);
   Future<bool> saveCritereListByPhase(List<PhaseCriteres> data);
+  Future<bool>? sendVoteByCandidat(CreateVoteRequest data);
+
 //Fin voteLocalService*
 }

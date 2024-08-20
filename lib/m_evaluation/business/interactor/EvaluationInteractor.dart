@@ -1,4 +1,5 @@
 import 'package:odc_mobile_project/m_evaluation/business/interactor/criteres/GetCritereListByPhaseNetworkUseCase.dart';
+import 'package:odc_mobile_project/m_evaluation/business/interactor/intervenants/SaveIntervenantListLocalUseCase.dart';
 import 'package:odc_mobile_project/m_evaluation/business/interactor/jurys/GetJuryNetworkUseCase.dart';
 import 'package:odc_mobile_project/m_evaluation/business/interactor/phases/GetPhaseByIntervenantNetworkUseCase.dart';
 import 'package:odc_mobile_project/m_evaluation/business/interactor/phases/GetPhasesListNetworkUseCase.dart';
@@ -23,6 +24,7 @@ import 'intervenants/GetIntervenantLocalUseCase.dart';
 import 'intervenants/GetIntervenantNetworkUseCase.dart';
 import 'intervenants/ResetIntervenantLocalUseCase.dart';
 import 'intervenants/SaveIntervenantLocalUseCase.dart';
+import 'jurys/GetJuryLocalUseCase.dart';
 
 part 'EvaluationInteractor.g.dart';
 
@@ -37,7 +39,6 @@ class EvaluationInteractor {
   SaveIntervenantLocalUseCase saveIntervenantUseCase;
   GetReponseListLocalUseCase getReponseListUseCase;
   GetPhasesListNetworkUseCase getPhasesListNetworkUseCase;
-  SaveIntervenantLocalUseCase saveIntervenantLocalUseCase;
   GetJuryNetworkUseCase getJuryNetworkUseCase;
   GetIntervenantListNetworkUseCase getIntervenantListNetworkUseCase;
 
@@ -51,7 +52,8 @@ class EvaluationInteractor {
   GetVoteByIntervenantLocalUseCase getVoteByIntervenantLocalUseCase;
   SaveVoteLocalUseCase saveVoteLocalUseCase;
   SendVoteByCandidatNetworkUseCase sendVoteByCandidatNetworkUseCase;
-
+  GetJuryLocalUseCase getJuryLocalUseCase;
+  SaveIntervenantLocalUseCase saveIntervenantLocalUseCase;
 
   EvaluationInteractor._(
       this.getIntervenantNetworkUseCase,
@@ -67,27 +69,25 @@ class EvaluationInteractor {
       this.getReponseListUseCase,
       this.getJuryNetworkUseCase,
       this.getIntervenantListNetworkUseCase,
-
       this.resetReponseLocalUseCase,
       this.resetIntervenantLocalUseCase,
-
-
       this.getCritereListByPhaseNetworkUseCase,
       this.getCritereListByPhaseLocalUseCase,
       this.saveCritereListByPhaseLocalUseCase,
       this.getVoteByIntervenantNetworkUseCase,
       this.saveVoteLocalUseCase,
       this.getVoteByIntervenantLocalUseCase,
-      this.sendVoteByCandidatNetworkUseCase);
+      this.sendVoteByCandidatNetworkUseCase,
+      this.getJuryLocalUseCase);
 
   static build(EvaluationNetworkService network, EvaluationLocalService local) {
     return EvaluationInteractor._(
-
-        GetIntervenantNetworkUseCase(network,local),
-      GetPhasesListNetworkUseCase(network, local),
-      SaveIntervenantLocalUseCase(local),
-        GetAssertionListNetworkUsecase(network,),
-
+        GetIntervenantNetworkUseCase(network, local),
+        GetPhasesListNetworkUseCase(network, local),
+        SaveIntervenantLocalUseCase(local),
+        GetAssertionListNetworkUsecase(
+          network,
+        ),
         GetPhaseByIntervenantNetworkUseCase(network, local),
         GetQuestionListByPhaseNetworkUseCase(network),
         PostReponseNetworkUseCase(network, local),
@@ -95,21 +95,18 @@ class EvaluationInteractor {
         GetIntervenantLocalUseCase(local),
         SaveIntervenantLocalUseCase(local),
         GetReponseListLocalUseCase(local),
-
-        GetJuryNetworkUseCase(network),
+        GetJuryNetworkUseCase(network, local),
         GetIntervenantListNetworkUseCase(network, local),
         ResetReponseLocalUseCase(local),
         ResetIntervenantLocalUseCase(local),
-
         GetCritereListByPhaseNetworkUseCase(network),
         GetCritereListByPhaseLocalUseCase(local),
         SaveCritereListByPhaseLocalUseCase(local),
         GetVoteByIntervenantNetworkUseCase(network),
         SaveVoteLocalUseCase(local),
         GetVoteByIntervenantLocalUseCase(local),
-        SendVoteByCandidatNetworkUseCase(network, local)
-    );
-
+        SendVoteByCandidatNetworkUseCase(network, local),
+        GetJuryLocalUseCase(local));
   }
 }
 

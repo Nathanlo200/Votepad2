@@ -10,7 +10,7 @@ class GetPhaseByIntervenantNetworkUseCase{
   GetPhaseByIntervenantNetworkUseCase(this.network, this.local);
   Future<PhaseIntervenant> run( int competitionId) async{
     var intervenant=await local.getIntervenant();
-    var res = await network.getPhasesByIntervenant(intervenant.id, competitionId);
+    var res = await network.getPhasesByIntervenant(intervenant!.id, competitionId);
     return res;
 
   }

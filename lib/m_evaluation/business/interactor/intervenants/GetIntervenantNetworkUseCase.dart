@@ -1,6 +1,4 @@
-
-import 'package:odc_mobile_project/m_evaluation/business/model/intervenants.dart';
-
+import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/intervenantEvaluation.dart';
 import '../../services/evaluationLocalService.dart';
 import '../../services/evaluationNetworkService.dart';
 
@@ -10,9 +8,12 @@ class GetIntervenantNetworkUseCase {
 
   GetIntervenantNetworkUseCase(this.network, this.local);
 
-  Future<Intervenants?> run(String email, String coupon) async {
+  Future<IntervenantEvaluation?> run(String email, String coupon) async {
     var res = await network.getIntervenant(email, coupon);
-    local.saveIntervenant(res!);
+    if (res != null) {
+      await local.saveIntervenant(res);
+    }
+
     return res;
   }
 }

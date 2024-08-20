@@ -1,12 +1,16 @@
+import 'dart:async';
+
 import 'package:get_storage/get_storage.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Evenement.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Phases.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/EvenementVote.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/PhasesVote.dart';
+import 'package:odc_mobile_project/m_evaluation/business/model/Vote/createVoteRequest.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/groupes.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/phaseCriteres.dart';
 
 import '../../business/model/Vote/juryIdentifiant.dart';
+import '../../business/model/evaluation/intervenantEvaluation.dart';
 import '../../business/model/intervenants.dart';
 import '../../business/model/phaseIntervenant.dart';
 import '../../business/services/evaluationLocalService.dart';
@@ -17,9 +21,14 @@ class EvaluationLocalServiceImpl implements EvaluationLocalService{
   EvaluationLocalServiceImpl(this.stockage);
 
   @override
-  Future<Intervenants> getIntervenant() async{
+  Future<IntervenantEvaluation?> getIntervenant() async{
     var dataJson= stockage.read("INTERVENANT");
-    return Future.value(Intervenants.fromJson(dataJson));
+    if(dataJson == null){
+      return null;
+    }else {
+      return Future.value(IntervenantEvaluation.fromJson(dataJson));
+    }
+
   }
 
   @override
@@ -52,9 +61,10 @@ class EvaluationLocalServiceImpl implements EvaluationLocalService{
   }
 
   @override
-  Future<bool> saveIntervenant(Intervenants intervenant) async{
+  Future<bool> saveIntervenant(IntervenantEvaluation intervenant) async{
     var data= intervenant.toJson();
     await stockage.write("INTERVENANT", data);
+    print('donnees à stocker : $data');
     return true;
 
   }
@@ -83,22 +93,12 @@ class EvaluationLocalServiceImpl implements EvaluationLocalService{
   }
 
   @override
-  Future<List<PhasesVote>> getPhaseList() {
-    var dataJson= stockage.read("PHASES");
-    return Future.value(List<PhasesVote>.from(dataJson.map((x) => PhasesVote.fromJson(x))));
-  }
-  @override
   Future<EvenementVote> saveEvenementById(EvenementVote data) {
     var dataJson= data.toJson();
     stockage.write("EVENEMENTS", dataJson);
     return Future.value(data);
   }
 
-  @override
-  Future<PhaseCriteres> getCritereById(int id) {
-    var dataJson= stockage.read("CRITERES");
-    return Future.value(PhaseCriteres.fromJson(dataJson));
-  }
   @override
   Future<List<PhaseCriteres>> getCritereListByPhase() {
     var dataJson= stockage.read("CRITERES");
@@ -124,9 +124,11 @@ class EvaluationLocalServiceImpl implements EvaluationLocalService{
   }
 
   @override
-
-  Future<JuryIdentifiant> getJury() {
+  Future<JuryIdentifiant?> getJury() {
     var dataJson= stockage.read("JURYS");
+    if (dataJson == null) {
+      return Future.value(null);
+    }
     return Future.value(JuryIdentifiant.fromJson(dataJson));
   }
 
@@ -147,14 +149,6 @@ class EvaluationLocalServiceImpl implements EvaluationLocalService{
   }
 
   @override
-
-  Future<bool> saveGroupe(Groupes data) {
-    var dataJson= data.toJson();
-    stockage.write("GROUPES", dataJson);
-    return Future.value(true);
-  }
-
-  @override
   Future<bool> saveGroupeList(List<Groupes> data) {
     var dataJson= data.map((e) => e.toJson()).toList();
     stockage.write("GROUPES", dataJson);
@@ -167,13 +161,6 @@ class EvaluationLocalServiceImpl implements EvaluationLocalService{
     stockage.write("iNTERVENANTS", dataJson);
     return Future.value(true);
   }
-
-  @override
-  Future<bool> saveIntervenants(Intervenants data) {
-    var dataJson= data.toJson();
-    stockage.write("iNTERVENANTS", dataJson);
-    return Future.value(true);
-  }
   @override
 
   Future<bool> saveVote(int intervenantId,Map<String, double> data) {
@@ -181,9 +168,6 @@ class EvaluationLocalServiceImpl implements EvaluationLocalService{
     stockage.write("VOTES", dataJson);
     return Future.value(true);
   }
-
-
-
   @override
   Future<Map<String, double>> getVoteByGroupe(int groupeId) {
     // TODO: implement getVoteByGroupe
@@ -211,8 +195,22 @@ class EvaluationLocalServiceImpl implements EvaluationLocalService{
   @override
   Future<bool> saveJury(JuryIdentifiant data) {
     var dataJson= data.toJson();
+    print('donnees à stocker : $dataJson');
     stockage.write("JURYS", dataJson);
     return Future.value(true);
+  }
+
+  @override
+  Future<PhaseIntervenant>? getIntervenantById(int id) {
+    // TODO: implement getIntervenantById
+    throw UnimplementedError();
+  }
+
+
+  @override
+  Future<bool>? sendVoteByCandidat(CreateVoteRequest data) {
+    // TODO: implement sendVoteByCandidat
+    throw UnimplementedError();
   }
 
 

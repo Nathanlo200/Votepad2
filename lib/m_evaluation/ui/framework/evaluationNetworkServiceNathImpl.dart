@@ -7,76 +7,74 @@ import 'package:odc_mobile_project/m_evaluation/business/model/Vote/phaseCritere
 import "package:http/http.dart" as http;
 import '../../business/model/Vote/juryIdentifiant.dart';
 import '../../business/model/evaluation/assertions.dart';
+import '../../business/model/evaluation/intervenantEvaluation.dart';
 import '../../business/model/evaluation/questionAssertions.dart';
 import '../../business/model/evaluation/reponse.dart';
 import '../../business/model/intervenants.dart';
 import '../../business/model/phaseIntervenant.dart';
 import '../../business/services/evaluationNetworkService.dart';
 
-class EvaluationNetworkServiceNathImpl implements EvaluationNetworkService {
+class EvaluationNetworkServiceNathImpl implements EvaluationNetworkService{
   String baseURL;
 
   EvaluationNetworkServiceNathImpl(this.baseURL);
 
   @override
-  Future<List<Assertions>> getAssertionList(int questionId) async {
-    var res = await http.get(Uri.parse("$baseURL/api/assertions"), headers: {});
-    var reponseList = json.decode(res.body) as List;
-    print("ASSERTIONS $reponseList");
+  Future<List<Assertions>> getAssertionList(int questionId) async{
+    var res= await http.get(Uri.parse("$baseURL/api/assertions"),
+        headers: {});
+    var reponseList=json.decode(res.body) as List;
+    //print("responseMap $reponseList");
     await Future.delayed(Duration(seconds: 3));
-    var responseFinal = reponseList.map((e) => Assertions.fromJson(e)).toList();
+    var responseFinal= reponseList.map((e)=> Assertions.fromJson(e) ).toList();
     return responseFinal;
   }
 
+
   @override
-  Future<Intervenants?> getIntervenant(String email, String coupon) async {
+  Future<IntervenantEvaluation?> getIntervenant(String email, String coupon) async {
     var res = await http.post(
         Uri.parse("$baseURL/api/intervenants-authenticate"),
         body: {"email": email, "coupon": coupon});
-    print("body response ${res.body}");
-    print(res.statusCode);
+    // print("body response ${res.body}");
+    // print(res.statusCode);
     if ([200, 201].indexOf(res.statusCode) == -1) {
       throw Exception(res.body);
     }
     var reponseMap = json.decode(res.body) as Map;
-    print("INTERVENANTS $reponseMap");
-    var reponseFinal =
-        Intervenants.fromJson(reponseMap.cast<String, dynamic>());
+    print("responseMap $reponseMap");
+    var reponseFinal = IntervenantEvaluation.fromJson(reponseMap.cast<String, dynamic>());
     return reponseFinal;
   }
 
   @override
-  Future<PhaseIntervenant> getPhasesByIntervenant(
-      int intervenantId, int evenementId) async {
-    var res = await http.get(Uri.parse("$baseURL/api/phases"),
+  Future<PhaseIntervenant> getPhasesByIntervenant(int intervenantId, int evenementId) async{
+    var res= await http.get(Uri.parse("$baseURL/api/phases"),
         headers: {"Authorization": "Bearer $evenementId"});
     var reponseBody = json.decode(res.body) as PhaseIntervenant;
     await Future.delayed(Duration(seconds: 3));
-    var responseFinal =
-        PhaseIntervenant.fromJson(reponseBody as Map<String, dynamic>);
+    var responseFinal = PhaseIntervenant.fromJson(reponseBody as Map<String, dynamic>);
     return responseFinal;
+
   }
 
   @override
   Future<List<QuestionsAssertions>> getQuestionListByPhase(int phaseId) async {
-    var res = await http.get(Uri.parse("$baseURL/api/questions"));
-    var reponseList = json.decode(res.body) as List;
-    print("responseMap $reponseList");
+    var res= await http.get(Uri.parse("$baseURL/api/questions"));
+    var reponseList=json.decode(res.body) as List;
+    //print("responseMap $reponseList");
     await Future.delayed(Duration(seconds: 1));
-    var responseFinal =
-        reponseList.map((e) => QuestionsAssertions.fromJson(e)).toList();
+    var responseFinal= reponseList.map((e)=> QuestionsAssertions.fromJson(e) ).toList();
     return responseFinal;
   }
 
   @override
-  Future<int> postReponses(Reponse reponse) async {
-    var dataToSend = reponse.toJson();
+  Future<int> postReponses(Reponse reponse) async{
+    var dataToSend=reponse.toJson();
     print("DATA to send $dataToSend");
-    final res = await http.post(Uri.parse("$baseURL/api/reponses"),
-        headers: {
-          "content-type": "application/json",
-        },
-        body: json.encode(dataToSend));
+    final res = await http.post(Uri.parse("$baseURL/api/reponses"), headers: {
+      "content-type": "application/json",
+    }, body: json.encode(dataToSend));
     if ([200, 201].indexOf(res.statusCode) == -1) {
       throw Exception(res.body);
     }
@@ -86,46 +84,38 @@ class EvaluationNetworkServiceNathImpl implements EvaluationNetworkService {
 
   @override
   Future<Evenement> getEvenementById(int id) async {
-    var res = await http.get(
-      Uri.parse("$baseURL/api/phases"),
-    );
+    var res= await http.get(Uri.parse("$baseURL/api/phases"),);
     print(res.body);
-    var reponseList = json.decode(res.body) as List;
+    var reponseList=json.decode(res.body) as List;
     print("responseMap $reponseList");
-    var responseFinal = reponseList.map((e) => Evenement.fromJson(e)).toList();
+    var responseFinal= reponseList.map((e)=> Evenement.fromJson(e) ).toList();
     return responseFinal as Evenement;
   }
 
   @override
-  Future<PhasesVote> getPhaseListById(int id) async {
-    var res = await http.get(
-      Uri.parse("$baseURL/api/phases/$id"),
-    );
+  Future<PhasesVote> getPhaseListById(int id) async{
+    var res= await http.get(Uri.parse("$baseURL/api/phases/$id"),);
     var reponseMap = json.decode(res.body) as Map;
-    print("PHASE $reponseMap");
+    print("responseMap $reponseMap");
     var reponseFinal = PhasesVote.fromJson(reponseMap.cast<String, dynamic>());
     return reponseFinal;
   }
 
   @override
-  Future<List<PhasesVote>> getPhasesList() async {
-    var res = await http.get(Uri.parse("$baseURL/api/phases"),);
+  Future<List<PhasesVote>> getPhasesList()  async{
+    var res= await http.get(Uri.parse("$baseURL/api/phases"),);
     print(res.body);
-    var reponseList = json.decode(res.body) as List;
+    var reponseList=json.decode(res.body) as List;
     print("responseMap $reponseList");
-    var responseFinal = reponseList.map((e) => PhasesVote.fromJson(e)).toList();
+    var responseFinal= reponseList.map((e)=> PhasesVote.fromJson(e) ).toList();
     return responseFinal;
   }
-
   @override
   Future<List<PhaseCriteres>?> getCritereListByPhase(int phaseId) async {
-    var res = await http.get(
-      Uri.parse("$baseURL/api/phase-criteres/$phaseId"),
-    );
-    var responseList = json.decode(res.body) as List;
-    print("CRITERE $responseList");
-    var responseFinal =
-        responseList.map((e) => PhaseCriteres.fromJson(e)).toList();
+    var res= await http.get(Uri.parse("$baseURL/api/phase-criteres/$phaseId"),);
+    var responseList=json.decode(res.body) as List;
+    print("responseMap $responseList");
+    var responseFinal= responseList.map((e)=> PhaseCriteres.fromJson(e) ).toList();
     return responseFinal;
   }
 
@@ -142,34 +132,28 @@ class EvaluationNetworkServiceNathImpl implements EvaluationNetworkService {
   }
 
   @override
-  Future<PhaseIntervenant> getIntervenantById(int id) async {
-    var res = await http.get(
-      Uri.parse("$baseURL/api/intervenants/$id"),
-    );
+  Future<PhaseIntervenant> getIntervenantById(int id) async{
+    var res= await http.get(Uri.parse("$baseURL/api/intervenants/$id"),);
     var reponseMap = json.decode(res.body) as Map;
     print("responseMap $reponseMap");
-    var reponseFinal =
-        PhaseIntervenant.fromJson(reponseMap.cast<String, dynamic>());
+    var reponseFinal = PhaseIntervenant.fromJson(reponseMap.cast<String, dynamic>());
     return reponseFinal;
   }
 
   @override
   Future<List<Intervenants>?> getIntervenantList(int phaseId) async {
-    var res = await http.get(
-      Uri.parse("$baseURL/api/intervenant-phases/$phaseId"),
-    );
-    var reponseList = json.decode(res.body) as List;
+    var res= await http.get(Uri.parse("$baseURL/api/intervenant-phases/$phaseId"),);
+    var reponseList=json.decode(res.body) as List;
     print("responseList = $reponseList");
-    var responseFinal =
-        reponseList.map((e) => Intervenants.fromJson(e)).toList();
+    var responseFinal= reponseList.map((e)=> Intervenants.fromJson(e) ).toList();
     return responseFinal;
   }
 
+
   @override
-  Future<JuryIdentifiant?> getJury(String coupon, String imei) async {
-    var res = await http.post(
-        Uri.parse("$baseURL/api/jurys-identifiant/$coupon/$imei"),
-        body: {"coupon": coupon, "identifiant": imei});
+  Future<JuryIdentifiant?> getJury(String coupon, String imei)async {
+    var res = await http.post(Uri.parse("$baseURL/api/jurys-identifiant/$coupon/$imei"),
+        body: {"coupon": coupon, "imei": imei});
     print("body response ${res.body}");
     print(res.statusCode);
     if ([200, 201].indexOf(res.statusCode) == -1) {
@@ -177,8 +161,7 @@ class EvaluationNetworkServiceNathImpl implements EvaluationNetworkService {
     }
     var reponseMap = json.decode(res.body) as Map;
     print("responseMap $reponseMap");
-    var reponseFinal =
-        JuryIdentifiant.fromJson(reponseMap.cast<String, dynamic>());
+    var reponseFinal = JuryIdentifiant.fromJson(reponseMap.cast<String, dynamic>());
     return reponseFinal;
   }
 
@@ -190,13 +173,10 @@ class EvaluationNetworkServiceNathImpl implements EvaluationNetworkService {
 
   @override
   Future<CreateVoteRequest?> getVoteByIntervenant(int intervenantId) async {
-    var res = await http.get(
-      Uri.parse("$baseURL/api/intervenants/$intervenantId"),
-    );
+   var res= await http.get(Uri.parse("$baseURL/api/intervenants/$intervenantId"),);
     var reponseMap = json.decode(res.body) as Map;
     print("responseMap $reponseMap");
-    var reponseFinal =
-        CreateVoteRequest.fromJson(reponseMap.cast<String, dynamic>());
+    var reponseFinal = CreateVoteRequest.fromJson(reponseMap.cast<String, dynamic>());
     return reponseFinal;
   }
 
@@ -219,4 +199,5 @@ class EvaluationNetworkServiceNathImpl implements EvaluationNetworkService {
     print("responseMap $reponseMap");
     return reponseMap;
   }
+
 }
