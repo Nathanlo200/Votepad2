@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:odc_mobile_project/m_evaluation/ui/composants/afficherMessageErreur.dart';
 import 'package:odc_mobile_project/m_evaluation/ui/pages/intervenantPage/intervenantCtrl.dart';
-import 'package:odc_mobile_project/m_evaluation/ui/pages/intervenantPage/intervenantPage.dart';
-import '../../../../navigation/routers.dart';
 import '../../composants/CustomSlider.dart';
 import 'VoteCtrl.dart';
 
