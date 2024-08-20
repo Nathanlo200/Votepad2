@@ -31,7 +31,7 @@ class _PhaseState extends ConsumerState<PhasePage> {
         body: SafeArea(
           child: Stack(
             children: [
-              if (state.phasesVote.isNotEmpty && !state.isLoading)
+              if (state.phases.isNotEmpty && !state.isLoading)
                 _contenuPrincipale(context, ref)
               else
 
@@ -81,7 +81,7 @@ _contenuPrincipale(BuildContext context, WidgetRef ref) {
         Padding(
           padding: const EdgeInsets.only(left: 10.0),
           child: Text(
-            "Phases : ${state.phasesVote.length}",
+            "Phases : ${state.phases.length}",
             style: TextStyle(fontSize: 20),
           ),
         ),
@@ -95,7 +95,7 @@ _contenuPrincipale(BuildContext context, WidgetRef ref) {
                     thickness: 1,
                   );
                 },
-                itemCount: state.phasesVote.length,
+                itemCount: state.phases.length,
                 itemBuilder: (ctx, index) {
                   var phase = state.phases[index];
                   return Card(
