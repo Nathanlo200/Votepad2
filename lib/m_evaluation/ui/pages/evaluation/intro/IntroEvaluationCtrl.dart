@@ -12,12 +12,36 @@ class IntroEvaluationCtrl extends _$IntroEvaluationCtrl {
     return IntroEvaluationState();
   }
 
-  void getPhasename() async{
-    var useCase = ref.watch(evaluationInteractorProvider).getIntervenantLocalUseCase;
+  void getPhaseAndEventName() async {
+    var useCase = ref
+        .watch(evaluationInteractorProvider)
+        .getIntervenantLocalUseCase;
     var phaseName = await useCase.run();
     state = state.copyWith(
-      phaseNom: phaseName!.phaseNom
+        phaseNom: phaseName!.phaseNom,
+        eventNom: phaseName.eventNom
     );
   }
 
+  void getDuration() async {
+    var getIntervenant = ref
+        .watch(evaluationInteractorProvider)
+        .getIntervenantLocalUseCase;
+    var intervenant = await getIntervenant.run();
+    var usecase = ref
+        .watch(evaluationInteractorProvider)
+        .getQuestionListByPhase2NetworkUseCase;
+    var res = await usecase.run(intervenant!.phaseId, intervenant.intervenant);
+    var duree = res?.duree ?? 0;
+    var questAssert = res?.questionaire ?? [];
+
+    print("duuuuuuuuuuuuuuuuuuuuuurer $duree");
+
+
+    if (questAssert.length > 0) {
+      state = await state.copyWith(
+        duree: duree,
+      );
+    }
+  }
 }
