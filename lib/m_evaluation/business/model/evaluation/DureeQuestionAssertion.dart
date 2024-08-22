@@ -1,7 +1,7 @@
 import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/questionAssertions.dart';
 
 class DureeQuestionAssertion {
-  String duree;
+  int duree;
   List<QuestionsAssertions> questionaire;
 
   DureeQuestionAssertion({
