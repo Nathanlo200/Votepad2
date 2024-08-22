@@ -5,6 +5,7 @@ import 'package:odc_mobile_project/m_evaluation/business/model/Vote/createVoteRe
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/groupes.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/juryIdentifiant.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/phaseCriteres.dart';
+import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/DureeQuestionAssertion.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/assertions.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/questionAssertions.dart';
 import '../../business/model/evaluation/intervenantEvaluation.dart';
@@ -209,4 +210,19 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
   }
 
 
+  @override
+  Future<DureeQuestionAssertion?> getQuestionListByPhase2(int phaseId, int intervenantId) async{
+    var res =
+        await http.get(Uri.parse("$baseURL/api/question_phases/$phaseId/$intervenantId"));
+    var reponseData = json.decode(res.body) as Map;
+    print("responseMap $reponseData");
+    var dureeQuestionnaire=DureeQuestionAssertion.fromJson(reponseData)  ;
+    // var responseFinal = reponseList
+        // .map((e) => DureeQuestionAssertion.fromJson(e))
+        // .toList();
+    //var responseFinal= reponseList.map((e)=> QuestionsAssertions.fromJson(e) ).toList();
+    return dureeQuestionnaire;
+  }
 }
+
+
