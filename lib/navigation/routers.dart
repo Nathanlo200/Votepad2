@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:odc_mobile_project/m_evaluation/ui/pages/evaluation/intro/IntroEvaluationPage.dart';
+import 'package:odc_mobile_project/m_evaluation/ui/pages/evaluation/intro/introEvaluationPage2.dart';
 import 'package:odc_mobile_project/m_evaluation/ui/pages/infoPage/InfoPage.dart';
 import 'package:odc_mobile_project/m_user/business/interactor/UserInteractor.dart';
 import 'package:odc_mobile_project/m_user/ui/pages/TestPage.dart';
@@ -8,7 +8,9 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:go_router/go_router.dart';
 
 import '../m_evaluation/ui/pages/AuthPage/AuthPage.dart';
+import '../m_evaluation/ui/pages/AuthPage/AuthPage3.dart';
 import '../m_evaluation/ui/pages/IntroPage/IntroPage.dart';
+import '../m_evaluation/ui/pages/IntroPage/intropage3.dart';
 import '../m_evaluation/ui/pages/SaisieCouponPage/SaisieCouponPage.dart';
 import '../m_evaluation/ui/pages/ScanCouponPage/ScanCouponPage.dart';
 import '../m_evaluation/ui/pages/evaluation/EvaluationPage.dart';
@@ -88,7 +90,7 @@ GoRouter router(RouterRef ref) {
             GoRoute(
                 path: 'introEvaluation',
                 name: Urls.introEvaluation.name,
-                builder: (ctx, state) => IntroEvaluationPage()),
+                builder: (ctx, state) => IntroEvaluationPage2()),
 
 
             GoRoute(
@@ -107,17 +109,17 @@ GoRouter router(RouterRef ref) {
         GoRoute(
             path: "/auth",
             name: Urls.auth.name,
-            builder: (ctx, state) => IntroPage(),
+            builder: (ctx, state) => IntroPage3(),
             routes: <RouteBase>[
 
               GoRoute(
                   path: 'intro',
                   name: Urls.Intro.name,
-                  builder: (ctx, state) => IntroPage()),
+                  builder: (ctx, state) => IntroPage3()),
               GoRoute(
                 path: "evaluation-auth",
                 name: Urls.evaluationAuth.name,
-                builder: (ctx, state) => AuthPage(),
+                builder: (ctx, state) => AuthPage3(),
               ),
               GoRoute(
                 path: 'scanner/:type',
