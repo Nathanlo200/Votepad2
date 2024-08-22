@@ -1,4 +1,5 @@
 import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/assertions.dart';
+import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/questionAssertions.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/questions.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/reponse.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -48,6 +49,34 @@ class EvaluationCtrl extends _$EvaluationCtrl {
       );
     }
   } //end getQuestions
+
+
+
+
+  void getQuestions2() async {
+      var getIntervenant = ref.watch(evaluationInteractorProvider).getIntervenantLocalUseCase;
+    var intervenant = await getIntervenant.run();
+    var usecase = ref.watch(evaluationInteractorProvider).getQuestionListByPhase2NetworkUseCase;
+    var res = await usecase.run(intervenant!.phaseId, intervenant.intervenant);
+    var questAssert = res?.questionaire ?? [];
+
+      if (questAssert.length > 0) {
+      state = await state.copyWith(
+        maQuestion: questAssert[state.currentQuestionIndex].question,
+            assertions: questAssert[state.currentQuestionIndex].assertions,
+          currentQuestionIndex: 0
+      );
+    }
+    state = await state.copyWith(questions: questAssert);
+
+    if(state.currentIndex == state.questions.length){
+      state = state.copyWith(
+        nextButtonVisible: false,
+        submitVisible: true,
+      );
+    }
+    print("durrrrrrrrrrrrrrrrrrrrrree ${state.duree}");
+  }
 
 
 
