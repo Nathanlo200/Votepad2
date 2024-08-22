@@ -96,6 +96,9 @@ class _IntervenantState extends ConsumerState<IntervenantPage> {
                     Icon(Icons.check_sharp,color: Colors.green,):
                     Icon(Icons.arrow_forward),
                      onTap: () {
+                      context.pushNamed(Urls.vote.name,
+                      pathParameters: {"phaseId":widget.phaseId.toString(),
+                        "intervenantId":intervenant.id.toString()});
                     },
                         title: Text(intervenant.email),)
                     );

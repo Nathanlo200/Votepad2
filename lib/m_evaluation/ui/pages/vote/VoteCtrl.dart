@@ -57,7 +57,7 @@ class VoteCtrl extends _$VoteCtrl {
     }
   }
 
-  void sendVoteResulats(int intervenantId,int phaseId) async {
+   sendVoteResulats(int intervenantId,int phaseId) async {
     var useCase = ref.watch(evaluationInteractorProvider).sendVoteByCandidatNetworkUseCase;
     var cotes = state.valeurs.entries
         .map((entry) => {"critere_id": int.parse(entry.key) , "valeur":entry.value})

@@ -5,9 +5,9 @@ import 'package:odc_mobile_project/m_evaluation/business/model/Vote/createVoteRe
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/groupes.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/phaseCriteres.dart';
 import "package:http/http.dart" as http;
-import 'package:odc_mobile_project/m_evaluation/business/model/evaluation/intervenantEvaluation.dart';
 import '../../business/model/Vote/juryIdentifiant.dart';
 import '../../business/model/evaluation/assertions.dart';
+import '../../business/model/evaluation/intervenantEvaluation.dart';
 import '../../business/model/evaluation/questionAssertions.dart';
 import '../../business/model/evaluation/reponse.dart';
 import '../../business/model/intervenants.dart';
@@ -181,15 +181,20 @@ class EvaluationNetworkServiceNathImpl implements EvaluationNetworkService{
   }
 
   @override
-  Future<bool> sendVoteByCandidat(CreateVoteRequest data, String coupon) async {
-    var dataJson = data.toJson();
-    var res =await http.post(Uri.parse("$baseURL/api/votesUnique"),
-      headers: {'Content-Type': 'application/json',
+  Future<Map> sendVoteByCandidat(CreateVoteRequest data, String token) async {
+    var res = await http.post(
+      Uri.parse("$baseURL/api/votesUnique"),
+      headers: {
+        'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization':  'Bearer $coupon'},
-      body: jsonEncode(dataJson),
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode(data.toJson()),
     );
-    print("RESULtat"+res.body);
+    if ([200, 201].indexOf(res.statusCode) == -1) {
+      throw Exception(res.body);
+    }
+    print("RESULtat" + res.body);
     var reponseMap = json.decode(res.body);
     print("responseMap $reponseMap");
     return reponseMap;
