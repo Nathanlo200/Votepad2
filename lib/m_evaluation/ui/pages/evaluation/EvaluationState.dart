@@ -23,6 +23,8 @@ class EvaluationState {
   Question? maQuestion;
    Map <int,int>? reponsesChoices;
   List<Map<String, int>>? postReponses;
+  String duree;
+  List<int> mytime = [];
 
 
   EvaluationState({
@@ -41,8 +43,9 @@ class EvaluationState {
     this.statusCode = 1,
     this.selectedAnswerIndex = -1,
     this.reponsesChoices,
-   this.postReponses,
-
+    this.postReponses,
+    this.duree = "",
+    this.mytime =const []
   });
 
   EvaluationState copyWith({
@@ -62,7 +65,8 @@ class EvaluationState {
     List<QuestionsAssertions>? questions,
     Map <int,int>? reponsesChoices,
     List<Map<String, int>>? postReponses,
-
+    String ? duree,
+    List<int> ? mytime,
   }) =>
       EvaluationState(
           isLoading: isLoading ?? this.isLoading,
@@ -81,5 +85,7 @@ class EvaluationState {
           statusCode: statusCode ?? this.statusCode,
           reponsesChoices: reponsesChoices ?? this.reponsesChoices,
           postReponses: postReponses ?? this.postReponses,
+          duree: duree ?? this.duree,
+          mytime: mytime ?? this.mytime
       );
 }

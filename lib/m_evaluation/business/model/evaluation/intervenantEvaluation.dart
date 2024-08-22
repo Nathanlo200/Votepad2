@@ -9,6 +9,7 @@ class IntervenantEvaluation {
   int phaseId;
   int intervenant;
   String phaseNom;
+  String eventNom;
   String email;
   String createdAt;
   String updatedAt;
@@ -23,6 +24,7 @@ class IntervenantEvaluation {
     this.createdAt="",
     this.updatedAt="",
     this.token="",
+    this.eventNom = ""
   });
 
   factory IntervenantEvaluation.fromJson(Map<String, dynamic> json) => IntervenantEvaluation(
@@ -30,6 +32,7 @@ class IntervenantEvaluation {
     phaseId: json["phase_id"]?? 1,
     intervenant: json["intervenant"]?? 1,
     phaseNom: json["phase_nom"] ?? "",
+    eventNom: json["evenement_nom"] ?? "",
     email: json["email"]??"",
     createdAt: json["created_at"]?? "",
     updatedAt: json["updated_at"]?? "",
@@ -41,6 +44,7 @@ class IntervenantEvaluation {
     "phase_id": phaseId,
     "intervenant": intervenant,
     "phase_nom": phaseNom,
+    "evenement_nom": eventNom,
     "email": email,
     "created_at": createdAt,
     "updated_at": updatedAt,

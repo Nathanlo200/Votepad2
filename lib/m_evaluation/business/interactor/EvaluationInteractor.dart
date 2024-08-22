@@ -3,6 +3,7 @@ import 'package:odc_mobile_project/m_evaluation/business/interactor/intervenants
 import 'package:odc_mobile_project/m_evaluation/business/interactor/jurys/GetJuryNetworkUseCase.dart';
 import 'package:odc_mobile_project/m_evaluation/business/interactor/phases/GetPhaseByIntervenantNetworkUseCase.dart';
 import 'package:odc_mobile_project/m_evaluation/business/interactor/phases/GetPhasesListNetworkUseCase.dart';
+import 'package:odc_mobile_project/m_evaluation/business/interactor/questions/GetQuestionListByPhase2NetworkUseCase.dart';
 import 'package:odc_mobile_project/m_evaluation/business/interactor/questions/GetQuestionListByPhaseNetworkUseCase.dart';
 import 'package:odc_mobile_project/m_evaluation/business/interactor/reponses/GetReponseListLocalUseCase.dart';
 import 'package:odc_mobile_project/m_evaluation/business/interactor/reponses/PostReponseNetworkUseCase.dart';
@@ -54,7 +55,7 @@ class EvaluationInteractor {
   SendVoteByCandidatNetworkUseCase sendVoteByCandidatNetworkUseCase;
   GetJuryLocalUseCase getJuryLocalUseCase;
   SaveIntervenantLocalUseCase saveIntervenantLocalUseCase;
-
+  GetQuestionListByPhase2NetworkUseCase getQuestionListByPhase2NetworkUseCase;
   EvaluationInteractor._(
       this.getIntervenantNetworkUseCase,
       this.getPhasesListNetworkUseCase,
@@ -78,7 +79,8 @@ class EvaluationInteractor {
       this.saveVoteLocalUseCase,
       this.getVoteByIntervenantLocalUseCase,
       this.sendVoteByCandidatNetworkUseCase,
-      this.getJuryLocalUseCase);
+      this.getJuryLocalUseCase,
+      this.getQuestionListByPhase2NetworkUseCase);
 
   static build(EvaluationNetworkService network, EvaluationLocalService local) {
     return EvaluationInteractor._(
@@ -106,7 +108,8 @@ class EvaluationInteractor {
         SaveVoteLocalUseCase(local),
         GetVoteByIntervenantLocalUseCase(local),
         SendVoteByCandidatNetworkUseCase(network, local),
-        GetJuryLocalUseCase(local));
+        GetJuryLocalUseCase(local),
+    GetQuestionListByPhase2NetworkUseCase(network));
   }
 }
 
