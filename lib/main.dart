@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -47,7 +48,8 @@ void main() async {
   // var evaluationLocalImpl = EvaluationLocalServiceImplTest(stockage);
   // var evaluationInteractor=EvaluationInteractor.build(evaluationNetworkImpl, evaluationLocalImpl);
 
-
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   runApp(ProviderScope(
       overrides: [
@@ -55,6 +57,8 @@ void main() async {
         evaluationInteractorProvider.overrideWithValue(evaluationInteractor),],
       child: MyApp()
   ));
+  FlutterNativeSplash.remove();
+
 }
 
 
