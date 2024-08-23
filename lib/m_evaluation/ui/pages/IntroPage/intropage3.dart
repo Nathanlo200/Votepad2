@@ -217,7 +217,7 @@ class _IntroPageState extends ConsumerState<IntroPage3> {
                 var usecase = evaluationInteractor.getJuryLocalUseCase;
                 var res = await usecase.run();
                 if (res?.token != "") {
-                  context.pushNamed(Urls.scanner.name);
+                  context.pushNamed(Urls.phases.name);
                   return;
                 }
                 var result = await Navigator.push(
