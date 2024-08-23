@@ -18,7 +18,6 @@ class _SaisieCouponPageState extends ConsumerState<SaisieCouponPage> {
   void initState() {
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
