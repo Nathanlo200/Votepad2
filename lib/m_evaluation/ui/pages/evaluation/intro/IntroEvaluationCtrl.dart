@@ -33,15 +33,17 @@ class IntroEvaluationCtrl extends _$IntroEvaluationCtrl {
         .getQuestionListByPhase2NetworkUseCase;
     var res = await usecase.run(intervenant!.phaseId, intervenant.intervenant);
     var duree = res?.duree ?? 0;
-    var questAssert = res?.questionaire ?? [];
+    var questAssert = res?.questionaire;
 
     print("duuuuuuuuuuuuuuuuuuuuuurer $duree");
 
+    state = await state.copyWith(questions: questAssert);
 
-    if (questAssert.length > 0) {
+    if (questAssert?.length != null) {
       state = await state.copyWith(
         duree: duree,
       );
     }
+
   }
 }
