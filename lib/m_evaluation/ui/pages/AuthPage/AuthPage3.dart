@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:odc_mobile_project/m_evaluation/ui/pages/AuthPage/AuthCtrl.dart';
-import 'package:odc_mobile_project/m_evaluation/ui/composants/CustomScaffold.dart';
 import '../../../../navigation/routers.dart';
 import '../../composants/afficherMessageErreur.dart';
 import '../ScanCouponPage/ScanCouponPage.dart';

@@ -23,6 +23,7 @@ class _IntroEvaluationPageState extends ConsumerState<IntroEvaluationPage2> {
       // action initiale de la page et appel d'un controleur
       var ctrl = ref.read(introEvaluationCtrlProvider.notifier);
       ctrl.getPhaseAndEventName();
+      ctrl.getDuration();
     });
   }
 
@@ -33,6 +34,27 @@ class _IntroEvaluationPageState extends ConsumerState<IntroEvaluationPage2> {
 
     return Scaffold(
         appBar: AppBar(
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                child: TextButton(
+                    onPressed: (){
+                      ctrl.resetIntervenant();
+                      context.goNamed(Urls.Intro.name);
+                    },
+                    child: Text("se deconnecter",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500
+                    ),)),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Color(0xffFF7900).withOpacity(0.5),
+                ),
+              ),
+            )
+          ],
           leading: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -45,7 +67,7 @@ class _IntroEvaluationPageState extends ConsumerState<IntroEvaluationPage2> {
                 iconSize: 20,
               ),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(10),
                 color: Color(0xffFF7900).withOpacity(0.5),
               ),
             ),
@@ -134,11 +156,10 @@ class _IntroEvaluationPageState extends ConsumerState<IntroEvaluationPage2> {
                               onPressed: () {
                                 if(state.duree != null){
                                   context.pushNamed(Urls.evaluation.name,);
-                                  ctrl.getDuration();
+                                  // ctrl.getDuration();
                                 }
                                 else{
                                   afficherMessageErreur(context, "votre participation à cette évaluation a expiré");
-
                                 }
 
                               },
@@ -161,92 +182,6 @@ class _IntroEvaluationPageState extends ConsumerState<IntroEvaluationPage2> {
           ),
         )
     );;
-      // Customscaffold(
-      //   icon: IconButton(icon: Icon(Icons.arrow_back_ios_new),
-      //     onPressed: (){
-      //       context.goNamed(Urls.Intro.name);
-      //     },),
-      //   child: Stack(
-      //     alignment: Alignment.center,
-      //     children: [
-      //       Positioned(
-      //         left: 5,
-      //         right: 5,
-      //         child: Card(
-      //           color: Colors.black.withOpacity(0.5),
-      //           child: Column(
-      //               mainAxisSize: MainAxisSize.min,
-      //               children: [
-      //                 SizedBox(height: 20,),
-      //                 Text("Votre évènement : ${state.eventNom}",
-      //                   style: TextStyle(
-      //                       color: Colors.white,
-      //                       fontSize: 14
-      //
-      //                   ),),
-      //                 Text("Phase en cours : ${state.phaseNom}",
-      //                   style: TextStyle(
-      //                       color: Colors.white,
-      //                       fontSize: 14
-      //
-      //                   ),),
-      //                 SizedBox(height: 25,),
-      //                 Icon(Icons.event_available,
-      //                   color: Colors.orange,
-      //                   size: 28,),
-      //                 SizedBox(height: 20.0,),
-      //                 Center(child: Text("Cliquez sur le bouton ci-dessus pour",
-      //                   style: TextStyle(
-      //                       color: Colors.white,
-      //                       fontSize: 14
-      //
-      //                   ),)),
-      //                 Center(child: Text("commencer votre évaluation:",
-      //                   style: TextStyle(
-      //                       color: Colors.white,
-      //                       fontSize: 14
-      //
-      //                   ),)),
-      //                 SizedBox(height: 4.0,),
-      //
-      //                 SizedBox(height: 18.0,),
-      //                 Container(
-      //                   padding: EdgeInsets.symmetric(horizontal: 30),
-      //                   width: double.infinity,
-      //                   child: SizedBox(
-      //                     width: double.infinity,
-      //                     child: ElevatedButton(
-      //                         style: ElevatedButton.styleFrom(
-      //                           backgroundColor: Colors.white,
-      //                           foregroundColor: Colors.black,
-      //                           shape: RoundedRectangleBorder(
-      //                               borderRadius: BorderRadius.all(Radius.circular(5.0))),
-      //                         ),
-      //                         onPressed: () {
-      //                           context.pushNamed(Urls.evaluation.name,);
-      //                         },
-      //                         child: Text("Démarrer",
-      //                           style: TextStyle(
-      //                               color: Colors.black,
-      //                               fontSize: 16
-      //                           ),)),
-      //                   ),
-      //                 ),
-      //                 SizedBox(height: 20.0,),
-      //                 Center(
-      //                   child: Text("Orange est là",
-      //                     style: TextStyle(
-      //                       color: Colors.grey,
-      //                       fontSize: 8,
-      //                     ),),),
-      //                 SizedBox(height: 25.0,),
-      //               ]),
-      //
-      //         ),
-      //       ),
-      //     ],
-      //   ),
-      //
-      //   lead: true);
+
   }
 }
