@@ -46,4 +46,9 @@ class IntroEvaluationCtrl extends _$IntroEvaluationCtrl {
     }
 
   }
+
+  void resetIntervenant(){
+    var resetInt = ref.watch(evaluationInteractorProvider).resetIntervenantLocalUseCase;
+    resetInt.run();
+  }
 }

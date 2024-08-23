@@ -34,6 +34,27 @@ class _IntroEvaluationPageState extends ConsumerState<IntroEvaluationPage2> {
 
     return Scaffold(
         appBar: AppBar(
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                child: TextButton(
+                    onPressed: (){
+                      ctrl.resetIntervenant();
+                      context.goNamed(Urls.Intro.name);
+                    },
+                    child: Text("se deconnecter",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500
+                    ),)),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Color(0xffFF7900).withOpacity(0.5),
+                ),
+              ),
+            )
+          ],
           leading: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -46,7 +67,7 @@ class _IntroEvaluationPageState extends ConsumerState<IntroEvaluationPage2> {
                 iconSize: 20,
               ),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(10),
                 color: Color(0xffFF7900).withOpacity(0.5),
               ),
             ),
