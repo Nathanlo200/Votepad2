@@ -1,3 +1,5 @@
+import 'package:circular_countdown_timer/circular_countdown_timer.dart';
+import 'package:circular_countdown_timer/countdown_text_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -110,7 +112,7 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
                         ),
                       ],
                     )
-                  ); }),
+                  ); },barrierDismissible: false,),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -176,6 +178,7 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
   }
 
   _mainContent(BuildContext context, WidgetRef ref) {
+    final CountDownController _controller = CountDownController();
     var state = ref.watch(evaluationCtrlProvider);
     var stateIntro = ref.watch(introEvaluationCtrlProvider);
     var duration = stateIntro.duree!;
@@ -205,89 +208,99 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: TimerCountdown(
-                          enableDescriptions: false,
-                          hoursDescription: 'heures',
-                          minutesDescription: 'min',
-                          secondsDescription: 'sec',
-                          descriptionTextStyle: const TextStyle(
-                              fontSize: 10
-                          ),
-                          // onTick: ,
-                          timeTextStyle: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white
-                          ),
-                          colonsTextStyle: const TextStyle(
-                            fontWeight: FontWeight.w800,
+                        child:  CircularCountDownTimer(
+                          duration: duration,
+                          initialDuration: 0,
+                          controller: _controller,
+                          width: 100,
+                          height: 100,
+                          ringColor: Colors.grey[300]!,
+                          ringGradient: null,
+                          fillColor: Colors.green,
+                          fillGradient: null,
+                          backgroundColor: Colors.orange,
+                          strokeWidth: 10.0,
+                          strokeCap: StrokeCap.round,
+                          textStyle: const TextStyle(
+                            fontSize: 15.0,
                             color: Colors.white,
-                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
                           ),
-                          format: CountDownTimerFormat.hoursMinutesSeconds,
-                          endTime: DateTime.now().add(
-                            Duration(
-                              hours: (duration / 3600).floor(),
-                              minutes:  ((duration % 3600)/60).floor(),
-                              seconds:  (duration % 3600) % 60.floor(),
-                            ),
+                          textFormat: CountdownTextFormat.HH_MM_SS,
+                          isReverse: true,
+                          isReverseAnimation: true,
+                          isTimerTextShown: true,
+                          autoStart: true,
+                          onComplete: ()=>showDialog(
+                            context: context, builder: (BuildContext context) {
+                              return AlertDialog(
+                                  shape: const RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                                          title: const Center(child: Text("Fin de l'évaluation !",style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold
+                                          ),)),
+                                          content: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              const Icon(Icons.timer_outlined,color: Colors.red,),
+                                              const Text("Le temps est écoulé",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w400,
+                                                ),),
+                                              const SizedBox(height: 10,),
+                                              const Text("Cliquez sur le bouton soumettre"),
+                                              const Text("pour envoyer vos résultats"),
+                                              const SizedBox(height: 15,),
+                                              Container(
+                                                padding: EdgeInsets.symmetric(horizontal: 30),
+                                                width: double.infinity,
+                                                child: SizedBox(
+                                                  width: double.infinity,
+                                                  child: ElevatedButton(
+                                                    style: ElevatedButton.styleFrom(
+                                                      backgroundColor: Colors.orange,
+                                                      foregroundColor: Colors.white,
+                                                      shape: const RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                                                    ),
+                                                    onPressed: (){
+                                                         while(context.canPop()){
+                                                           context.pop();
+                                                    }
+                                                    ctrl.postAnswers();
+                                                         ctrl.resetIntervenantAndResponses();
+                                                    context.goNamed(Urls.Intro.name);
+                                                     },
+                                                    child: const Text("soumettre",
+                                                      style: TextStyle(
+                                                        fontSize: 16,
+                                                        color: Colors.white,
+                                                      ),),
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(width: 14.0,),
+                                            ],
+                                          )
+                              );
+                          },barrierDismissible: false,
                           ),
-                          onEnd: ()=>showDialog(context: context, builder: (BuildContext context) {
 
-                            return AlertDialog(
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(5.0))),
-                                title: const Center(child: Text("Fin de l'évaluation !",style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold
-                                ),)),
-                                content: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    const Icon(Icons.timer_outlined,color: Colors.red,),
-                                    const Text("Le temps est écoulé",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                      ),),
-                                    const SizedBox(height: 10,),
-                                    const Text("Cliquez sur le bouton soumettre"),
-                                    const Text("pour envoyer vos résultats"),
-                                    const SizedBox(height: 15,),
-                                    Container(
-                                      padding: EdgeInsets.symmetric(horizontal: 30),
-                                      width: double.infinity,
-                                      child: SizedBox(
-                                        width: double.infinity,
-                                        child: ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.orange,
-                                            foregroundColor: Colors.white,
-                                            shape: const RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(Radius.circular(5.0))),
-                                          ),
-                                          onPressed: (){
-                                               while(context.canPop()){
-                                                 context.pop();
-                                          }
-                                          ctrl.postAnswers();
-                                               ctrl.resetIntervenantAndResponses();
-                                          context.goNamed(Urls.Intro.name);
-                                           },
-                                          child: const Text("soumettre",
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              color: Colors.white,
-                                            ),),
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 14.0,),
-                                  ],
-                                )
-                            ); },barrierDismissible: false),
+                          timeFormatterFunction: (defaultFormatterFunction, duration) {
+                            if (duration.inSeconds == 0) {
+                              //only format for '0'
+                              return "Fin";
+                            } else {
+                              //others durations by it's default format
+                              return Function.apply(defaultFormatterFunction, [duration]);
+                            }
+                          },
+
                         ),
+
                       ),
                     ),
                     SizedBox(width: 40.0,),
@@ -464,7 +477,7 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
                         ),
                       ],
                     )
-                ); }),
+                ); },barrierDismissible: false,),
               label: Text('valider les résultats',
                 style: TextStyle(
                   fontSize: 16,
