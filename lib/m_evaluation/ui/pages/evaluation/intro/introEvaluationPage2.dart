@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:odc_mobile_project/m_evaluation/ui/composants/afficherMessageErreur.dart';
+import 'package:odc_mobile_project/m_evaluation/ui/composants/afficherMessageInfo.dart';
+import 'package:odc_mobile_project/m_evaluation/ui/pages/evaluation/EvaluationCtrl.dart';
 import 'package:odc_mobile_project/m_evaluation/ui/pages/evaluation/intro/IntroEvaluationCtrl.dart';
 import '../../../../../navigation/routers.dart';
 
@@ -42,6 +43,7 @@ class _IntroEvaluationPageState extends ConsumerState<IntroEvaluationPage2> {
                     onPressed: (){
                       ctrl.resetIntervenant();
                       context.goNamed(Urls.Intro.name);
+                      afficherMessageInfo(context, "Vous etes deconnecté", Colors.red, true);
                     },
                     child: Text("se deconnecter",
                     style: TextStyle(
@@ -154,14 +156,13 @@ class _IntroEvaluationPageState extends ConsumerState<IntroEvaluationPage2> {
                                     borderRadius: BorderRadius.all(Radius.circular(5.0))),
                               ),
                               onPressed: () {
-                                if(state.duree != null){
+                                if(state.duree != null || state.duree != 0){
                                   context.pushNamed(Urls.evaluation.name,);
-                                  // ctrl.getDuration();
                                 }
                                 else{
-                                  afficherMessageErreur(context, "votre participation à cette évaluation a expiré");
+                                  afficherMessageInfo(context, "votre participation à cette évaluation a expiré", Colors.orange, true);
+                                  context.pushNamed(Urls.introEvaluation.name,);
                                 }
-
                               },
                               child: Text("Démarrer",
                                 style: TextStyle(
