@@ -12,7 +12,7 @@ class SendVoteByCandidatNetworkUseCase{
 
   Future<dynamic> run(CreateVoteRequest data) async {
     var jury = await local.getJury();
-    var res = await network.sendVoteByCandidat(data, jury?.token??"");
+    var res = await network.sendVoteByCandidat(data, jury?.token??"",jury?.nombre_user??0);
     return res;
   }
 }
