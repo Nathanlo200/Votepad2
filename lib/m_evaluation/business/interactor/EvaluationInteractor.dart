@@ -2,6 +2,7 @@ import 'package:odc_mobile_project/m_evaluation/business/interactor/criteres/Get
 import 'package:odc_mobile_project/m_evaluation/business/interactor/intervenants/SaveIntervenantListLocalUseCase.dart';
 import 'package:odc_mobile_project/m_evaluation/business/interactor/jurys/GetJuryNetworkUseCase.dart';
 import 'package:odc_mobile_project/m_evaluation/business/interactor/phases/GetPhaseByIntervenantNetworkUseCase.dart';
+import 'package:odc_mobile_project/m_evaluation/business/interactor/phases/GetPhaseListByIdNetworkUseCase.dart';
 import 'package:odc_mobile_project/m_evaluation/business/interactor/phases/GetPhasesListNetworkUseCase.dart';
 import 'package:odc_mobile_project/m_evaluation/business/interactor/questions/GetQuestionListByPhase2NetworkUseCase.dart';
 import 'package:odc_mobile_project/m_evaluation/business/interactor/questions/GetQuestionListByPhaseNetworkUseCase.dart';
@@ -11,6 +12,7 @@ import 'package:odc_mobile_project/m_evaluation/business/interactor/reponses/Res
 import 'package:odc_mobile_project/m_evaluation/business/interactor/reponses/SaveReponseLocalUseCase.dart';
 import 'package:odc_mobile_project/m_evaluation/business/interactor/votes/GetVoteByIntervenantLocalUseCase.dart';
 import 'package:odc_mobile_project/m_evaluation/business/interactor/votes/GetVoteByIntervenantNetworkUseCase.dart';
+import 'package:odc_mobile_project/m_evaluation/business/interactor/votes/ResetVoteValueLocalUseCase.dart';
 import 'package:odc_mobile_project/m_evaluation/business/interactor/votes/SaveVoteLocalUseCase.dart';
 import 'package:odc_mobile_project/m_evaluation/business/interactor/votes/SendVoteByCandidatNetworkUseCase.dart';
 import 'package:riverpod/riverpod.dart';
@@ -26,6 +28,7 @@ import 'intervenants/GetIntervenantNetworkUseCase.dart';
 import 'intervenants/ResetIntervenantLocalUseCase.dart';
 import 'intervenants/SaveIntervenantLocalUseCase.dart';
 import 'jurys/GetJuryLocalUseCase.dart';
+import 'jurys/ResetJury.dart';
 
 part 'EvaluationInteractor.g.dart';
 
@@ -40,6 +43,7 @@ class EvaluationInteractor {
   SaveIntervenantLocalUseCase saveIntervenantUseCase;
   GetReponseListLocalUseCase getReponseListUseCase;
   GetPhasesListNetworkUseCase getPhasesListNetworkUseCase;
+  GetPhaseListByIdNetworkUseCase getPhaseListByIdNetworkUseCase;
   GetJuryNetworkUseCase getJuryNetworkUseCase;
   GetIntervenantListNetworkUseCase getIntervenantListNetworkUseCase;
 
@@ -56,9 +60,13 @@ class EvaluationInteractor {
   GetJuryLocalUseCase getJuryLocalUseCase;
   SaveIntervenantLocalUseCase saveIntervenantLocalUseCase;
   GetQuestionListByPhase2NetworkUseCase getQuestionListByPhase2NetworkUseCase;
+  ResetVoteValueLocalUseCase resetVoteValueLocalUseCase;
+  ResetJuryLocalUseCase resetJuryLocalUseCase;
+
   EvaluationInteractor._(
       this.getIntervenantNetworkUseCase,
       this.getPhasesListNetworkUseCase,
+      this.getPhaseListByIdNetworkUseCase,
       this.saveIntervenantLocalUseCase,
       this.getAssertionListUsecase,
       this.getPhaseByIntervenantuseCase,
@@ -80,12 +88,16 @@ class EvaluationInteractor {
       this.getVoteByIntervenantLocalUseCase,
       this.sendVoteByCandidatNetworkUseCase,
       this.getJuryLocalUseCase,
-      this.getQuestionListByPhase2NetworkUseCase);
+      this.getQuestionListByPhase2NetworkUseCase,
+      this.resetVoteValueLocalUseCase,
+      this.resetJuryLocalUseCase
+      ) ;
 
   static build(EvaluationNetworkService network, EvaluationLocalService local) {
     return EvaluationInteractor._(
         GetIntervenantNetworkUseCase(network, local),
         GetPhasesListNetworkUseCase(network, local),
+        GetPhaseListByIdNetworkUseCase(network),
         SaveIntervenantLocalUseCase(local),
         GetAssertionListNetworkUsecase(
           network,
@@ -109,7 +121,10 @@ class EvaluationInteractor {
         GetVoteByIntervenantLocalUseCase(local),
         SendVoteByCandidatNetworkUseCase(network, local),
         GetJuryLocalUseCase(local),
-    GetQuestionListByPhase2NetworkUseCase(network));
+    GetQuestionListByPhase2NetworkUseCase(network),
+        ResetVoteValueLocalUseCase(local),
+        ResetJuryLocalUseCase(local)
+    );
   }
 }
 
