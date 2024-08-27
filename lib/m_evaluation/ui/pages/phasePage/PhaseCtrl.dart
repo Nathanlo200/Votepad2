@@ -12,6 +12,11 @@ class PhaseCtrl extends _$PhaseCtrl{
     return PhaseState();
   }
 
+  disconnect() async {
+    var useCase = ref.watch(evaluationInteractorProvider).resetJuryLocalUseCase;
+    await useCase.run();
+  }
+
   void recupererListPhase() async {
     var usecase = ref.watch(evaluationInteractorProvider).getPhasesListNetworkUseCase;
 
