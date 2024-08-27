@@ -62,7 +62,9 @@ class _PhaseState extends ConsumerState<PhasePage> {
                 },
                 icon: Icon(Icons.info)),
             IconButton(
-                onPressed: () {
+                onPressed: () async{
+                  var ctrl = ref.read(phaseCtrlProvider.notifier);
+                  await ctrl.disconnect();
                   context.goNamed(Urls.Intro.name);
                 },
                 icon: Icon(Icons.logout_outlined)),
