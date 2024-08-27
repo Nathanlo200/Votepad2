@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:odc_mobile_project/m_evaluation/ui/pages/evaluation/end/endTimePage.dart';
 import 'package:odc_mobile_project/m_evaluation/ui/pages/evaluation/intro/introEvaluationPage2.dart';
 import 'package:odc_mobile_project/m_evaluation/ui/pages/infoPage/InfoPage.dart';
 import 'package:odc_mobile_project/m_user/business/interactor/UserInteractor.dart';
@@ -14,6 +15,7 @@ import '../m_evaluation/ui/pages/IntroPage/intropage3.dart';
 import '../m_evaluation/ui/pages/SaisieCouponPage/SaisieCouponPage.dart';
 import '../m_evaluation/ui/pages/ScanCouponPage/ScanCouponPage.dart';
 import '../m_evaluation/ui/pages/evaluation/EvaluationPage.dart';
+import '../m_evaluation/ui/pages/evaluation/end/EvaluationExpiredPage.dart';
 import '../m_evaluation/ui/pages/evaluation/end/endPage.dart';
 import '../m_evaluation/ui/pages/intervenantPage/intervenantPage.dart';
 import '../m_evaluation/ui/pages/phasePage/PhasePage.dart';
@@ -25,8 +27,9 @@ part "routers.g.dart";
 enum Urls { home, detailArticle, auth,
   login,  test, Intro,
   scanner,  evaluationAuth, phases,
-  intervenants,info ,
-  evaluation, EvaluationFinalStep, introEvaluation,saisieCoupon,vote}
+  intervenants,info , evaluationExpired,
+  evaluation, EvaluationFinalStep, introEvaluation,
+  saisieCoupon,vote, evaluationEndStep, }
 
 @Riverpod(keepAlive: true)
 GoRouter router(RouterRef ref) {
@@ -103,6 +106,16 @@ GoRouter router(RouterRef ref) {
                 path: 'EvaluationFinalStep',
                 name: Urls.EvaluationFinalStep.name,
                 builder: (ctx, state) => EndPage()),
+
+            GoRoute(
+                path: 'evaluationEndStep',
+                name: Urls.evaluationEndStep.name,
+                builder: (ctx, state) => EndTimePage()),
+
+            GoRoute(
+                path: 'evaluationExpired',
+                name: Urls.evaluationExpired.name,
+                builder: (ctx, state) => EvaluationExpiredPage()),
 
           ],
         ),

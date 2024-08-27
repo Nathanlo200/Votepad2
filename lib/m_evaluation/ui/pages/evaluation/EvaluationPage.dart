@@ -3,15 +3,13 @@ import 'package:circular_countdown_timer/countdown_text_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
 import 'package:go_router/go_router.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:odc_mobile_project/m_evaluation/ui/pages/evaluation/EvaluationCtrl.dart';
 import 'package:linear_progress_bar/linear_progress_bar.dart';
 import 'package:odc_mobile_project/m_evaluation/ui/pages/evaluation/questionNotFound.dart';
-
 import '../../../../navigation/routers.dart';
-import '../../composants/ListeVide.dart';
-import 'intro/IntroEvaluationCtrl.dart';
+import '../../composants/afficherMessageInfo.dart';
 
 class EvaluationPage extends ConsumerStatefulWidget {
   const EvaluationPage({super.key});
@@ -58,76 +56,32 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
-            child: TextButton(
-                onPressed: ()=>showDialog(context: context, builder: (BuildContext context) {
-                  return AlertDialog(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0))),
-                    title: Center(child: Text("Quitter")),
-                    content: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text("Voulez-vous quitter et"),
-                        Text("mettre fin à l'évaluation ?"),
-                        SizedBox(height: 15,),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.orange,
-                                foregroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(5.0))),
-                              ),
-                              onPressed: (){
-                                while(context.canPop()){
-                                  context.pop();
-                                }
-                                ctrl.resetIntervenantAndResponses();
-                                context.goNamed(Urls.Intro.name);
-                              },
-                              child: Text("Quitter",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.white,
-                                ),),
-                            ),
-                            SizedBox(width: 14.0,),
-                            ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.white,
-                                  foregroundColor: Colors.black,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(Radius.circular(5.0))),
-                                ),
-                                onPressed: (){
-                                  Navigator.of(context).pop();
-                                },
-                                child: Text("annuler"))
-                          ],
-                        ),
-                      ],
-                    )
-                  ); },barrierDismissible: false,),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 3.0),
-                      child: Text("Quitter",
-                      style: TextStyle(
+            child: PopScope(
+              canPop: false,
+              onPopInvoked: ((didPop){
+                if(didPop){
+                  return;
+                }
+                _showAlert(context);
+              }),
+              child: TextButton(
+                  onPressed: ()=>_showAlert(context),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 3.0),
+                        child: Text("Quitter",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),),
+                      ),
+                      Icon(Icons.arrow_forward,
                         color: Colors.white,
-                      ),),
-                    ),
-                    Icon(Icons.arrow_forward,
-                      color: Colors.white,
-                      size: 16.0,),
-                  ],
-                ),
+                        size: 16.0,),
+                    ],
+                  ),
+              ),
             ),
           ),
         ],
@@ -143,6 +97,8 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
       body: Stack(
         fit: StackFit.expand,
         children: [
+          if(state.questions.length == 1)
+            _timeExpired(context),
       if(state.questions.isNotEmpty && !state.isQuestionLoading)
           _mainContent(context, ref)
       else
@@ -180,10 +136,8 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
   _mainContent(BuildContext context, WidgetRef ref) {
     final CountDownController _controller = CountDownController();
     var state = ref.watch(evaluationCtrlProvider);
-    var stateIntro = ref.watch(introEvaluationCtrlProvider);
-    var duration = stateIntro.duree!;
+    var duration = state.duree;
     var ctrl = ref.read(evaluationCtrlProvider.notifier);
-    var evaluctrl = ref.read(introEvaluationCtrlProvider.notifier);
     var question = state.maQuestion;
     var selectedValue = state.reponsesChoices?[state.maQuestion?.id] ?? -1;
     return Column(
@@ -209,7 +163,7 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child:  CircularCountDownTimer(
-                          duration: duration,
+                          duration: duration!,
                           initialDuration: 0,
                           controller: _controller,
                           width: 100,
@@ -231,67 +185,14 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
                           isReverseAnimation: true,
                           isTimerTextShown: true,
                           autoStart: true,
-                          onComplete: ()=>showDialog(
-                            context: context, builder: (BuildContext context) {
-                              return AlertDialog(
-                                  shape: const RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.all(Radius.circular(5.0))),
-                                          title: const Center(child: Text("Fin de l'évaluation !",style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold
-                                          ),)),
-                                          content: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: [
-                                              const Icon(Icons.timer_outlined,color: Colors.red,),
-                                              const Text("Le temps est écoulé",
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.w400,
-                                                ),),
-                                              const SizedBox(height: 10,),
-                                              const Text("Cliquez sur le bouton soumettre"),
-                                              const Text("pour envoyer vos résultats"),
-                                              const SizedBox(height: 15,),
-                                              Container(
-                                                padding: EdgeInsets.symmetric(horizontal: 30),
-                                                width: double.infinity,
-                                                child: SizedBox(
-                                                  width: double.infinity,
-                                                  child: ElevatedButton(
-                                                    style: ElevatedButton.styleFrom(
-                                                      backgroundColor: Colors.orange,
-                                                      foregroundColor: Colors.white,
-                                                      shape: const RoundedRectangleBorder(
-                                                          borderRadius: BorderRadius.all(Radius.circular(5.0))),
-                                                    ),
-                                                    onPressed: (){
-                                                         while(context.canPop()){
-                                                           context.pop();
-                                                    }
-                                                    ctrl.postAnswers();
-                                                         ctrl.resetIntervenantAndResponses();
-                                                    context.goNamed(Urls.Intro.name);
-                                                     },
-                                                    child: const Text("soumettre",
-                                                      style: TextStyle(
-                                                        fontSize: 16,
-                                                        color: Colors.white,
-                                                      ),),
-                                                  ),
-                                                ),
-                                              ),
-                                              const SizedBox(width: 14.0,),
-                                            ],
-                                          )
-                              );
-                          },barrierDismissible: false,
-                          ),
+                          onComplete: (){
+                            ctrl.postAnswers();
+                            ctrl.resetIntervenantAndResponses();
+                            context.pushReplacementNamed(Urls.evaluationEndStep.name);
+                          },
 
                           timeFormatterFunction: (defaultFormatterFunction, duration) {
                             if (duration.inSeconds == 0) {
-                              //only format for '0'
                               return "Fin";
                             } else {
                               //others durations by it's default format
@@ -444,13 +345,18 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.all(Radius.circular(5.0))),
                               ),
-                              onPressed: (){
-                                while(context.canPop()){
-                                  context.pop();
+                              onPressed: () async{
+                                Future.delayed(Duration(seconds: 3));
+                                var post = await ctrl.postAnswers();
+                                if(post == 200 || post == 201){
+                                  await Duration(seconds: 3);
+                                  ctrl.resetIntervenantAndResponses();
+                                  context.pushReplacementNamed(Urls.EvaluationFinalStep.name);
+                                  afficherMessageInfo(context, "Vos resultats ont été bien envoyé", Colors.green, true);
                                 }
-                                ctrl.postAnswers();
-                                ctrl.resetIntervenantAndResponses();
-                                context.goNamed(Urls.Intro.name);
+                                else{
+                                  _chargementPost(context, ref);
+                                }
                               },
                               child: Text("soumettre",
                                 style: TextStyle(
@@ -512,26 +418,23 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
   }
 
 
-
-  _separateur() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(height: 10,),
-          Expanded(
-            child: Divider(
-              color: Colors.grey,
-              thickness: 1,
-              height: 1,
-            ),
+  _chargementPost(BuildContext context, WidgetRef ref) {
+    var state = ref.watch(evaluationCtrlProvider);
+    return Visibility(
+        visible: state.isQuestionLoading,
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          color: Colors.black26,
+          child: Center(
+            child: LoadingAnimationWidget.staggeredDotsWave(
+                color: Colors.orange, size: 50),
           ),
-        ],
-      ),
-    );
+        ));
   }
-}
+
+
+
 
 _chargement(BuildContext context, WidgetRef ref) {
   var state = ref.watch(evaluationCtrlProvider);
@@ -540,9 +443,78 @@ _chargement(BuildContext context, WidgetRef ref) {
       child: Center(child: CircularProgressIndicator()));
 }
 
+_timeExpired(BuildContext context){
+ return Container(
+   width: 200,
+   height: 200,
+   color: Colors.redAccent,
+   child: Text("Temps écoulé"),
+ );
+}
+
 _chargementPostReponses(BuildContext context, WidgetRef ref) {
   var state = ref.watch(evaluationCtrlProvider);
   return Visibility(
       visible: state.isLoading,
       child: Center(child: CircularProgressIndicator()));
+}
+
+_showAlert(BuildContext context){
+  var state = ref.watch(evaluationCtrlProvider);
+  var ctrl = ref.read(evaluationCtrlProvider.notifier);
+  showDialog(context: context, builder: (BuildContext context) {
+    return AlertDialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(5.0))),
+        title: Center(child: Text("Quitter")),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text("Voulez-vous quitter et"),
+            Text("mettre fin à l'évaluation ?"),
+            SizedBox(height: 15,),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.orange,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                  ),
+                  onPressed: (){
+                    while(context.canPop()){
+                      context.pop();
+                    }
+                    ctrl.resetIntervenantAndResponses();
+                    context.goNamed(Urls.Intro.name);
+                  },
+                  child: Text("Quitter",
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.white,
+                    ),),
+                ),
+                SizedBox(width: 14.0,),
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.black,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                    ),
+                    onPressed: (){
+                      Navigator.of(context).pop();
+                    },
+                    child: Text("annuler"))
+              ],
+            ),
+          ],
+        )
+    ); },barrierDismissible: false,);
+}
 }

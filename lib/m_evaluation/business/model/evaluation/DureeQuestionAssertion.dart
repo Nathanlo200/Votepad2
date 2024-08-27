@@ -10,7 +10,7 @@ class DureeQuestionAssertion {
   });
 
   factory DureeQuestionAssertion.fromJson(Map json) => DureeQuestionAssertion(
-    duree: json["duree"],
+    duree: json["duree"] ?? 0,
     questionaire: List<QuestionsAssertions>.from(json["questionaire"].map((x) => QuestionsAssertions.fromJson(x["data"]))),
   );
 

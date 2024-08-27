@@ -37,13 +37,7 @@ class IntroEvaluationCtrl extends _$IntroEvaluationCtrl {
 
     print("duuuuuuuuuuuuuuuuuuuuuurer $duree");
 
-    state = await state.copyWith(questions: questAssert);
-
-    if (questAssert?.length != null) {
-      state = await state.copyWith(
-        duree: duree,
-      );
-    }
+    state = await state.copyWith(questions: questAssert, duree: duree);
 
   }
 

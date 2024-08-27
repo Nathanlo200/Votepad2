@@ -31,6 +31,6 @@ class IntroEvaluationState {
           duree: duree ?? this.duree,
           hasBody: hasBody ?? this.hasBody,
           mytime: mytime ?? this.mytime,
-          questions: questions ?? questions
+          questions: questions ?? this.questions
       );
 }
