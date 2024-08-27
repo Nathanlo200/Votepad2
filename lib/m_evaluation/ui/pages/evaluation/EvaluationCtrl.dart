@@ -67,7 +67,7 @@ class EvaluationCtrl extends _$EvaluationCtrl {
           currentQuestionIndex: 0
       );
     }
-    state = await state.copyWith(questions: questAssert);
+    state = await state.copyWith(questions: questAssert, duree: res?.duree);
 
     if(state.currentIndex == state.questions.length){
       state = state.copyWith(
@@ -103,7 +103,7 @@ class EvaluationCtrl extends _$EvaluationCtrl {
   }
 
 
-  void postAnswers() async{
+  Future<int> postAnswers() async{
     var intervenant = ref.watch(evaluationInteractorProvider).getIntervenantLocalUseCase;
     var usecase = ref.watch(evaluationInteractorProvider).postReponseUseCase;
 
@@ -123,6 +123,7 @@ class EvaluationCtrl extends _$EvaluationCtrl {
     );
     print("statuscode dans le controller : ${state.statusCode}");
     print("post : ${post}");
+    return state.statusCode;
   }
 
   void nextPreviousQuestion(int step) {
