@@ -38,6 +38,6 @@ abstract class EvaluationNetworkService
   Future<List<PhaseCriteres>?> getCritereListByPhase(int phaseId);
   Future<CreateVoteRequest?> getVoteByIntervenant(int intervenantId);
   Future<CreateVoteRequest?> getVoteByGroupe(int groupeId);
-  Future<Map> sendVoteByCandidat(CreateVoteRequest data, String token);
+  Future<Map> sendVoteByCandidat(CreateVoteRequest data, String token,int nombre_user);
 //Fin voteNetworkService*
 }

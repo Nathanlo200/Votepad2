@@ -161,8 +161,9 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
 
   @override
   Future<JuryIdentifiant?> getJury(String coupon, String imei) async{
-    var res = await http.post(Uri.parse("$baseURL/api/jurys-identifiant/$coupon/$imei"),
-        body: {"coupon": coupon, "imei": imei});
+    print("data to send $coupon $imei");
+    var res = await http.post(Uri.parse("$baseURL/api/jurys-identifiant"),
+        body: {"coupon": coupon, "identifiant": imei});
     print("body response ${res.body}");
     print(res.statusCode);
     if ([200, 201].indexOf(res.statusCode) == -1) {
@@ -190,7 +191,7 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
   }
 
   @override
-  Future<Map> sendVoteByCandidat(CreateVoteRequest data,String token) async{
+  Future<Map> sendVoteByCandidat(CreateVoteRequest data,String token, int nombre_user) async{
     var res = await http.post(
       Uri.parse("$baseURL/api/votesUnique"),
       headers: {
@@ -198,10 +199,10 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
         'Accept': 'application/json',
         'Authorization': 'Bearer $token',
       },
-      body: jsonEncode(data.toJson()),
+      body:jsonEncode(data.toJson()),
     );
     if ([200, 201].indexOf(res.statusCode) == -1) {
-      throw Exception(res.body);
+      throw Exception("BLADE"+res.body);
     }
     print("RESULtat" + res.body);
     var reponseMap = json.decode(res.body);

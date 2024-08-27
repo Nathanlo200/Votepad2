@@ -59,6 +59,8 @@ abstract class EvaluationLocalService {
   Future<bool> saveIntervenantList(List<Intervenants> data);
   Future<bool> saveCritereListByPhase(List<PhaseCriteres> data);
   Future<bool>? sendVoteByCandidat(CreateVoteRequest data);
+  Future<bool> resetVoteValue();
+  Future<bool> disconnect();
 
 //Fin voteLocalService*
 }

@@ -19,6 +19,7 @@ class EvaluationLocalServiceImpl implements EvaluationLocalService{
   GetStorage stockage;
 
   EvaluationLocalServiceImpl(this.stockage);
+  var VOTE_KEY="_VOTES_3";
 
   @override
   Future<IntervenantEvaluation?> getIntervenant() async{
@@ -163,9 +164,19 @@ class EvaluationLocalServiceImpl implements EvaluationLocalService{
   }
   @override
 
-  Future<bool> saveVote(int intervenantId,Map<String, double> data) {
-    var dataJson= data;
-    stockage.write("VOTES", dataJson);
+  Future<bool> saveVote(int intervenantId,Map<String, double> data) async {
+    var existingVotes = await stockage.read(VOTE_KEY) as Map?;
+    if (existingVotes == null) {
+      existingVotes = {};
+    }
+    print(existingVotes.runtimeType);
+    print("==== $existingVotes");
+    // existingVotes=existingVotes.cast<String, Map<String, double>>();
+    print(existingVotes.runtimeType);
+    existingVotes[intervenantId.toString()] = data;
+    print("existingVotes $existingVotes");
+    await stockage.write(VOTE_KEY, existingVotes);
+
     return Future.value(true);
   }
   @override
@@ -175,9 +186,15 @@ class EvaluationLocalServiceImpl implements EvaluationLocalService{
   }
 
   @override
-  Future<Map<String, double>?> getVoteByIntervenant(int intervenantId) {
-    // TODO: implement getVoteByIntervenant
-    throw UnimplementedError();
+  Future<Map<String, double>?> getVoteByIntervenant(int intervenantId) async{
+    var data = await stockage.read("_VOTES_3") as Map?;
+    print("DATA $data");
+    if (data != null) {
+      var res = data[intervenantId.toString()] as Map?;
+      print("LOCAL VOTES $res" );
+      return res?.cast<String, double>();
+    }
+    return null;
   }
 
   @override
@@ -211,6 +228,27 @@ class EvaluationLocalServiceImpl implements EvaluationLocalService{
   Future<bool>? sendVoteByCandidat(CreateVoteRequest data) {
     // TODO: implement sendVoteByCandidat
     throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> disconnect() async {
+   var key = "JURYS";
+   await stockage.remove(key);
+   var key2 = VOTE_KEY;
+   await stockage.remove(key2);
+   var key3 = "PHASES";
+   await stockage.remove(key3);
+   var key4 = "CRITERES";
+   await stockage.remove(key4);
+   return Future.value(true);
+
+  }
+
+  @override
+  Future<bool> resetVoteValue() async{
+    var key = VOTE_KEY;
+    await stockage.remove(key);
+    return true;
   }
 
 
