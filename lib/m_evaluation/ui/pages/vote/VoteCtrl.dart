@@ -32,9 +32,13 @@ class VoteCtrl extends _$VoteCtrl {
   }
 
   void onSliderChanged(int critereId, double value, int intervenantId) async {
+    // print("state.valeurs ${state.valeurs}");
     var valeurs = state.valeurs;
+    // print("valeurs 0 $valeurs");
     valeurs["$critereId"] = value;
-    print("valeurs $valeurs");
+    // print("$critereId : valeur $value");
+    // print(value.runtimeType);
+    print("intervenantID: $intervenantId ===> valeurs 1 $valeurs");
     state = state.copywith(valeurs: valeurs);
     var useCase = ref
         .watch(evaluationInteractorProvider)
@@ -53,11 +57,19 @@ class VoteCtrl extends _$VoteCtrl {
         .getVoteByIntervenantLocalUseCase;
     var res = await useCase.run(intervenantId);
     if (res != null) {
+      print("valeurs updated for $intervenantId ==> $res");
       state = state.copywith(valeurs: res);
     }
   }
 
-   sendVoteResulats(int intervenantId,int phaseId) async {
+   resetVoteValue() async {
+    var useCase = ref.watch(evaluationInteractorProvider).resetVoteValueLocalUseCase;
+    useCase.run();
+  }
+
+   sendVoteResulats(int intervenantId,int phaseId ) async {
+    var getJuryLocalUseCase = ref.watch(evaluationInteractorProvider).getJuryLocalUseCase;
+    var juryLocal=await getJuryLocalUseCase.run();
     var useCase = ref.watch(evaluationInteractorProvider).sendVoteByCandidatNetworkUseCase;
     var cotes = state.valeurs.entries
         .map((entry) => {"critere_id": int.parse(entry.key) , "valeur":entry.value})
@@ -65,7 +77,8 @@ class VoteCtrl extends _$VoteCtrl {
     var store = {
       "intervenant_id": intervenantId,
       "phase_id": phaseId,
-      "cote": cotes
+      "nombre_user": juryLocal?.nombre_user?? 0,
+      "cote": cotes,
     };
     var data = CreateVoteRequest.fromJson(store) ;
     print("data ${data.toJson()}");
