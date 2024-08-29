@@ -7,13 +7,9 @@ import 'VoteCtrl.dart';
 
 class VotePage extends ConsumerStatefulWidget {
   final int phaseId;
-  final int intervenantId;
+  final int phaseIntervenantId;
 
-  const VotePage({
-    super.key,
-    required this.phaseId,
-    required this.intervenantId,
-  });
+  const VotePage({Key? key, required this.phaseIntervenantId, required this.phaseId}) : super(key: key);
 
   @override
   ConsumerState createState() => _VotePageState();
@@ -27,22 +23,20 @@ class _VotePageState extends ConsumerState<VotePage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       // action initiale de la page et appel d'un controleur
-      var intervenantId = widget.intervenantId;
+      var intervenantId = widget.phaseIntervenantId;
       print("intervenantId $intervenantId");
       var ctrl = ref.read(voteCtrlProvider.notifier);
       print("CRITERS AFFICHER ${widget.phaseId}");
       await ctrl.recupererCriteres(widget.phaseId);
 
       var intervenantCrt = ref.read(intervenantCtrlProvider);
-      var candidat = intervenantCrt.intervenants
-          .where((i) => i.id == intervenantId)
-          .toList();
+      var candidat = intervenantCrt.intervenants.where((element) => element.intervenantId == intervenantId).toList();
       print("candidat $candidat");
       if (candidat.length > 0) {
         var user = candidat[0];
         ctrl.setCandidat(user);
       }
-      ctrl.checkVote(widget.intervenantId);
+      ctrl.checkVote(widget.phaseIntervenantId);
     });
   }
 
@@ -198,7 +192,7 @@ class _VotePageState extends ConsumerState<VotePage> {
                                             var ctrl = ref.read(
                                                 voteCtrlProvider.notifier);
                                             ctrl.onSliderChanged(critere.id,
-                                                value, widget.intervenantId);
+                                                value, widget.phaseIntervenantId);
                                             setState(() {
                                               savedValue = value;
                                             });
@@ -302,8 +296,9 @@ class _VotePageState extends ConsumerState<VotePage> {
               state.isLoading = true;
             });
             await Future.delayed(Duration(seconds: 3));
+            print("WiDGETINTERN ${widget.phaseIntervenantId}, phaseId ${widget.phaseId}");
             var ctrl = ref.read(voteCtrlProvider.notifier);
-            await ctrl.sendVoteResulats(widget.intervenantId, widget.phaseId);
+            await ctrl.sendVoteResulats(widget.phaseIntervenantId, widget.phaseId);
             if (mounted) {
               setState(() {
                 state.isLoading = false;
