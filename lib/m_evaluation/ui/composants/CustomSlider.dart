@@ -27,20 +27,31 @@ class _CustomSliderState extends ConsumerState<CustomSlider> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Slider(
-        value: _currentSliderValue,
-        max: 100,
-        divisions: 5,
-        label: _currentSliderValue.round().toString(),
-        onChanged: (double value) {
-          setState(() {
-            _currentSliderValue = value;
-          });
-          {
-            widget.onSliderChanged(value);
-          }
-        },
+    return SliderTheme(
+      data: SliderTheme.of(context).copyWith(
+        activeTrackColor: Colors.orange,
+        inactiveTrackColor: Colors.grey,
+        trackShape: RectangularSliderTrackShape(),
+        trackHeight: 12.0,
+        thumbShape: RoundSliderThumbShape(enabledThumbRadius: 17.0),
+        thumbColor: Colors.white,
+      ),
+      child: Container(
+        child:
+        Slider(
+          value: _currentSliderValue,
+          max: 100,
+          divisions: 100,
+          label: _currentSliderValue.round().toString(),
+          onChanged: (double value) {
+            setState(() {
+              _currentSliderValue = value;
+            });
+            {
+              widget.onSliderChanged(value);
+            }
+          },
+        ),
       ),
     );
   }
