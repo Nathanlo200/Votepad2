@@ -2,11 +2,9 @@ import 'package:device_info_plus/device_info_plus.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:odc_mobile_project/m_user/ui/pages/login/LoginCtrl.dart';
 import 'package:odc_mobile_project/navigation/routers.dart';
 import '../../../business/interactor/EvaluationInteractor.dart';
 import '../../composants/afficherMessageErreur.dart';
-import '../AuthPage/AuthCtrl.dart';
 import '../ScanCouponPage/ScanCouponPage.dart';
 import 'IntroCtrl.dart';
 
@@ -214,7 +212,7 @@ class _IntroPageState extends ConsumerState<IntroPage3> {
               onPressed: () async {
                 var usecase = evaluationInteractor.getJuryLocalUseCase;
                 var res = await usecase.run();
-                if (res?.token != "") {
+                if (res!=null && res.token != "") {
                   context.pushNamed(Urls.phases.name);
                   return;
                 }
