@@ -22,10 +22,18 @@ class PhaseCtrl extends _$PhaseCtrl{
 
     state = state.copyWith(isLoading: true, );
     var res = await usecase.run();
-    if (res!= null) {
-      print("res $res)");
-      state = state.copyWith(phases: res,isLoading: false);
-    }
-    state = state.copyWith(isLoading: false,);
+    print("phases $res");
+
+    state = state.copyWith(isLoading: false, phases: res);
+  }
+
+  void recupererPhase()async {
+    var usecase = ref.watch(evaluationInteractorProvider).getJuryLocalUseCase;
+
+    state = state.copyWith(isLoading: true, );
+    var res = await usecase.run();
+    print("phases $res");
+    state = state.copyWith(isLoading: false, phasename: res);
+
   }
 }
