@@ -194,9 +194,6 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
                             }
                           },
 
-                        ),
-
-                      ),
                     ),
                     SizedBox(width: 40.0,),
                     Text(
