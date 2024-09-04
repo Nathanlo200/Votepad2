@@ -7,27 +7,22 @@ import 'package:odc_mobile_project/m_user/ui/pages/TestPage.dart';
 import 'package:odc_mobile_project/m_user/ui/pages/login/LoginPage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:go_router/go_router.dart';
-
-import '../m_evaluation/ui/pages/AuthPage/AuthPage.dart';
 import '../m_evaluation/ui/pages/AuthPage/AuthPage3.dart';
-import '../m_evaluation/ui/pages/IntroPage/IntroPage.dart';
 import '../m_evaluation/ui/pages/IntroPage/intropage3.dart';
 import '../m_evaluation/ui/pages/SaisieCouponPage/SaisieCouponPage.dart';
 import '../m_evaluation/ui/pages/ScanCouponPage/ScanCouponPage.dart';
 import '../m_evaluation/ui/pages/evaluation/EvaluationPage.dart';
-import '../m_evaluation/ui/pages/evaluation/end/EvaluationExpiredPage.dart';
 import '../m_evaluation/ui/pages/evaluation/end/endPage.dart';
 import '../m_evaluation/ui/pages/intervenantPage/intervenantPage.dart';
 import '../m_evaluation/ui/pages/phasePage/PhasePage.dart';
 import '../m_evaluation/ui/pages/vote/VotePage.dart';
-
 part "routers.g.dart";
 
 
 enum Urls { home, detailArticle, auth,
   login,  test, Intro,
   scanner,  evaluationAuth, phases,
-  intervenants,info , evaluationExpired,
+  intervenants,info ,
   evaluation, EvaluationFinalStep, introEvaluation,
   saisieCoupon,vote, evaluationEndStep, }
 
@@ -111,11 +106,6 @@ GoRouter router(RouterRef ref) {
                 path: 'evaluationEndStep',
                 name: Urls.evaluationEndStep.name,
                 builder: (ctx, state) => EndTimePage()),
-
-            GoRoute(
-                path: 'evaluationExpired',
-                name: Urls.evaluationExpired.name,
-                builder: (ctx, state) => EvaluationExpiredPage()),
 
           ],
         ),
