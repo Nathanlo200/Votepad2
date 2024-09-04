@@ -154,30 +154,24 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
               child: SizedBox(
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment : MainAxisAlignment.spaceBetween,
                   children: [
-                    Card(
-                      color: Colors.black.withOpacity(0.1),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(3.0)
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child:  CircularCountDownTimer(
+                CircularCountDownTimer(
                           duration: duration!,
                           initialDuration: 0,
                           controller: _controller,
-                          width: 100,
-                          height: 100,
+                          width: 80,
+                          height: 80,
                           ringColor: Colors.grey[300]!,
                           ringGradient: null,
                           fillColor: Colors.green,
                           fillGradient: null,
-                          backgroundColor: Colors.orange,
+                          backgroundColor: Colors.white,
                           strokeWidth: 10.0,
                           strokeCap: StrokeCap.round,
                           textStyle: const TextStyle(
                             fontSize: 15.0,
-                            color: Colors.white,
+                            color: Colors.black,
                             fontWeight: FontWeight.bold,
                           ),
                           textFormat: CountdownTextFormat.HH_MM_SS,
