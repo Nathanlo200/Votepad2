@@ -22,7 +22,7 @@ class _IntroEvaluationPageState extends ConsumerState<IntroEvaluationPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // action initiale de la page et appel d'un controleur
       var ctrl = ref.read(introEvaluationCtrlProvider.notifier);
-      ctrl.getPhasename();
+      ctrl.getPhaseAndEventName();
     });
   }
 
