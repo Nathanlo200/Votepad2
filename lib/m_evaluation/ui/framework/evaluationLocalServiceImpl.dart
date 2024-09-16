@@ -120,7 +120,7 @@ class EvaluationLocalServiceImpl implements EvaluationLocalService{
 
   @override
   Future<List<Intervenants>> getIntervenantList() {
-    var dataJson= stockage.read("iNTERVENANTS");
+    var dataJson= stockage.read("INTERVENANTS");
     return Future.value(List<Intervenants>.from(dataJson.map((x) => Intervenants.fromJson(x))));
   }
 
@@ -159,7 +159,7 @@ class EvaluationLocalServiceImpl implements EvaluationLocalService{
   @override
   Future<bool> saveIntervenantList(List<Intervenants> data) {
     var dataJson= data.map((e) => e.toJson()).toList();
-    stockage.write("iNTERVENANTS", dataJson);
+    stockage.write("INTERVENANTS", dataJson);
     return Future.value(true);
   }
   @override
@@ -223,13 +223,6 @@ class EvaluationLocalServiceImpl implements EvaluationLocalService{
     throw UnimplementedError();
   }
 
-
-  @override
-  Future<bool>? sendVoteByCandidat(CreateVoteRequest data) {
-    // TODO: implement sendVoteByCandidat
-    throw UnimplementedError();
-  }
-
   @override
   Future<bool> disconnect() async {
    var key = "JURYS";
@@ -240,6 +233,12 @@ class EvaluationLocalServiceImpl implements EvaluationLocalService{
    await stockage.remove(key3);
    var key4 = "CRITERES";
    await stockage.remove(key4);
+   var key5 = "GROUPES";
+   await stockage.remove(key5);
+   var key6 = "INTERVENANTS";
+   await stockage.remove(key6);
+   var key7 = "EVENEMENTS";
+   await stockage.remove(key7);
    return Future.value(true);
 
   }
