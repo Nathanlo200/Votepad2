@@ -71,14 +71,9 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 3.0),
-                        child: Text("Quitter",
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),),
-                      ),
-                      Icon(Icons.arrow_forward,
+                        child: Icon(Icons.output_rounded,
                         color: Colors.white,
-                        size: 16.0,),
+                        size: 21.0,),)
                     ],
                   ),
               ),
@@ -97,8 +92,6 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          if(state.questions.length == 1)
-            _timeExpired(context),
       if(state.questions.isNotEmpty && !state.isQuestionLoading)
           _mainContent(context, ref)
       else
@@ -146,9 +139,8 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
         children: [
           _chargementPostReponses(context, ref),
           _myProgressBar(),
-          SizedBox(height: 18,),
           Padding(
-            padding: const EdgeInsets.only(top: 8.0),
+            padding: const EdgeInsets.only(top: 18.0),
             child: Align(
               alignment: Alignment.center,
               child: SizedBox(
@@ -170,7 +162,7 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
                           strokeWidth: 10.0,
                           strokeCap: StrokeCap.round,
                           textStyle: const TextStyle(
-                            fontSize: 15.0,
+                            fontSize: 14.0,
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                           ),
@@ -205,64 +197,69 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
           ),
 
           SizedBox(
-            height: 40.0,
+            height: 20.0,
           ),
-          Align(
-            alignment: Alignment.center,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(5.0),),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    question?.libelle ?? "",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+          Expanded(child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(5.0),),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Text(
+                          question?.libelle ?? "",
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-          ),
-          //_separateurOu(),
-          SizedBox(
-            height: 20.0,
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(14.0),
-              child: ListView.builder(
-                  padding: EdgeInsets.all(10.0),
-                  shrinkWrap: true,
-                  itemCount: state.assertions.length,
-                  itemBuilder: (ctx, index) {
-                    var myAssertion = state.assertions[index].id;
-                    return Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius:
+                //_separateurOu(),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(14.0),
+                  child: ListView.builder(
+                      padding: EdgeInsets.all(10.0),
+                      shrinkWrap: true,
+                      itemCount: state.assertions.length,
+                      itemBuilder: (ctx, index) {
+                        var myAssertion = state.assertions[index].id;
+                        return Card(
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
                               BorderRadius.all(Radius.circular(5.0))),
-                      child: RadioListTile(
-                          controlAffinity: ListTileControlAffinity.trailing,
-                          activeColor: Colors.orange,
-                          title: Text("${index + 1}." +
-                              " ${state.assertions[index].libelle}",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                          ),),
-                          value: myAssertion,
-                          groupValue: selectedValue,
-                          onChanged: (value) {
-                            ctrl.selectAnswer(value!);
-                            print("valeur selectionnée $value");
-                          }),
-                    );
-                  }),
+                          child: RadioListTile(
+                              controlAffinity: ListTileControlAffinity.trailing,
+                              activeColor: Colors.orange,
+                              title: Text("${index + 1}." +
+                                  " ${state.assertions[index].libelle}",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                ),),
+                              value: myAssertion,
+                              groupValue: selectedValue,
+                              onChanged: (value) {
+                                ctrl.selectAnswer(value!);
+                                print("valeur selectionnée $value");
+                              }),
+                        );
+                      }),
+                ),
+              ],
             ),
-          ),
+          )),
+          SizedBox(height: 10,),
           _myButton(),
         ]);
 
@@ -272,139 +269,142 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
     //var state=ref.watch(evaluationCtrlProvider);
     var state = ref.watch(evaluationCtrlProvider);
     var ctrl = ref.read(evaluationCtrlProvider.notifier);
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(right: 6.0, bottom: 8.0),
-          child: Visibility(
-            visible: state.backButtonVsible,
-            child: FloatingActionButton.extended(
-              icon: Icon(
-                Icons.arrow_back,
-                color: Colors.black,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 28.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: Visibility(
+              visible: state.backButtonVsible,
+              child: FloatingActionButton.extended(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.black,
+                ),
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.black,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                onPressed: () => ctrl.nextPreviousQuestion(-1),
+                label: Text('retour',
+                  style: TextStyle(
+                      fontSize: 16
+                  ),),
               ),
-              backgroundColor: Colors.white,
-              foregroundColor: Colors.black,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(5.0))),
-              onPressed: () => ctrl.nextPreviousQuestion(-1),
-              label: Text('retour',
-                style: TextStyle(
-                    fontSize: 16
-                ),),
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 6.0, bottom: 8.0),
-          child: Visibility(
-            visible: state.submitVisible,
-            child: FloatingActionButton.extended(
-              heroTag: "btn1",
-              icon: Icon(
-                Icons.check_circle_outlined,
-            color: Colors.white,
-              ),
-              backgroundColor: Colors.orange,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(5.0))),
+          Padding(
+            padding: const EdgeInsets.only(left: 6.0, bottom: 8.0),
+            child: Visibility(
+              visible: state.submitVisible,
+              child: FloatingActionButton.extended(
+                heroTag: "btn1",
+                icon: Icon(
+                  Icons.check_circle_outlined,
+              color: Colors.white,
+                ),
+                backgroundColor: Colors.orange,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(5.0))),
 
-              onPressed: ()=>showDialog(context: context, builder: (BuildContext context) {
-                return AlertDialog(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0))),
-                    title: Center(child: Text("Fin de l'évaluation")),
-                    content: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text("Si vous êtes d'accord avec vos réponses"),
-                        Text("cliquez sur le bouton soumettre"),
-                        Text("pour envoyer vos résultats"),
-                        SizedBox(height: 15,),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.orange,
-                                foregroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(5.0))),
-                              ),
-                              onPressed: () async{
-                                Future.delayed(Duration(seconds: 3));
-                                var post = await ctrl.postAnswers();
-                                if(post == 200 || post == 201){
-                                  await Duration(seconds: 3);
-                                  ctrl.resetIntervenantAndResponses();
-                                  context.pushReplacementNamed(Urls.EvaluationFinalStep.name);
-                                  afficherMessageInfo(context, "Vos resultats ont été bien envoyé", Colors.green, true);
-                                }
-                                else{
-                                  _chargementPost(context, ref);
-                                }
-                              },
-                              child: Text("soumettre",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.white,
-                                ),),
-                            ),
-                            SizedBox(width: 14.0,),
-                            ElevatedButton(
+                onPressed: ()=>showDialog(context: context, builder: (BuildContext context) {
+                  return AlertDialog(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                      title: Center(child: Text("Fin de l'évaluation")),
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text("Si vous êtes d'accord avec vos réponses"),
+                          Text("cliquez sur le bouton soumettre"),
+                          Text("pour envoyer vos résultats"),
+                          SizedBox(height: 15,),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.white,
-                                  foregroundColor: Colors.black,
+                                  backgroundColor: Colors.orange,
+                                  foregroundColor: Colors.white,
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.all(Radius.circular(5.0))),
                                 ),
-                                onPressed: (){
-                                  Navigator.of(context).pop();
+                                onPressed: () async{
+                                  Future.delayed(Duration(seconds: 3));
+                                  var post = await ctrl.postAnswers();
+                                  if(post == 200 || post == 201){
+                                    await Duration(seconds: 3);
+                                    ctrl.resetIntervenantAndResponses();
+                                    context.pushReplacementNamed(Urls.EvaluationFinalStep.name);
+                                    afficherMessageInfo(context, "Vos resultats ont été bien envoyé", Colors.green, true);
+                                  }
+                                  else{
+                                    _chargementPost(context, ref);
+                                  }
                                 },
-                                child: Text("retour",
-                                style: TextStyle(
-                                    fontSize: 16
-                                ),))
-                          ],
-                        ),
-                      ],
-                    )
-                ); },barrierDismissible: false,),
-              label: Text('valider les résultats',
-                style: TextStyle(
-                  fontSize: 16,
-                ),),
+                                child: Text("soumettre",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                  ),),
+                              ),
+                              SizedBox(width: 14.0,),
+                              ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.white,
+                                    foregroundColor: Colors.black,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                                  ),
+                                  onPressed: (){
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text("retour",
+                                  style: TextStyle(
+                                      fontSize: 16
+                                  ),))
+                            ],
+                          ),
+                        ],
+                      )
+                  ); },barrierDismissible: false,),
+                label: Text('valider les résultats',
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),),
 
+              ),
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 6.0, bottom: 8.0),
-          child: Visibility(
-            visible: state.nextButtonVisible,
-            child: FloatingActionButton.extended(
-              heroTag: "btn2",
-              icon: Icon(Icons.arrow_forward,
-                color: Colors.white,),
-              backgroundColor: Colors.orange,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(5.0))),
-              onPressed: (){
-                ctrl.nextPreviousQuestion(1);
-              },
-              label: Text('suivant',
-    style: TextStyle(
-    fontSize: 16,
-    ),),),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: Visibility(
+              visible: state.nextButtonVisible,
+              child: FloatingActionButton.extended(
+                heroTag: "btn2",
+                icon: Icon(Icons.arrow_forward,
+                  color: Colors.white,),
+                backgroundColor: Colors.orange,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                onPressed: (){
+                  ctrl.nextPreviousQuestion(1);
+                },
+                label: Text('suivant',
+      style: TextStyle(
+      fontSize: 16,
+      ),),),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -484,7 +484,7 @@ _showAlert(BuildContext context){
                     ctrl.resetIntervenantAndResponses();
                     context.goNamed(Urls.Intro.name);
                   },
-                  child: Text("Quitter",
+                  child: Text("Oui",
                     style: TextStyle(
                       fontSize: 12,
                       color: Colors.white,
@@ -501,7 +501,7 @@ _showAlert(BuildContext context){
                     onPressed: (){
                       Navigator.of(context).pop();
                     },
-                    child: Text("annuler"))
+                    child: Text("Non"))
               ],
             ),
           ],
