@@ -10,7 +10,8 @@ class GetIntervenantListNetworkUseCase{
   GetIntervenantListNetworkUseCase(this.network, this.local);
 
   Future<List<Intervenants>?> run(int phaseId) async {
-    var res = await network.getIntervenantList(phaseId);
+    var jury = await local.getJury();
+    var res = await network.getIntervenantList(phaseId, jury?.token ?? "");
     return res;
   }
 }
