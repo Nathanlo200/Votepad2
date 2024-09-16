@@ -5,12 +5,14 @@ class CustomSlider extends ConsumerStatefulWidget {
   final String title;
   final Function(double) onSliderChanged;
   final double value;
+  final bool isEnabled;
 
   const CustomSlider(
       {super.key,
         required this.title,
         required this.onSliderChanged,
-        required this.value});
+        required this.value,
+        this.isEnabled = true});
 
   @override
   ConsumerState createState() => _CustomSliderState();
@@ -32,8 +34,8 @@ class _CustomSliderState extends ConsumerState<CustomSlider> {
         activeTrackColor: Colors.orange,
         inactiveTrackColor: Colors.grey,
         trackShape: RectangularSliderTrackShape(),
-        trackHeight: 12.0,
-        thumbShape: RoundSliderThumbShape(enabledThumbRadius: 17.0),
+        trackHeight: 7.0,
+        thumbShape: RoundSliderThumbShape(enabledThumbRadius: 20.0),
         thumbColor: Colors.white,
       ),
       child: Container(
@@ -43,16 +45,16 @@ class _CustomSliderState extends ConsumerState<CustomSlider> {
           max: 100,
           divisions: 100,
           label: _currentSliderValue.round().toString(),
-          onChanged: (double value) {
-            setState(() {
-              _currentSliderValue = value;
-            });
-            {
-              widget.onSliderChanged(value);
-            }
-          },
-        ),
+          onChanged: widget.isEnabled
+            ? (double value) {
+      setState(() {
+      _currentSliderValue = value;
+      });
+      widget.onSliderChanged(value);
+      }
+        : null,
       ),
+    ),
     );
   }
 }

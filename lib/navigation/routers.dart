@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:odc_mobile_project/m_evaluation/ui/pages/evaluation/end/endTimePage.dart';
 import 'package:odc_mobile_project/m_evaluation/ui/pages/evaluation/intro/introEvaluationPage2.dart';
 import 'package:odc_mobile_project/m_evaluation/ui/pages/infoPage/InfoPage.dart';
+import 'package:odc_mobile_project/m_evaluation/ui/pages/intervenantPage/intervenantPage2.dart';
+import 'package:odc_mobile_project/m_evaluation/ui/pages/phasePage/PhasePageTest.dart';
 import 'package:odc_mobile_project/m_user/business/interactor/UserInteractor.dart';
 import 'package:odc_mobile_project/m_user/ui/pages/TestPage.dart';
 import 'package:odc_mobile_project/m_user/ui/pages/login/LoginPage.dart';
@@ -11,18 +13,16 @@ import '../m_evaluation/ui/pages/AuthPage/AuthPage3.dart';
 import '../m_evaluation/ui/pages/IntroPage/intropage3.dart';
 import '../m_evaluation/ui/pages/SaisieCouponPage/SaisieCouponPage.dart';
 import '../m_evaluation/ui/pages/ScanCouponPage/ScanCouponPage.dart';
-import '../m_evaluation/ui/pages/evaluation/EvaluationPage.dart';
 import '../m_evaluation/ui/pages/evaluation/end/endPage.dart';
-import '../m_evaluation/ui/pages/intervenantPage/intervenantPage.dart';
-import '../m_evaluation/ui/pages/phasePage/PhasePage.dart';
-import '../m_evaluation/ui/pages/vote/VotePage.dart';
+import '../m_evaluation/ui/pages/vote/VotePage2.dart';
+
 part "routers.g.dart";
 
 
 enum Urls { home, detailArticle, auth,
   login,  test, Intro,
   scanner,  evaluationAuth, phases,
-  intervenants,info ,
+  intervenants,info , evaluationExpired,
   evaluation, EvaluationFinalStep, introEvaluation,
   saisieCoupon,vote, evaluationEndStep, }
 
@@ -59,15 +59,16 @@ GoRouter router(RouterRef ref) {
               pageBuilder: (ctx, state) {
                 var phaseIdStr=state.pathParameters["phaseId"]?? '-1';
                 final phaseId = int.tryParse(phaseIdStr) ?? -1;
-
                 var intervenantIdStr=state.pathParameters["intervenantId"]?? '-1';
                 final intervenantId = int.tryParse(intervenantIdStr) ?? -1;
-                return MaterialPage(key: state.pageKey, child: VotePage(phaseId: phaseId, intervenantId: intervenantId));
+                return MaterialPage(key: state.pageKey, child: VotePage2(phaseId: phaseId,phaseIntervenantId: intervenantId));
               },),
             GoRoute(
               path: "phases",
               name: Urls.phases.name,
-              builder: (ctx, state) => PhasePage(),
+              pageBuilder: (ctx, state) {
+                return MaterialPage(key: state.pageKey, child: PhasePageTest());
+              },
             ),
             GoRoute(
               path: "intervenants/:id",
@@ -75,7 +76,7 @@ GoRouter router(RouterRef ref) {
               pageBuilder: (ctx, state) {
                 var id=state.pathParameters["id"]?? '-1';
                 final phaseId = int.tryParse(id) ?? -1;
-                return MaterialPage(key: state.pageKey, child: IntervenantPage(phaseId: phaseId,));
+                return MaterialPage(key: state.pageKey, child: IntervenantPage2(phaseId: phaseId,));
 
 
               },
@@ -91,10 +92,10 @@ GoRouter router(RouterRef ref) {
                 builder: (ctx, state) => IntroEvaluationPage2()),
 
 
-            GoRoute(
-                path: 'evaluation',
-                name: Urls.evaluation.name,
-                builder: (ctx, state) => EvaluationPage()),
+            // GoRoute(
+            //     path: 'evaluation',
+            //     name: Urls.evaluation.name,
+            //     builder: (ctx, state) => EvaluationPage()),
 
 
             GoRoute(
@@ -106,6 +107,11 @@ GoRouter router(RouterRef ref) {
                 path: 'evaluationEndStep',
                 name: Urls.evaluationEndStep.name,
                 builder: (ctx, state) => EndTimePage()),
+
+            // GoRoute(
+            //     path: 'evaluationExpired',
+            //     name: Urls.evaluationExpired.name,
+            //     builder: (ctx, state) => EvaluationExpiredPage()),
 
           ],
         ),

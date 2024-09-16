@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:odc_mobile_project/m_evaluation/ui/composants/AppSize.dart';
 import '../../../../navigation/routers.dart';
 import '../../composants/afficherMessageInfo.dart';
 import 'PhaseCtrl.dart';
@@ -27,10 +28,13 @@ class _PhasePageTestState extends ConsumerState<PhasePageTest> {
 
       var ctrl2 = ref.read(phaseCtrlProvider.notifier);
       ctrl2.recupererListPhase();
+      var ctrl3 = ref.read(phaseCtrlProvider.notifier);
+      ctrl3.bloquerStatus();
     });
   }
   @override
   Widget build(BuildContext context) {
+    AppSize().init(context);
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -47,18 +51,13 @@ class _PhasePageTestState extends ConsumerState<PhasePageTest> {
                   },
                   child: Row(
                     children: [
-                      Text(
-                        "Logout",
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.w500),
-                      ),
                       SizedBox(
                         width: 5,
                       ),
                       Icon(
                         Icons.logout_outlined,
                         color: Colors.white,
-                        size: 20,
+                        size: 25,
                       ),
                     ],
                   )),
@@ -83,7 +82,6 @@ class _PhasePageTestState extends ConsumerState<PhasePageTest> {
       ),
     );
   }
-
   _contenuPrincipale(BuildContext context, WidgetRef ref) {
     var state = ref.watch(phaseCtrlProvider);
     var phase = state.phasename;
@@ -104,7 +102,7 @@ class _PhasePageTestState extends ConsumerState<PhasePageTest> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.fromLTRB(0.0, 100.0, 0.0, 0.0),
+                    margin: EdgeInsets.fromLTRB(0.0, 180.0, 0.0, 0.0),
                     width: 600,
                     height: 750,
                     child: Center(

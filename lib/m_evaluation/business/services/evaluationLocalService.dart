@@ -2,12 +2,10 @@
 import '../model/Evenement.dart';
 import '../model/Phases.dart';
 import '../model/Vote/EvenementVote.dart';
-import '../model/Vote/createVoteRequest.dart';
 import '../model/Vote/groupes.dart';
 import '../model/Vote/juryIdentifiant.dart';
 import '../model/evaluation/intervenantEvaluation.dart';
 import '../model/intervenants.dart';
-import '../model/Vote/jurys.dart';
 import '../model/Vote/phaseCriteres.dart';
 
 
@@ -58,7 +56,6 @@ abstract class EvaluationLocalService {
   Future<bool> saveGroup(Groupes data);
   Future<bool> saveIntervenantList(List<Intervenants> data);
   Future<bool> saveCritereListByPhase(List<PhaseCriteres> data);
-  Future<bool>? sendVoteByCandidat(CreateVoteRequest data);
   Future<bool> resetVoteValue();
   Future<bool> disconnect();
 

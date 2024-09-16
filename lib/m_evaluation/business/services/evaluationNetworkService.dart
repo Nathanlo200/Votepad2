@@ -17,7 +17,7 @@ abstract class EvaluationNetworkService
   //eventNetworkService
   Future<Evenement> getEvenementById(int id);
   Future<List<PhasesVote>?> getPhasesList();
-  Future<PhasesVote> getPhaseListById(int id);
+  Future<PhasesVote> getPhaseListById(int id,String token);
   //Fin eventNetworkservice*
 
   //evaluationNetworkService
@@ -33,9 +33,9 @@ abstract class EvaluationNetworkService
   Future<JuryIdentifiant?> getJury(String coupon, String imei);
   Future<List<Groupes>?> getGroupeList(int phaseId);
   Future<PhaseIntervenant> getGroupById(int id);
-  Future<List<Intervenants>?> getIntervenantList(int phaseId);
+  Future<List<Intervenants>?> getIntervenantList(int phaseId,String token);
   Future<PhaseIntervenant> getIntervenantById(int id);
-  Future<List<PhaseCriteres>?> getCritereListByPhase(int phaseId);
+  Future<List<PhaseCriteres>?> getCritereListByPhase(int phaseId,String token);
   Future<CreateVoteRequest?> getVoteByIntervenant(int intervenantId);
   Future<CreateVoteRequest?> getVoteByGroupe(int groupeId);
   Future<Map> sendVoteByCandidat(CreateVoteRequest data, String token,int nombre_user);

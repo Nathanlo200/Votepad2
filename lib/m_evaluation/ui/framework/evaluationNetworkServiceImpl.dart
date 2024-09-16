@@ -103,8 +103,14 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
   }
 
   @override
-  Future<PhasesVote> getPhaseListById(int id) async {
-    var res= await http.get(Uri.parse("$baseURL/api/phases/$id"),);
+  Future<PhasesVote> getPhaseListById(int id,String token) async {
+    var res= await http.get(Uri.parse("$baseURL/api/phases/$id"),
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    }
+    );
     var reponseMap = json.decode(res.body) as Map;
     print("responseMap $reponseMap");
     var reponseFinal = PhasesVote.fromJson(reponseMap.cast<String, dynamic>());
@@ -121,8 +127,13 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
     return responseFinal;
   }
   @override
-  Future<List<PhaseCriteres>?> getCritereListByPhase(int phaseId) async{
-    var res= await http.get(Uri.parse("$baseURL/api/phase-criteres/$phaseId"),);
+  Future<List<PhaseCriteres>?> getCritereListByPhase(int phaseId,String token) async{
+    var res= await http.get(Uri.parse("$baseURL/api/phase-criteres/$phaseId"),
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    });
     var responseList=json.decode(res.body) as List;
     print("responseMap $responseList");
     var responseFinal= responseList.map((e)=> PhaseCriteres.fromJson(e) ).toList();
@@ -151,8 +162,14 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
   }
 
   @override
-  Future<List<Intervenants>?> getIntervenantList(int phaseId) async {
-    var res= await http.get(Uri.parse("$baseURL/api/intervenant-phases/$phaseId"),);
+  Future<List<Intervenants>?> getIntervenantList(int phaseId, String token) async {
+    var res= await http.get(Uri.parse("$baseURL/api/intervenant-phases/$phaseId"),
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    }
+    );
     var reponseList=json.decode(res.body) as List;
     print("responseList = $reponseList");
     var responseFinal= reponseList.map((e)=> Intervenants.fromJson(e) ).toList();
