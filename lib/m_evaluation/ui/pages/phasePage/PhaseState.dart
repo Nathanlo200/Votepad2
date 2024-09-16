@@ -12,6 +12,7 @@ class PhaseState {
   List<PhasesVote> phases;
   List<Intervenants> intervenants;
   JuryIdentifiant? phasename;
+  bool statut;
 
   bool isLoading;
 
@@ -21,7 +22,8 @@ class PhaseState {
     this.phasesVote = const [],
     this.phases = const [],
     this.intervenants = const [],
-    this.phasename
+    this.phasename,
+    this.statut = true,
   });
 
   PhaseState copyWith({
@@ -31,7 +33,8 @@ class PhaseState {
     List<Phases>? PhasesVote,
      List<PhasesVote>? phases,
     List<Intervenants>?intervenants,
-    JuryIdentifiant? phasename
+    JuryIdentifiant? phasename,
+    bool? statut,
 
   }) =>
       PhaseState(
@@ -40,6 +43,7 @@ class PhaseState {
         phasesVote: PhasesVote ?? this.phasesVote,
       phases: phases ?? this.phases,
       intervenants: intervenants ?? this.intervenants,
-      phasename: phasename ?? this.phasename
+      phasename: phasename ?? this.phasename,
+      statut: statut ?? this.statut,
       );
 }

@@ -36,4 +36,10 @@ class PhaseCtrl extends _$PhaseCtrl{
     state = state.copyWith(isLoading: false, phasename: res);
 
   }
+  void bloquerStatus() async{
+    state = state.copyWith(statut: true, );
+    var usecase = ref.watch(evaluationInteractorProvider).getPhasesListNetworkUseCase;
+    await usecase.run();
+    state = state.copyWith(statut: true, );
+  }
 }
