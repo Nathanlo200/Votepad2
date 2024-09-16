@@ -97,7 +97,7 @@ class EvaluationInteractor {
     return EvaluationInteractor._(
         GetIntervenantNetworkUseCase(network, local),
         GetPhasesListNetworkUseCase(network, local),
-        GetPhaseListByIdNetworkUseCase(network),
+        GetPhaseListByIdNetworkUseCase(network,local),
         SaveIntervenantLocalUseCase(local),
         GetAssertionListNetworkUsecase(
           network,
@@ -113,7 +113,7 @@ class EvaluationInteractor {
         GetIntervenantListNetworkUseCase(network, local),
         ResetReponseLocalUseCase(local),
         ResetIntervenantLocalUseCase(local),
-        GetCritereListByPhaseNetworkUseCase(network),
+        GetCritereListByPhaseNetworkUseCase(network,local),
         GetCritereListByPhaseLocalUseCase(local),
         SaveCritereListByPhaseLocalUseCase(local),
         GetVoteByIntervenantNetworkUseCase(network),
