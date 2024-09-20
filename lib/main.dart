@@ -13,6 +13,7 @@ import 'm_evaluation/ui/framework/evaluationNetworkServiceImpl.dart';
 // import 'package:odc_mobile_project/m_evaluation/framework/evaluationLocalServiceImpl.dart';
 // import 'package:odc_mobile_project/m_evaluation/framework/evaluationNetworkServiceImplTest.dart';
 
+import 'm_evaluation/ui/framework/evaluationNetworkServiceNathImpl.dart';
 import 'm_user/business/interactor/UserInteractor.dart';
 import 'm_user/ui/framework/UserLocalServiceImpl.dart';
 import 'm_user/ui/framework/UserNetworkServiceImpl.dart';
@@ -75,7 +76,11 @@ class MyApp extends ConsumerWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
+        primaryColorLight: Colors.black54
       ),
+      // theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      themeMode: ThemeMode.system,
       //home: const CataloguePage(),
     );
   }

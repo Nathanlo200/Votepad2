@@ -14,6 +14,7 @@ import '../m_evaluation/ui/pages/IntroPage/intropage3.dart';
 import '../m_evaluation/ui/pages/SaisieCouponPage/SaisieCouponPage.dart';
 import '../m_evaluation/ui/pages/ScanCouponPage/ScanCouponPage.dart';
 import '../m_evaluation/ui/pages/evaluation/end/endPage.dart';
+import '../m_evaluation/ui/pages/phasePage/PhasePage2.dart';
 import '../m_evaluation/ui/pages/vote/VotePage2.dart';
 
 part "routers.g.dart";
@@ -67,7 +68,7 @@ GoRouter router(RouterRef ref) {
               path: "phases",
               name: Urls.phases.name,
               pageBuilder: (ctx, state) {
-                return MaterialPage(key: state.pageKey, child: PhasePageTest());
+                return MaterialPage(key: state.pageKey, child: PhasePage2());
               },
             ),
             GoRoute(
