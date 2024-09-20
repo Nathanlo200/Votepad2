@@ -183,7 +183,9 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
         body: {"coupon": coupon, "identifiant": imei});
     print("body response ${res.body}");
     print(res.statusCode);
-    if ([200, 201].indexOf(res.statusCode) == -1) {
+    if (res.statusCode == 200 || res.statusCode == 201) {
+      print("success");
+    }else{
       throw Exception(res.body);
     }
     var reponseMap = json.decode(res.body) as Map;

@@ -37,6 +37,7 @@ class _PhaseState2 extends ConsumerState<PhasePage2> {
     AppSize().init(context);
     return Scaffold(
       appBar: AppBar(
+        title: Text("Competition"),
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
