@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Evenement.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/PhasesVote.dart';
 import 'package:odc_mobile_project/m_evaluation/business/model/Vote/createVoteRequest.dart';
@@ -17,12 +18,15 @@ import "package:http/http.dart" as http;
 
 class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
   String baseURL;
+  String PROD_BASE_URL;
 
-  EvaluationNetworkServiceImpl(this.baseURL);
+  EvaluationNetworkServiceImpl(this.baseURL, this.PROD_BASE_URL);
 
   @override
   Future<List<Assertions>> getAssertionList(int questionId) async{
-    var res= await http.get(Uri.parse("$baseURL/api/assertions"),
+    bool isProduction = kReleaseMode;  // Basculer selon l'environnement
+    String url = isProduction ? PROD_BASE_URL : baseURL;
+    var res= await http.get(Uri.parse("$url/api/assertions"),
         headers: {});
     var reponseList=json.decode(res.body) as List;
     //print("responseMap $reponseList");
@@ -34,8 +38,10 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
   @override
   Future<IntervenantEvaluation?> getIntervenant(
       String email, String coupon) async {
+    bool isProduction = kReleaseMode;  // Basculer selon l'environnement
+    String url = isProduction ? PROD_BASE_URL : baseURL;
     var res = await http.post(
-        Uri.parse("$baseURL/api/intervenants-authenticate"),
+        Uri.parse("$url/api/intervenants-authenticate"),
         body: {"email": email, "coupon": coupon});
     print("body response ${res.body}");
     print(res.statusCode);
@@ -51,7 +57,9 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
 
   @override
   Future<PhaseIntervenant> getPhasesByIntervenant(int intervenantId, int evenementId) async{
-    var res= await http.get(Uri.parse("$baseURL/api/phases"),
+    bool isProduction = kReleaseMode;  // Basculer selon l'environnement
+    String url = isProduction ? PROD_BASE_URL : baseURL;
+    var res= await http.get(Uri.parse("$url/api/phases"),
         headers: {"Authorization": "Bearer $evenementId"});
     var reponseBody = json.decode(res.body) as PhaseIntervenant;
     await Future.delayed(Duration(seconds: 3));
@@ -62,6 +70,8 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
 
   @override
   Future<List<QuestionsAssertions>> getQuestionListByPhase(int phaseId) async {
+    bool isProduction = kReleaseMode;  // Basculer selon l'environnement
+    String url = isProduction ? PROD_BASE_URL : baseURL;
     // var res= await http.get(Uri.parse("$baseURL/api/questions"));
     // var reponseList=json.decode(res.body) as List;
     // //print("responseMap $reponseList");
@@ -69,7 +79,7 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
     // var responseFinal= reponseList.map((e)=> QuestionsAssertions.fromJson(e) ).toList();
     // return responseFinal;
 
-    var res= await http.get(Uri.parse("$baseURL/api/question_phases/$phaseId"));
+    var res= await http.get(Uri.parse("$url/api/question_phases/$phaseId"));
     var reponseList=json.decode(res.body) as List;
     print("responseMap $reponseList");
     await Future.delayed(Duration(seconds: 1));
@@ -80,9 +90,11 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
 
   @override
   Future<int> postReponses(Reponse reponse) async {
+    bool isProduction = kReleaseMode;  // Basculer selon l'environnement
+    String url = isProduction ? PROD_BASE_URL : baseURL;
     var dataToSend=reponse.toJson();
     print("DATA to send $dataToSend");
-    final res = await http.post(Uri.parse("$baseURL/api/reponses"), headers: {
+    final res = await http.post(Uri.parse("$url/api/reponses"), headers: {
       "content-type": "application/json",
     }, body: json.encode(dataToSend));
     if ([200, 201].indexOf(res.statusCode) == -1) {
@@ -94,7 +106,9 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
 
   @override
   Future<Evenement> getEvenementById(int id) async {
-    var res= await http.get(Uri.parse("$baseURL/api/phases"),);
+    bool isProduction = kReleaseMode;  // Basculer selon l'environnement
+    String url = isProduction ? PROD_BASE_URL : baseURL;
+    var res= await http.get(Uri.parse("$url/api/phases"),);
     print(res.body);
     var reponseList=json.decode(res.body) as List;
     print("responseMap $reponseList");
@@ -104,7 +118,9 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
 
   @override
   Future<PhasesVote> getPhaseListById(int id,String token) async {
-    var res= await http.get(Uri.parse("$baseURL/api/phases/$id"),
+    bool isProduction = kReleaseMode;  // Basculer selon l'environnement
+    String url = isProduction ? PROD_BASE_URL : baseURL;
+    var res= await http.get(Uri.parse("$url/api/phases/$id"),
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -119,7 +135,9 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
 
   @override
   Future<List<PhasesVote>> getPhasesList()  async{
-    var res= await http.get(Uri.parse("$baseURL/api/phases"),);
+    bool isProduction = kReleaseMode;  // Basculer selon l'environnement
+    String url = isProduction ? PROD_BASE_URL : baseURL;
+    var res= await http.get(Uri.parse("$url/api/phases"),);
     print(res.body);
     var reponseList=json.decode(res.body) as List;
     print("responseMap $reponseList");
@@ -128,7 +146,9 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
   }
   @override
   Future<List<PhaseCriteres>?> getCritereListByPhase(int phaseId,String token) async{
-    var res= await http.get(Uri.parse("$baseURL/api/phase-criteres/$phaseId"),
+    bool isProduction = kReleaseMode;  // Basculer selon l'environnement
+    String url = isProduction ? PROD_BASE_URL : baseURL;
+    var res= await http.get(Uri.parse("$url/api/phase-criteres/$phaseId"),
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -154,7 +174,9 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
 
   @override
   Future<PhaseIntervenant> getIntervenantById(int id) async {
-    var res= await http.get(Uri.parse("$baseURL/api/intervenants/$id"),);
+    bool isProduction = kReleaseMode;  // Basculer selon l'environnement
+    String url = isProduction ? PROD_BASE_URL : baseURL;
+    var res= await http.get(Uri.parse("$url/api/intervenants/$id"),);
     var reponseMap = json.decode(res.body) as Map;
     print("responseMap $reponseMap");
     var reponseFinal = PhaseIntervenant.fromJson(reponseMap.cast<String, dynamic>());
@@ -163,7 +185,9 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
 
   @override
   Future<List<Intervenants>?> getIntervenantList(int phaseId, String token) async {
-    var res= await http.get(Uri.parse("$baseURL/api/intervenant-phases/$phaseId"),
+    bool isProduction = kReleaseMode;  // Basculer selon l'environnement
+    String url = isProduction ? PROD_BASE_URL : baseURL;
+    var res= await http.get(Uri.parse("$url/api/intervenant-phases/$phaseId"),
     headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -178,8 +202,10 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
 
   @override
   Future<JuryIdentifiant?> getJury(String coupon, String imei) async{
+    bool isProduction = kReleaseMode;  // Basculer selon l'environnement
+    String url = isProduction ? PROD_BASE_URL : baseURL;
     print("data to send $coupon $imei");
-    var res = await http.post(Uri.parse("$baseURL/api/jurys-identifiant"),
+    var res = await http.post(Uri.parse("$url/api/jurys-identifiant"),
         body: {"coupon": coupon, "identifiant": imei});
     print("body response ${res.body}");
     print(res.statusCode);
@@ -202,7 +228,9 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
 
   @override
   Future<CreateVoteRequest?> getVoteByIntervenant(int intervenantId) async{
-    var res= await http.get(Uri.parse("$baseURL/api/intervenants/$intervenantId"),);
+    bool isProduction = kReleaseMode;  // Basculer selon l'environnement
+    String url = isProduction ? PROD_BASE_URL : baseURL;
+    var res= await http.get(Uri.parse("$url/api/intervenants/$intervenantId"),);
     var reponseMap = json.decode(res.body) as Map;
     print("responseMap $reponseMap");
     var reponseFinal = CreateVoteRequest.fromJson(reponseMap.cast<String, dynamic>());
@@ -211,8 +239,10 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
 
   @override
   Future<Map> sendVoteByCandidat(CreateVoteRequest data,String token, int nombre_user) async{
+    bool isProduction = kReleaseMode;  // Basculer selon l'environnement
+    String url = isProduction ? PROD_BASE_URL : baseURL;
     var res = await http.post(
-      Uri.parse("$baseURL/api/votesUnique"),
+      Uri.parse("$url/api/votesUnique"),
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -232,8 +262,10 @@ class EvaluationNetworkServiceImpl implements EvaluationNetworkService{
 
   @override
   Future<DureeQuestionAssertion?> getQuestionListByPhase2(int phaseId, int intervenantId) async{
+    bool isProduction = kReleaseMode;  // Basculer selon l'environnement
+    String url = isProduction ? PROD_BASE_URL : baseURL;
     var res =
-        await http.get(Uri.parse("$baseURL/api/question_phases/$phaseId/$intervenantId"));
+        await http.get(Uri.parse("$url/api/question_phases/$phaseId/$intervenantId"));
     var reponseData = json.decode(res.body) as Map;
     print("responseMap $reponseData");
     var dureeQuestionnaire=DureeQuestionAssertion.fromJson(reponseData)  ;
