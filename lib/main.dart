@@ -8,12 +8,7 @@ import 'm_evaluation/business/interactor/EvaluationInteractor.dart';
 import 'm_evaluation/ui/framework/evaluationLocalServiceImpl.dart';
 import 'm_evaluation/ui/framework/evaluationNetworkServiceImpl.dart';
 
-//don
-// import 'package:odc_mobile_project/m_evaluation/business/interactor/EvaluationInteractor.dart';
-// import 'package:odc_mobile_project/m_evaluation/framework/evaluationLocalServiceImpl.dart';
-// import 'package:odc_mobile_project/m_evaluation/framework/evaluationNetworkServiceImplTest.dart';
 
-import 'm_evaluation/ui/framework/evaluationNetworkServiceNathImpl.dart';
 import 'm_user/business/interactor/UserInteractor.dart';
 import 'm_user/ui/framework/UserLocalServiceImpl.dart';
 import 'm_user/ui/framework/UserNetworkServiceImpl.dart';
@@ -25,6 +20,7 @@ void main() async {
   var stockage = GetStorage();
 
   var baseUrl = dotenv.env['BASE_URL'] ?? "";
+  var PROD_BASE_URL = dotenv.env['PROD_BASE_URL'] ?? "";
 
 // module user service implementations
   var userNetworkImpl = UserNetworkServiceImpl(baseUrl);
@@ -39,7 +35,7 @@ void main() async {
   //var evaluationLocalImpl = EvaluationLocalTestImpl(stockage);
 
 
-  var evaluationNetImpl = EvaluationNetworkServiceImpl(baseUrl);
+  var evaluationNetImpl = EvaluationNetworkServiceImpl(baseUrl,PROD_BASE_URL);
   var evaluationLocalImpl = EvaluationLocalServiceImpl(stockage);
   var evaluationInteractor = EvaluationInteractor.build(evaluationNetImpl, evaluationLocalImpl);
 

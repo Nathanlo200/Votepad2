@@ -127,6 +127,7 @@ class _PhaseState2 extends ConsumerState<PhasePage2> {
 
              child: SingleChildScrollView(
                child: Container(
+                 margin: EdgeInsets.only(top: 150),
                  padding: EdgeInsets.all(50),
                  width: AppSize.screenWidth ,
                  decoration: BoxDecoration(
@@ -140,7 +141,7 @@ class _PhaseState2 extends ConsumerState<PhasePage2> {
                            Text("${phase?.phase?.nom}",
                              style: TextStyle(
                                color: Colors.black,
-                                 fontSize: 40,
+                                 fontSize: 30,
                                  fontFamily: "Poppins",
                                  fontWeight: FontWeight.w600,
                                  height: 1.1)
