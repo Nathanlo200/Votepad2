@@ -3,6 +3,7 @@ a    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <application
         android:label="odc_mobile_project"
         android:name="${applicationName}"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
@@ -31,6 +32,7 @@ a    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and
@@ -43,4 +45,5 @@ a    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
             <data android:mimeType="text/plain"/>
         </intent>
     </queries>
+
 </manifest>
