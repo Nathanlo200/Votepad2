@@ -3,6 +3,7 @@ import 'package:odc_mobile_project/m_evaluation/ui/pages/evaluation/end/endTimeP
 import 'package:odc_mobile_project/m_evaluation/ui/pages/evaluation/intro/introEvaluationPage2.dart';
 import 'package:odc_mobile_project/m_evaluation/ui/pages/infoPage/InfoPage.dart';
 import 'package:odc_mobile_project/m_evaluation/ui/pages/intervenantPage/intervenantPage2.dart';
+import 'package:odc_mobile_project/m_evaluation/ui/pages/intervenantPage/intervenantPage3.dart';
 import 'package:odc_mobile_project/m_evaluation/ui/pages/phasePage/PhasePageTest.dart';
 import 'package:odc_mobile_project/m_user/business/interactor/UserInteractor.dart';
 import 'package:odc_mobile_project/m_user/ui/pages/TestPage.dart';
