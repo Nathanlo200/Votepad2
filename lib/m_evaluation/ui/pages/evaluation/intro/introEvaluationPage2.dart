@@ -32,7 +32,10 @@ class _IntroEvaluationPageState extends ConsumerState<IntroEvaluationPage2> {
   Widget build(BuildContext context) {
     var state = ref.watch(introEvaluationCtrlProvider);
     var ctrl = ref.read(introEvaluationCtrlProvider.notifier);
-
+    bool isDarkTheme = Theme
+        .of(context)
+        .brightness == Brightness.dark;
+    Color loadingColor = isDarkTheme ? Colors.white : Colors.black;
     return Scaffold(
         appBar: AppBar(
           actions: [
@@ -109,7 +112,7 @@ class _IntroEvaluationPageState extends ConsumerState<IntroEvaluationPage2> {
                     children: [
                       Text("Nom de l'évènement : ${state.eventNom}",
                         style: TextStyle(
-                            color: Colors.black,
+                            color: loadingColor,
                             fontSize: 16,
                             fontWeight: FontWeight.bold
 
@@ -117,7 +120,7 @@ class _IntroEvaluationPageState extends ConsumerState<IntroEvaluationPage2> {
                         ),),
                       Text("Phase en cours : ${state.phaseNom}",
                         style: TextStyle(
-                            color: Colors.black,
+                            color: loadingColor,
                             fontSize: 16,
                           fontWeight: FontWeight.bold
 
@@ -125,13 +128,13 @@ class _IntroEvaluationPageState extends ConsumerState<IntroEvaluationPage2> {
                       SizedBox(height: 20,),
                       Center(child: Text("Cliquez sur le bouton ci-dessus pour",
                         style: TextStyle(
-                            color: Colors.black,
+                            color: loadingColor,
                             fontSize: 14
 
                         ),)),
                       Center(child: Text("commencer votre évaluation",
                         style: TextStyle(
-                            color: Colors.black,
+                            color: loadingColor,
                             fontSize: 14
 
                         ),)),
