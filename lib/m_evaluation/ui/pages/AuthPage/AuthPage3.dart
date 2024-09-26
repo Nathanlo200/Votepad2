@@ -19,6 +19,10 @@ class _AuthPageState extends ConsumerState<AuthPage3> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkTheme = Theme
+        .of(context)
+        .brightness == Brightness.dark;
+    Color loadingColor = isDarkTheme ? Colors.white : Colors.black;
     return Scaffold(
         appBar: AppBar(
           leading: Padding(
@@ -65,13 +69,13 @@ class _AuthPageState extends ConsumerState<AuthPage3> {
                       Text(
                         "Veuillez remplir les champs ci-dessous",
                         style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500,
-                            color: Colors.black),
+                            color:loadingColor ),
                         textAlign: TextAlign.center,
                       ),
                       Text(
                         "pour acceder à votre évaluation",
                         style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500,
-                            color: Colors.black),
+                            color: loadingColor),
                         textAlign: TextAlign.center,
                       ),
                     ],
@@ -130,13 +134,17 @@ class _AuthPageState extends ConsumerState<AuthPage3> {
   }
 
   _email(BuildContext context) {
+    bool isDarkTheme = Theme
+        .of(context)
+        .brightness == Brightness.dark;
+    Color loadingColor = isDarkTheme ? Colors.white : Colors.black;
     return Container(
         margin: EdgeInsets.only(left: 10, right: 10, top: 10),
         child: Column(children: [
           Column(children: [
             TextFormField(
               style:TextStyle(
-                  color: Colors.black
+                  color: loadingColor
               ),
               controller: emailCtrl,
               decoration: InputDecoration(
@@ -151,9 +159,9 @@ class _AuthPageState extends ConsumerState<AuthPage3> {
                 ),
                 labelText: 'Entrez votre email',
                 labelStyle: TextStyle(
-                    color: Colors.grey
+                    color: loadingColor
                 ),
-                prefixIcon: Icon(Icons.email,color: Colors.black,),
+                prefixIcon: Icon(Icons.email,color:loadingColor,),
               ),
               // border: OutlineInputBorder(),
             ),
@@ -162,13 +170,17 @@ class _AuthPageState extends ConsumerState<AuthPage3> {
   }
 
   _coupon(BuildContext Context) {
+    bool isDarkTheme = Theme
+        .of(context)
+        .brightness == Brightness.dark;
+    Color loadingColor = isDarkTheme ? Colors.white : Colors.black;
     return Container(
       margin: EdgeInsets.only(left: 10, right: 10, top: 10),
       child: Column(children: [
         Column(
           children: [
             TextFormField(
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(color: loadingColor),
               controller: couponCtrl,
               decoration: InputDecoration(
                   focusedBorder: const OutlineInputBorder(
@@ -183,7 +195,7 @@ class _AuthPageState extends ConsumerState<AuthPage3> {
                   ),
                   labelText: 'Entrez le coupon',
                   labelStyle: TextStyle(
-                      color: Colors.grey
+                      color: loadingColor
                   ),
                   suffixIcon: IconButton(
                       onPressed: () async {
@@ -200,7 +212,7 @@ class _AuthPageState extends ConsumerState<AuthPage3> {
                           });
                         }
                       },
-                      icon: Icon(Icons.camera_alt,color: Colors.black,))),
+                      icon: Icon(Icons.camera_alt,color: loadingColor,))),
             ),
           ],
         ),

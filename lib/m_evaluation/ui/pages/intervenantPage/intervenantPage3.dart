@@ -75,10 +75,7 @@ class _IntervenantState3 extends ConsumerState<IntervenantPage3> {
             child: AnimSearchBar(
               width: MediaQuery.of(context).size.width * 0.970,
               textController: textController,
-              onSuffixTap: (value) {
-                var ctrl = ref.read(intervenantCtrlProvider.notifier);
-                ctrl.rechercherIntervenant(value);
-                ctrl.rechercherIntervenant(value);
+              onSuffixTap: () {
                 setState(() {
                   TextEditingController().clear();
                 });
