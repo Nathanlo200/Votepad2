@@ -14,6 +14,7 @@ import '../m_evaluation/ui/pages/AuthPage/AuthPage3.dart';
 import '../m_evaluation/ui/pages/IntroPage/intropage3.dart';
 import '../m_evaluation/ui/pages/SaisieCouponPage/SaisieCouponPage.dart';
 import '../m_evaluation/ui/pages/ScanCouponPage/ScanCouponPage.dart';
+import '../m_evaluation/ui/pages/evaluation/EvaluationPage.dart';
 import '../m_evaluation/ui/pages/evaluation/end/endPage.dart';
 import '../m_evaluation/ui/pages/phasePage/PhasePage2.dart';
 import '../m_evaluation/ui/pages/vote/VotePage2.dart';
@@ -94,10 +95,10 @@ GoRouter router(RouterRef ref) {
                 builder: (ctx, state) => IntroEvaluationPage2()),
 
 
-            // GoRoute(
-            //     path: 'evaluation',
-            //     name: Urls.evaluation.name,
-            //     builder: (ctx, state) => EvaluationPage()),
+            GoRoute(
+                path: 'evaluation',
+                name: Urls.evaluation.name,
+                builder: (ctx, state) => EvaluationPage()),
 
 
             GoRoute(
@@ -109,11 +110,6 @@ GoRouter router(RouterRef ref) {
                 path: 'evaluationEndStep',
                 name: Urls.evaluationEndStep.name,
                 builder: (ctx, state) => EndTimePage()),
-
-            // GoRoute(
-            //     path: 'evaluationExpired',
-            //     name: Urls.evaluationExpired.name,
-            //     builder: (ctx, state) => EvaluationExpiredPage()),
 
           ],
         ),
