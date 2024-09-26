@@ -15,7 +15,9 @@ QuestionNotFound(BuildContext context,Function onClick) {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text("Aucune question chargée"),
-          Text("veuillez actualiser la page"),
+          SizedBox(height: 20,),
+          Text("Vous n'avez plus accès à cette évaluation"),
+          Text("ou essayez d'actualiser la page"),
           Icon(Icons.refresh)
         ],
       )),
