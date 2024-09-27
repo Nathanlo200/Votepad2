@@ -177,7 +177,7 @@ class _IntervenantState3 extends ConsumerState<IntervenantPage3> {
                     trailing: intervenant.isDone
                         ? Icon(Icons.check, color: Colors.green)
                         : Icon(Icons.arrow_forward),
-                    onTap: intervenant.isDone?null:() async {
+                    onTap: () async {
 
                         var res = await context
                             .pushNamed<bool>(Urls.vote.name, pathParameters: {
