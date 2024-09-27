@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 a    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <application
-        android:label="odc_mobile_project"
+        android:label="votePad2"
         android:name="${applicationName}"
         android:networkSecurityConfig="@xml/network_security_config"
         android:icon="@mipmap/ic_launcher">
