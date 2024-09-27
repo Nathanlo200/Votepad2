@@ -52,6 +52,10 @@ dependencies:
   flutter_native_splash: ^2.4.1
   loading_animation_widget: ^1.2.1
   circular_countdown_timer: ^0.2.3
+  percent_indicator: ^4.2.3
+  multicircularprogressindicator: ^0.0.2
+  multi_circular_slider: ^1.1.0
+  anim_search_bar: ^2.0.3
 
 
 dev_dependencies:

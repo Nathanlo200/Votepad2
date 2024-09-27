@@ -18,6 +18,7 @@ import '../m_evaluation/ui/pages/evaluation/EvaluationPage.dart';
 import '../m_evaluation/ui/pages/evaluation/end/endPage.dart';
 import '../m_evaluation/ui/pages/phasePage/PhasePage2.dart';
 import '../m_evaluation/ui/pages/vote/VotePage2.dart';
+import '../m_evaluation/ui/pages/vote/VotePage3.dart';
 
 part "routers.g.dart";
 
@@ -64,7 +65,7 @@ GoRouter router(RouterRef ref) {
                 final phaseId = int.tryParse(phaseIdStr) ?? -1;
                 var intervenantIdStr=state.pathParameters["intervenantId"]?? '-1';
                 final intervenantId = int.tryParse(intervenantIdStr) ?? -1;
-                return MaterialPage(key: state.pageKey, child: VotePage2(phaseId: phaseId,phaseIntervenantId: intervenantId));
+                return MaterialPage(key: state.pageKey, child: VotePage3(phaseId: phaseId,phaseIntervenantId: intervenantId));
               },),
             GoRoute(
               path: "phases",
@@ -79,7 +80,7 @@ GoRouter router(RouterRef ref) {
               pageBuilder: (ctx, state) {
                 var id=state.pathParameters["id"]?? '-1';
                 final phaseId = int.tryParse(id) ?? -1;
-                return MaterialPage(key: state.pageKey, child: IntervenantPage2(phaseId: phaseId,));
+                return MaterialPage(key: state.pageKey, child: IntervenantPage3(phaseId: phaseId,));
 
 
               },
@@ -95,10 +96,11 @@ GoRouter router(RouterRef ref) {
                 builder: (ctx, state) => IntroEvaluationPage2()),
 
 
-            GoRoute(
-                path: 'evaluation',
-                name: Urls.evaluation.name,
-                builder: (ctx, state) => EvaluationPage()),
+
+             GoRoute(
+                 path: 'evaluation',
+                 name: Urls.evaluation.name,
+                 builder: (ctx, state) => EvaluationPage()),
 
 
             GoRoute(
@@ -143,6 +145,6 @@ GoRouter router(RouterRef ref) {
 
             ]),
       ],
-      errorBuilder: (ctx, state) => LoginPage());
+      errorBuilder: (ctx, state) => IntroPage3());
 
 }

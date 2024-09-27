@@ -33,6 +33,10 @@ class _IntroPageState extends ConsumerState<IntroPage3> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkTheme = Theme
+        .of(context)
+        .brightness == Brightness.dark;
+    Color loadingColor = isDarkTheme ? Colors.white : Colors.black;
     return Scaffold(
         appBar: AppBar(
           foregroundColor: Colors.white,
@@ -64,13 +68,13 @@ class _IntroPageState extends ConsumerState<IntroPage3> {
                       Text(
                         "Cliquez sur l'un des boutons ci-dessous",
                         style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500,
-                            color: Colors.black),
+                            color: loadingColor),
                         textAlign: TextAlign.center,
                       ),
                       Text(
                         "pour voter ou passer une évaluation",
                         style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500,
-                            color: Colors.black),
+                            color: loadingColor),
                         textAlign: TextAlign.center,
                       ),
                     ],

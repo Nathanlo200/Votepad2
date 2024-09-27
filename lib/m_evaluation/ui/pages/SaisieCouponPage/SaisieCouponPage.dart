@@ -20,6 +20,10 @@ class _SaisieCouponPageState extends ConsumerState<SaisieCouponPage> {
   }
   @override
   Widget build(BuildContext context) {
+    bool isDarkTheme = Theme
+        .of(context)
+        .brightness == Brightness.dark;
+    Color loadingColor = isDarkTheme ? Colors.white : Colors.black;
     return Scaffold(
         appBar: AppBar(
           leading: Padding(
@@ -58,13 +62,13 @@ class _SaisieCouponPageState extends ConsumerState<SaisieCouponPage> {
                       Text(
                         "Veuillez saisir le coupon",
                         style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700,
-                            color: Colors.black),
+                            color: loadingColor),
                         textAlign: TextAlign.center,
                       ),
                       Text(
                         "pour acceder au vote",
                         style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500,
-                            color: Colors.black),
+                            color: loadingColor),
                         textAlign: TextAlign.center,
                       ),
                       SizedBox(height: 15,),
