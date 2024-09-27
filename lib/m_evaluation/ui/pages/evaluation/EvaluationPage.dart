@@ -187,7 +187,7 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
                           },
 
                     ),
-                    SizedBox(width: 40.0,),
+                    SizedBox(width: 20.0,),
                     Text(
                         "${state.currentIndex}/${state.questions.length}"),
                   ],
@@ -197,9 +197,10 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
           ),
 
           SizedBox(
-            height: 20.0,
+            height: 10.0,
           ),
           Expanded(child: SingleChildScrollView(
+            physics: ScrollPhysics(),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -230,12 +231,14 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
                 Padding(
                   padding: const EdgeInsets.all(14.0),
                   child: ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
                       padding: EdgeInsets.all(10.0),
                       shrinkWrap: true,
                       itemCount: state.assertions.length,
                       itemBuilder: (ctx, index) {
                         var myAssertion = state.assertions[index].id;
                         return Card(
+                          color: Colors.white.withOpacity(0.7),
                           shape: RoundedRectangleBorder(
                               borderRadius:
                               BorderRadius.all(Radius.circular(5.0))),
@@ -259,7 +262,7 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
               ],
             ),
           )),
-          SizedBox(height: 10,),
+          SizedBox(height: 12,),
           _myButton(),
         ]);
 
@@ -270,9 +273,10 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
     var state = ref.watch(evaluationCtrlProvider);
     var ctrl = ref.read(evaluationCtrlProvider.notifier);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 28.0),
+      padding: const EdgeInsets.symmetric(horizontal: 18.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
@@ -288,7 +292,7 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(5.0))),
                 onPressed: () => ctrl.nextPreviousQuestion(-1),
-                label: Text('retour',
+                label: Text('  retour',
                   style: TextStyle(
                       fontSize: 16
                   ),),
@@ -365,25 +369,18 @@ class _EvaluationPage extends ConsumerState<EvaluationPage> {
                                   onPressed: (){
                                     Navigator.of(context).pop();
                                   },
-                                  child: Text("retour",
-                                  style: TextStyle(
-                                      fontSize: 16
-                                  ),))
+                                  child: Text("retour",))
                             ],
                           ),
                         ],
                       )
                   ); },barrierDismissible: false,),
-                label: Text('valider les résultats',
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),),
-
+                label: Text(' valider',)
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
+            padding: const EdgeInsets.only(bottom: 8.0, right: 6.0), //left: 6.0, bottom: 8.0
             child: Visibility(
               visible: state.nextButtonVisible,
               child: FloatingActionButton.extended(

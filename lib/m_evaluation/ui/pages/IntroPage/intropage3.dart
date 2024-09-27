@@ -50,14 +50,14 @@ class _IntroPageState extends ConsumerState<IntroPage3> {
             child: Column(
               children: [
                 Expanded(
-                  flex: 1,
+                  flex: 2,
                   child: ListView(
                     shrinkWrap: true,
                     children: [
                       Text(
                          "Bievenue sur Votepad",
                         style: TextStyle(
-                          fontSize: 28,
+                          fontSize: 22,
                           fontWeight: FontWeight.w700,
                         ),
                         textAlign: TextAlign.center,

@@ -107,12 +107,12 @@ class _IntroEvaluationPageState extends ConsumerState<IntroEvaluationPage2> {
                   ),
                 ),
                 Expanded(
-                  flex: 2,
+                  flex: 1,
                   child: Column(
                     children: [
-                      Text("Nom de l'évènement : ${state.eventNom}",
+                      Text("Evènement : ${state.eventNom}",
                         style: TextStyle(
-                            color: loadingColor,
+                   color: loadingColor,
                             fontSize: 16,
                             fontWeight: FontWeight.bold
 
@@ -122,6 +122,7 @@ class _IntroEvaluationPageState extends ConsumerState<IntroEvaluationPage2> {
                         style: TextStyle(
                             color: loadingColor,
                             fontSize: 16,
+
                           fontWeight: FontWeight.bold
 
                         ),),

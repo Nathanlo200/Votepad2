@@ -60,7 +60,7 @@ class _AuthPageState extends ConsumerState<AuthPage3> {
                       Text(
                         "Authentification",
                         style: TextStyle(
-                          fontSize: 28,
+                          fontSize: 20,
                           fontWeight: FontWeight.w700,
                         ),
                         textAlign: TextAlign.center,
