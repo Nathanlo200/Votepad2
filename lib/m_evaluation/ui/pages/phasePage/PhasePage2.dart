@@ -127,8 +127,8 @@ class _PhaseState2 extends ConsumerState<PhasePage2> {
 
              child: SingleChildScrollView(
                child: Container(
-                 margin: EdgeInsets.only(top: 150),
-                 padding: EdgeInsets.all(50),
+                 margin:AppSize.screenHeight > 900 ? EdgeInsets.only(top: 180) : EdgeInsets.only(top: 90),
+                 padding: EdgeInsets.all(40),
                  width: AppSize.screenWidth ,
                  decoration: BoxDecoration(
                    color: loadingColor,
